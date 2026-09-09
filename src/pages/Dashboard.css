@@ -1,0 +1,487 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  background: #f7f8fc;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 235px;
+  min-height: 100vh;
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-right: 1px solid #e8ebf1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.dashboard-logo {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #18233a;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.dashboard-logo span {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #6c63ff;
+  color: white;
+}
+
+.sidebar-nav {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sidebar-link {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 10px;
+  color: #7d8696;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sidebar-link span {
+  width: 22px;
+  text-align: center;
+}
+
+.sidebar-link.active {
+  background: #f0efff;
+  color: #6259df;
+}
+
+.sidebar-link:hover {
+  background: #f5f4ff;
+  color: #6259df;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  background: transparent;
+  color: #929aa8;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.logout-button:hover {
+  color: #e05b67;
+}
+
+/* MAIN */
+
+.dashboard-main {
+  width: calc(100% - 235px);
+  margin-left: 235px;
+  padding: 40px 6%;
+  max-width: 1500px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.dashboard-label,
+.section-title span,
+.nova-banner > div:nth-child(2) > span {
+  color: #6c63ff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.dashboard-header h1 {
+  margin: 7px 0;
+  color: #1c263b;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.dashboard-header p {
+  color: #8a93a2;
+  font-size: 12px;
+}
+
+.header-avatar {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #6c63ff;
+  color: white;
+  font-weight: 700;
+}
+
+/* STATS */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 42px;
+}
+
+.stat-card {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: white;
+  border: 1px solid #e9ecf1;
+  border-radius: 15px;
+}
+
+.stat-icon {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  font-size: 19px;
+}
+
+.stat-icon.purple {
+  background: #efeeff;
+}
+
+.stat-icon.yellow {
+  background: #fff5d9;
+}
+
+.stat-icon.orange {
+  background: #fff0e7;
+}
+
+.stat-card div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-card span {
+  color: #949cab;
+  font-size: 10px;
+}
+
+.stat-card strong {
+  color: #253047;
+  font-size: 17px;
+}
+
+/* SECTION */
+
+.section-title {
+  margin-bottom: 17px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.section-title h2 {
+  margin-top: 5px;
+  color: #253047;
+  font-size: 18px;
+}
+
+.section-title > a {
+  color: #6c63ff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* CONTINUE */
+
+.continue-section {
+  margin-bottom: 42px;
+}
+
+.continue-card {
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #1e273b;
+  border-radius: 18px;
+  color: white;
+}
+
+.continue-icon {
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #343e56;
+  font-size: 25px;
+}
+
+.continue-info {
+  flex: 1;
+}
+
+.continue-info > span {
+  color: #a9b0c0;
+  font-size: 9px;
+}
+
+.continue-info h3 {
+  margin: 4px 0 12px;
+  font-size: 14px;
+}
+
+.continue-progress {
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.continue-progress > div {
+  width: 180px;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #3d465b;
+}
+
+.continue-progress > div span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #8c85ff;
+}
+
+.continue-progress small {
+  color: #8e97a9;
+  font-size: 9px;
+}
+
+.continue-button {
+  padding: 11px 16px;
+  border-radius: 9px;
+  background: #6c63ff;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* COURSES */
+
+.dashboard-courses {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+}
+
+.dashboard-course {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: white;
+  border: 1px solid #e9ecf1;
+  border-radius: 15px;
+}
+
+.dashboard-course:hover {
+  border-color: #d4d0ff;
+}
+
+.course-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f0efff;
+  font-size: 22px;
+}
+
+.course-content {
+  flex: 1;
+}
+
+.course-content h3 {
+  color: #273249;
+  font-size: 13px;
+}
+
+.course-content p {
+  margin: 5px 0 10px;
+  color: #9199a8;
+  font-size: 9px;
+}
+
+.course-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.course-progress > div {
+  width: 100px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #eceef3;
+}
+
+.course-progress > div span {
+  display: block;
+  height: 100%;
+  background: #6c63ff;
+}
+
+.course-progress small {
+  color: #8992a2;
+  font-size: 8px;
+}
+
+.course-arrow {
+  color: #a0a7b3;
+}
+
+/* NOVA */
+
+.nova-banner {
+  margin-top: 45px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 17px;
+  background: #eeedff;
+}
+
+.nova-banner-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #6c63ff;
+  color: white;
+  font-size: 22px;
+}
+
+.nova-banner h2 {
+  margin: 4px 0;
+  color: #292e52;
+  font-size: 15px;
+}
+
+.nova-banner p {
+  color: #858ba3;
+  font-size: 10px;
+}
+
+.nova-banner button {
+  margin-left: auto;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 9px;
+  background: #6c63ff;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 70px;
+  }
+
+  .dashboard-logo {
+    justify-content: center;
+  }
+
+  .dashboard-logo:not(span) {
+    font-size: 0;
+  }
+
+  .sidebar-link {
+    justify-content: center;
+  }
+
+  .sidebar-link:not(span) {
+    font-size: 0;
+  }
+
+  .sidebar-link span {
+    font-size: 16px;
+  }
+
+  .dashboard-main {
+    width: calc(100% - 70px);
+    margin-left: 70px;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-main {
+    padding: 30px 18px;
+  }
+
+  .stats-grid,
+  .dashboard-courses {
+    grid-template-columns: 1fr;
+  }
+
+  .continue-card {
+    flex-wrap: wrap;
+  }
+
+  .continue-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nova-banner {
+    flex-wrap: wrap;
+  }
+
+  .nova-banner button {
+    width: 100%;
+    margin-left: 0;
+  }
+}

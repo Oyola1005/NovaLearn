@@ -4,10 +4,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Grades from "./pages/Grades";
-
-function Dashboard() {
-  return <h1>Dashboard</h1>;
-}
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (

@@ -1,0 +1,163 @@
+.grades-page {
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(108, 99, 255, 0.12),
+      transparent 35%
+    ),
+    #f8fafc;
+}
+
+.grades-container {
+  width: 100%;
+  max-width: 850px;
+}
+
+.grades-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.grades-logo {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #6c63ff;
+  color: white;
+  font-size: 21px;
+  box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
+}
+
+.grades-header > span {
+  color: #6c63ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.grades-header h1 {
+  margin: 10px 0;
+  color: #18233a;
+  font-size: 38px;
+  letter-spacing: -1.5px;
+}
+
+.grades-header p {
+  max-width: 480px;
+  margin: auto;
+  color: #7f8999;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.grades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.grade-card {
+  min-height: 120px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-align: left;
+  border: 1px solid #e5e9ef;
+  border-radius: 17px;
+  background: white;
+  transition: 0.2s ease;
+}
+
+.grade-card:hover {
+  transform: translateY(-2px);
+  border-color: #c9c5ff;
+  box-shadow: 0 12px 30px rgba(31, 42, 61, 0.07);
+}
+
+.grade-card.selected {
+  border-color: #6c63ff;
+  background: #f8f7ff;
+  box-shadow: 0 10px 30px rgba(108, 99, 255, 0.1);
+}
+
+.grade-number {
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #eeedff;
+  color: #655de5;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.grade-card.selected .grade-number {
+  background: #6c63ff;
+  color: white;
+}
+
+.grade-info {
+  flex: 1;
+}
+
+.grade-info h3 {
+  margin-bottom: 5px;
+  color: #28334a;
+  font-size: 14px;
+}
+
+.grade-info p {
+  color: #8b94a3;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.grade-check {
+  color: #a3aab6;
+  font-size: 17px;
+}
+
+.grade-card.selected .grade-check {
+  color: #6c63ff;
+  font-weight: 800;
+}
+
+.grades-button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 15px;
+  border: none;
+  border-radius: 11px;
+  background: #6c63ff;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(108, 99, 255, 0.18);
+}
+
+.grades-button:hover {
+  background: #5b53e6;
+}
+
+@media (max-width: 650px) {
+  .grades-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grades-header h1 {
+    font-size: 30px;
+  }
+}

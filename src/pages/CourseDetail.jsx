@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { courses } from "../data/courses";
+import { lessons } from "../data/lessons";
 import "./CourseDetail.css";
 
 function CourseDetail() {
@@ -32,6 +33,8 @@ function CourseDetail() {
     );
   }
 
+  const courseLessons = lessons[id] || [];
+
   return (
     <div className="course-detail-page">
 
@@ -49,7 +52,9 @@ function CourseDetail() {
 
           <div>
             <p>Curso</p>
+
             <h1>{course.name}</h1>
+
             <span>{course.description}</span>
           </div>
 
@@ -63,7 +68,10 @@ function CourseDetail() {
 
           <div>
             <h2>Tu progreso</h2>
-            <p>Continúa aprendiendo y consigue XP.</p>
+
+            <p>
+              Completa las lecciones para ganar XP.
+            </p>
           </div>
 
           <strong>{course.progress}%</strong>
@@ -71,7 +79,9 @@ function CourseDetail() {
           <div className="detail-progress-bar">
             <div
               className="detail-progress-fill"
-              style={{ width: `${course.progress}%` }}
+              style={{
+                width: `${course.progress}%`
+              }}
             ></div>
           </div>
 
@@ -80,63 +90,64 @@ function CourseDetail() {
         <section className="lessons-section">
 
           <div className="section-heading">
-            <h2>Contenido del curso 📖</h2>
-            <p>Completa las lecciones para avanzar.</p>
+            <h2>Lecciones 📖</h2>
+
+            <p>
+              Aprende paso a paso y pon a prueba tus conocimientos.
+            </p>
           </div>
 
           <div className="lesson-list">
 
-            <div className="lesson-card">
-              <div className="lesson-number">1</div>
+            {courseLessons.length === 0 ? (
 
-              <div className="lesson-info">
-                <h3>Introducción al curso</h3>
-                <p>Conoce los conceptos básicos.</p>
+              <div className="empty-lessons">
+                <h3>Contenido próximamente 🚀</h3>
+
+                <p>
+                  Estamos preparando las lecciones para este curso.
+                </p>
               </div>
 
-              <button className="lesson-button">
-                Empezar →
-              </button>
-            </div>
+            ) : (
 
-            <div className="lesson-card">
-              <div className="lesson-number">2</div>
+              courseLessons.map((lesson, index) => (
 
-              <div className="lesson-info">
-                <h3>Conceptos fundamentales</h3>
-                <p>Aprende los principales conceptos.</p>
-              </div>
+                <div
+                  className="lesson-card"
+                  key={lesson.id}
+                >
 
-              <button className="lesson-button">
-                Empezar →
-              </button>
-            </div>
+                  <div className="lesson-number">
+                    {index + 1}
+                  </div>
 
-            <div className="lesson-card">
-              <div className="lesson-number">3</div>
+                  <div className="lesson-info">
 
-              <div className="lesson-info">
-                <h3>Aplicando lo aprendido</h3>
-                <p>Practica con diferentes ejercicios.</p>
-              </div>
+                    <h3>{lesson.title}</h3>
 
-              <button className="lesson-button">
-                Empezar →
-              </button>
-            </div>
+                    <p>
+                      {lesson.description}
+                    </p>
 
-            <div className="lesson-card">
-              <div className="lesson-number">4</div>
+                    <small>
+                      ⏱️ {lesson.duration}
+                    </small>
 
-              <div className="lesson-info">
-                <h3>Repaso y evaluación</h3>
-                <p>Comprueba cuánto has aprendido.</p>
-              </div>
+                  </div>
 
-              <button className="lesson-button">
-                Empezar →
-              </button>
-            </div>
+                  <Link
+                    to={`/lesson/${lesson.id}`}
+                    className="lesson-button"
+                  >
+                    Empezar →
+                  </Link>
+
+                </div>
+
+              ))
+
+            )}
 
           </div>
 

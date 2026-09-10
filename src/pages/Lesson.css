@@ -1,0 +1,168 @@
+.lesson-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.lesson-header {
+  background: white;
+  padding: 35px 7%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.lesson-back {
+  display: inline-block;
+  margin-bottom: 30px;
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.lesson-header p {
+  margin: 0 0 5px;
+  color: #6c63ff;
+  font-weight: 700;
+}
+
+.lesson-header h1 {
+  margin: 0 0 10px;
+  color: #202438;
+  font-size: 36px;
+}
+
+.lesson-header span {
+  color: #777c90;
+}
+
+.lesson-content {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 25px;
+}
+
+.video-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #202438;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-placeholder {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  text-align: center;
+}
+
+.video-placeholder div {
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+.video-placeholder h2 {
+  margin: 0 0 8px;
+}
+
+.video-placeholder p {
+  color: #c9cbd5;
+}
+
+.lesson-text {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+
+.lesson-text h2 {
+  margin-top: 0;
+  color: #202438;
+}
+
+.lesson-text p {
+  color: #777c90;
+  line-height: 1.7;
+}
+
+.lesson-learning {
+  background: #f5f4ff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 25px;
+}
+
+.lesson-learning h3 {
+  margin-top: 0;
+  color: #6c63ff;
+}
+
+.lesson-complete {
+  display: flex;
+  justify-content: center;
+}
+
+.complete-button {
+  border: none;
+  background: #6c63ff;
+  color: white;
+
+  padding: 15px 25px;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.completed-message {
+  background: #e9f8ef;
+  color: #21834b;
+
+  padding: 15px 25px;
+  border-radius: 12px;
+
+  font-weight: 700;
+}
+
+.lesson-message {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-message a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .lesson-header {
+    padding: 25px;
+  }
+
+  .lesson-header h1 {
+    font-size: 28px;
+  }
+
+  .lesson-content {
+    margin-top: 25px;
+    padding: 0 15px;
+  }
+}

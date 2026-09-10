@@ -7,6 +7,7 @@ import Grades from "./pages/Grades";
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
+import Lesson from "./pages/Lesson";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         />
         <Route path="/courses" element={<Courses />} />
         <Route path="/course/:id" element={<CourseDetail />} />
+        <Route path="/lesson/:id" element={<Lesson />} />
 
       </Routes>
 

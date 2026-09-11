@@ -1,0 +1,150 @@
+.nova-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.nova-header {
+  background: white;
+  padding: 25px 7%;
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.nova-header a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nova-header span {
+  color: #6c63ff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nova-header h1 {
+  margin: 3px 0 0;
+  color: #202438;
+}
+
+.nova-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.nova-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  margin-bottom: 25px;
+}
+
+.nova-avatar {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #6c63ff;
+  border-radius: 20px;
+
+  font-size: 32px;
+}
+
+.nova-info h2 {
+  margin: 0 0 5px;
+  color: #202438;
+}
+
+.nova-info p {
+  margin: 0;
+  color: #777c90;
+}
+
+.chat-box {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.messages {
+  height: 500px;
+  padding: 25px;
+
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  max-width: 75%;
+  padding: 14px 17px;
+  border-radius: 15px;
+  line-height: 1.5;
+}
+
+.message.nova {
+  align-self: flex-start;
+  background: #f0efff;
+  color: #40445a;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: #6c63ff;
+  color: white;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 18px;
+  border-top: 1px solid #eeeeF4;
+}
+
+.chat-input input {
+  flex: 1;
+
+  border: 1px solid #dddde7;
+  border-radius: 10px;
+
+  padding: 13px;
+
+  outline: none;
+}
+
+.chat-input button {
+  border: none;
+
+  background: #6c63ff;
+  color: white;
+
+  padding: 0 22px;
+
+  border-radius: 10px;
+
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .messages {
+    height: 420px;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+}

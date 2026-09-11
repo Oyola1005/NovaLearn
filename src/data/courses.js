@@ -3,30 +3,26 @@ export const courses = {
     {
       id: "mat-1",
       name: "Matemática",
-      description: "Aprende los fundamentos de las matemáticas.",
-      icon: "📐",
-      progress: 0
+      description: "Aprende números, operaciones, fracciones y geometría.",
+      icon: "🔢"
     },
     {
       id: "com-1",
       name: "Comunicación",
-      description: "Mejora tu lectura, escritura y expresión.",
-      icon: "📖",
-      progress: 0
+      description: "Desarrolla tu comprensión lectora y expresión.",
+      icon: "📖"
     },
     {
       id: "cie-1",
       name: "Ciencia y Tecnología",
-      description: "Descubre cómo funciona el mundo.",
-      icon: "🔬",
-      progress: 0
+      description: "Descubre el mundo de la ciencia.",
+      icon: "🔬"
     },
     {
       id: "soc-1",
       name: "Ciencias Sociales",
-      description: "Conoce nuestra historia y sociedad.",
-      icon: "🌎",
-      progress: 0
+      description: "Conoce la historia y la sociedad.",
+      icon: "🌎"
     }
   ],
 
@@ -34,30 +30,26 @@ export const courses = {
     {
       id: "mat-2",
       name: "Matemática",
-      description: "Explora nuevos conceptos matemáticos.",
-      icon: "📐",
-      progress: 0
+      description: "Álgebra, geometría y resolución de problemas.",
+      icon: "🔢"
     },
     {
       id: "com-2",
       name: "Comunicación",
-      description: "Desarrolla tus habilidades comunicativas.",
-      icon: "📖",
-      progress: 0
+      description: "Comprensión, escritura y comunicación.",
+      icon: "📖"
     },
     {
       id: "cie-2",
       name: "Ciencia y Tecnología",
-      description: "Explora el mundo de la ciencia.",
-      icon: "🔬",
-      progress: 0
+      description: "Explora fenómenos científicos.",
+      icon: "🔬"
     },
     {
       id: "soc-2",
       name: "Ciencias Sociales",
-      description: "Descubre acontecimientos importantes.",
-      icon: "🌎",
-      progress: 0
+      description: "Historia, sociedad y territorio.",
+      icon: "🌎"
     }
   ],
 
@@ -65,30 +57,26 @@ export const courses = {
     {
       id: "mat-3",
       name: "Matemática",
-      description: "Álgebra, ecuaciones y nuevos desafíos.",
-      icon: "📐",
-      progress: 0
+      description: "Álgebra, ecuaciones y funciones.",
+      icon: "🔢"
     },
     {
       id: "com-3",
       name: "Comunicación",
-      description: "Comprensión lectora y expresión.",
-      icon: "📖",
-      progress: 0
+      description: "Literatura, lectura y producción de textos.",
+      icon: "📖"
     },
     {
       id: "fis-3",
       name: "Física",
-      description: "Comprende las leyes de la física.",
-      icon: "⚛️",
-      progress: 0
+      description: "Movimiento, fuerzas y energía.",
+      icon: "⚡"
     },
     {
       id: "his-3",
       name: "Historia",
-      description: "Conoce los grandes acontecimientos históricos.",
-      icon: "🏛️",
-      progress: 0
+      description: "Estudia los principales procesos históricos.",
+      icon: "🏛️"
     }
   ],
 
@@ -96,30 +84,26 @@ export const courses = {
     {
       id: "mat-4",
       name: "Matemática",
-      description: "Funciones, álgebra y geometría.",
-      icon: "📐",
-      progress: 0
+      description: "Funciones, geometría y estadística.",
+      icon: "🔢"
     },
     {
       id: "com-4",
       name: "Comunicación",
-      description: "Analiza textos y desarrolla argumentos.",
-      icon: "📖",
-      progress: 0
+      description: "Análisis y producción de textos.",
+      icon: "📖"
     },
     {
       id: "fis-4",
       name: "Física",
-      description: "Profundiza en las leyes físicas.",
-      icon: "⚛️",
-      progress: 0
+      description: "Mecánica, energía y fenómenos físicos.",
+      icon: "⚡"
     },
     {
       id: "qui-4",
       name: "Química",
-      description: "Descubre el mundo de la materia.",
-      icon: "🧪",
-      progress: 0
+      description: "Materia, átomos y reacciones químicas.",
+      icon: "🧪"
     }
   ],
 
@@ -127,30 +111,26 @@ export const courses = {
     {
       id: "mat-5",
       name: "Matemática",
-      description: "Prepárate para nuevos retos matemáticos.",
-      icon: "📐",
-      progress: 0
+      description: "Preparación matemática y resolución avanzada.",
+      icon: "🔢"
     },
     {
       id: "com-5",
       name: "Comunicación",
-      description: "Perfecciona tu análisis y expresión.",
-      icon: "📖",
-      progress: 0
+      description: "Análisis crítico y producción textual.",
+      icon: "📖"
     },
     {
       id: "fis-5",
       name: "Física",
-      description: "Profundiza tus conocimientos de física.",
-      icon: "⚛️",
-      progress: 0
+      description: "Estudia fenómenos físicos de mayor complejidad.",
+      icon: "⚡"
     },
     {
       id: "qui-5",
       name: "Química",
-      description: "Comprende las reacciones y la materia.",
-      icon: "🧪",
-      progress: 0
+      description: "Profundiza en química y sus aplicaciones.",
+      icon: "🧪"
     }
   ]
 };

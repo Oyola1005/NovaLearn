@@ -9,6 +9,8 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Lesson from "./pages/Lesson";
 import Quiz from "./pages/Quiz";
+import Profile from "./pages/Profile";
+import Nova from "./pages/Nova";
 
 function App() {
   return (
@@ -32,7 +34,8 @@ function App() {
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/lesson/:id" element={<Lesson />} />
         <Route path="/quiz/:id" element={<Quiz />} />
-
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/nova" element={<Nova />} />
       </Routes>
 
     </BrowserRouter>

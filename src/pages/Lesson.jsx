@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { lessons } from "../data/lessons";
+import { quizzes } from "../data/quizzes";
 import "./Lesson.css";
 
 function Lesson() {
@@ -40,30 +41,28 @@ function Lesson() {
   }
 
   const completedLessons = user.completedLessons || [];
-
   const isCompleted = completedLessons.includes(id);
 
+  const hasQuiz = quizzes[id] && quizzes[id].length > 0;
+
   const completeLesson = () => {
-    if (!isCompleted) {
+    if (isCompleted) return;
 
-      const updatedUser = {
-        ...user,
+    const updatedUser = {
+      ...user,
+      points: (user.points || 0) + 20,
+      completedLessons: [
+        ...completedLessons,
+        id
+      ]
+    };
 
-        points: (user.points || 0) + 20,
+    localStorage.setItem(
+      "novalearn_user",
+      JSON.stringify(updatedUser)
+    );
 
-        completedLessons: [
-          ...completedLessons,
-          id
-        ]
-      };
-
-      localStorage.setItem(
-        "novalearn_user",
-        JSON.stringify(updatedUser)
-      );
-    }
-
-    navigate(`/course/${courseId}`);
+    window.location.reload();
   };
 
   return (
@@ -90,11 +89,14 @@ function Lesson() {
 
       <main className="lesson-content">
 
+        {/* VIDEO */}
+
         <section className="video-container">
 
           {lesson.videoId === "REEMPLAZAR" ? (
 
             <div className="video-placeholder">
+
               <div>🎥</div>
 
               <h2>Video educativo</h2>
@@ -102,6 +104,7 @@ function Lesson() {
               <p>
                 Aquí aparecerá el video de YouTube.
               </p>
+
             </div>
 
           ) : (
@@ -116,9 +119,12 @@ function Lesson() {
 
         </section>
 
+
+        {/* CONTENIDO */}
+
         <section className="lesson-text">
 
-          <h2>Sobre esta lección</h2>
+          <h2>📖 Contenido de la lección</h2>
 
           <p>
             {lesson.description}
@@ -126,38 +132,81 @@ function Lesson() {
 
           <div className="lesson-learning">
 
-            <h3>🎯 Objetivo</h3>
+            <h3>🎯 ¿Qué aprenderás?</h3>
 
             <p>
-              Al terminar esta lección podrás comprender
-              los conceptos principales y aplicarlos en
-              diferentes situaciones.
+              En esta lección aprenderás los conceptos
+              fundamentales del tema y podrás ponerlos
+              en práctica mediante un quiz.
             </p>
 
           </div>
 
         </section>
 
+
+        {/* COMPLETAR */}
+
         <section className="lesson-complete">
 
-          {isCompleted ? (
-
-            <div className="completed-message">
-              ✅ Lección completada
-            </div>
-
-          ) : (
+          {!isCompleted ? (
 
             <button
               onClick={completeLesson}
               className="complete-button"
             >
-              Completar lección +20 XP
+              ✅ Completar lección +20 XP
             </button>
+
+          ) : (
+
+            <div className="completed-message">
+              ✅ Lección completada
+            </div>
 
           )}
 
         </section>
+
+
+        {/* QUIZ */}
+
+        {hasQuiz && (
+
+          <section className="lesson-quiz-card">
+
+            <div className="quiz-card-icon">
+              🧠
+            </div>
+
+            <div className="quiz-card-content">
+
+              <h2>
+                Pon a prueba tus conocimientos
+              </h2>
+
+              <p>
+                Responde las preguntas de esta lección
+                y consigue más XP.
+              </p>
+
+              <span>
+                {quizzes[id].length} preguntas ·
+                {" "}10 XP por respuesta correcta
+              </span>
+
+            </div>
+
+            <Link
+              to={`/quiz/${id}`}
+              className="quiz-button"
+            >
+              Hacer quiz →
+            </Link>
+
+          </section>
+
+        )}
 
       </main>
 

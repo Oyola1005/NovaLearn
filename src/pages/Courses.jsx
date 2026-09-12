@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { courses } from "../data/courses";
+import { getCourseProgress } from "../utils/progress";
 import "./Courses.css";
 
 function Courses() {
@@ -13,56 +14,55 @@ function Courses() {
   }
 
   const userCourses = courses[user.grade] || [];
+  const completedLessons = user.completedLessons || [];
 
   return (
     <div className="courses-page">
+      <div className="courses-container">
+        <div className="courses-header">
+          <div>
+            <p className="courses-eyebrow">NovaLearn</p>
 
-      <header className="courses-header">
-        <div>
-          <p className="courses-label">NovaLearn</p>
-          <h1>Mis cursos 📚</h1>
-          <p>
-            Cursos disponibles para {user.grade}° de secundaria.
-          </p>
-        </div>
+            <h1>Mis cursos 📚</h1>
 
-        <Link to="/dashboard" className="back-button">
-          ← Dashboard
-        </Link>
-      </header>
+            <p>
+              Continúa aprendiendo y completa tus lecciones para ganar XP.
+            </p>
+          </div>
 
-      <main className="courses-content">
-
-        <div className="courses-title">
-          <h2>Elige un curso</h2>
-          <span>{userCourses.length} cursos</span>
+          <Link to="/dashboard" className="courses-back">
+            ← Dashboard
+          </Link>
         </div>
 
         <div className="courses-grid">
+          {userCourses.map((course) => {
+            const progress = getCourseProgress(
+              course.id,
+              completedLessons
+            );
 
-          {userCourses.map((course) => (
-            <article className="course-card" key={course.id}>
+            return (
+              <div className="course-card" key={course.id}>
+                <div className="course-icon">
+                  {course.icon}
+                </div>
 
-              <div className="course-icon">
-                {course.icon}
-              </div>
-
-              <div className="course-info">
-                <h3>{course.name}</h3>
+                <h2>{course.name}</h2>
 
                 <p>{course.description}</p>
 
                 <div className="course-progress">
-                  <div className="progress-header">
+                  <div className="course-progress-header">
                     <span>Progreso</span>
-                    <strong>{course.progress}%</strong>
+                    <strong>{progress}%</strong>
                   </div>
 
-                  <div className="progress-bar">
+                  <div className="course-progress-bar">
                     <div
-                      className="progress-fill"
-                      style={{ width: `${course.progress}%` }}
-                    ></div>
+                      className="course-progress-fill"
+                      style={{ width: `${progress}%` }}
+                    />
                   </div>
                 </div>
 
@@ -70,17 +70,17 @@ function Courses() {
                   to={`/course/${course.id}`}
                   className="course-button"
                 >
-                  Ver curso →
+                  {progress === 0
+                    ? "Empezar curso"
+                    : progress === 100
+                    ? "Ver curso"
+                    : "Continuar"}
                 </Link>
               </div>
-
-            </article>
-          ))}
-
+            );
+          })}
         </div>
-
-      </main>
-
+      </div>
     </div>
   );
 }

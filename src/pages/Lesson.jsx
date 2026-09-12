@@ -1,6 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { lessons } from "../data/lessons";
 import { quizzes } from "../data/quizzes";
+import {
+  XP_PER_LESSON,
+  getLevel,
+} from "../utils/gamification";
 import "./Lesson.css";
 
 function Lesson() {
@@ -41,20 +45,36 @@ function Lesson() {
   }
 
   const completedLessons = user.completedLessons || [];
+
   const isCompleted = completedLessons.includes(id);
 
-  const hasQuiz = quizzes[id] && quizzes[id].length > 0;
+  const hasQuiz =
+    quizzes[id] && quizzes[id].length > 0;
 
   const completeLesson = () => {
-    if (isCompleted) return;
+    // Evita ganar XP varias veces por la misma lección
+    if (isCompleted) {
+      return;
+    }
+
+    const currentXP = user.points || 0;
+
+    const newXP = currentXP + XP_PER_LESSON;
 
     const updatedUser = {
       ...user,
-      points: (user.points || 0) + 20,
+
+      // Actualizamos XP
+      points: newXP,
+
+      // Actualizamos automáticamente el nivel
+      level: getLevel(newXP),
+
+      // Guardamos la lección como completada
       completedLessons: [
         ...completedLessons,
-        id
-      ]
+        id,
+      ],
     };
 
     localStorage.setItem(
@@ -62,6 +82,7 @@ function Lesson() {
       JSON.stringify(updatedUser)
     );
 
+    // Recargamos para actualizar toda la interfaz
     window.location.reload();
   };
 
@@ -155,7 +176,7 @@ function Lesson() {
               onClick={completeLesson}
               className="complete-button"
             >
-              ✅ Completar lección +20 XP
+              ✅ Completar lección +{XP_PER_LESSON} XP
             </button>
 
           ) : (

@@ -11,6 +11,8 @@ import Lesson from "./pages/Lesson";
 import Quiz from "./pages/Quiz";
 import Profile from "./pages/Profile";
 import Nova from "./pages/Nova";
+import Videos from "./pages/Videos";
+import Quizzes from "./pages/Quizzes";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/nova" element={<Nova />} />
+        <Route path="/videos" element={<Videos />} />
+        <Route path="/quizzes" element={<Quizzes />} />
       </Routes>
 
     </BrowserRouter>

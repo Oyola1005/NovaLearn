@@ -1,13 +1,26 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
 import { quizzes } from "../data/quizzes";
+
+import {
+  XP_PER_QUIZ_ANSWER,
+  getLevel,
+} from "../utils/gamification";
+
 import "./Quiz.css";
 
 function Quiz() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("novalearn_user"));
+  const user = JSON.parse(
+    localStorage.getItem("novalearn_user")
+  );
 
   const questions = quizzes[id] || [];
 
@@ -24,11 +37,7 @@ function Quiz() {
   if (questions.length === 0) {
     return (
       <div className="quiz-message">
-        <h2>Quiz próximamente 🚀</h2>
-
-        <p>
-          Todavía no hay preguntas disponibles para esta lección.
-        </p>
+        <h2>Quiz no encontrado 😕</h2>
 
         <Link to="/courses">
           Volver a cursos
@@ -39,43 +48,77 @@ function Quiz() {
 
   const question = questions[currentQuestion];
 
+  const completedQuizzes =
+    user.completedQuizzes || [];
+
+  const alreadyCompleted =
+    completedQuizzes.includes(id);
+
   const handleAnswer = () => {
-    if (!selectedAnswer) return;
-
-    let newScore = score;
-
-    if (selectedAnswer === question.answer) {
-      newScore += 1;
-      setScore(newScore);
+    if (!selectedAnswer) {
+      return;
     }
 
-    if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer("");
-    } else {
+    const isCorrect =
+      selectedAnswer === question.answer;
+
+    const newScore =
+      isCorrect ? score + 1 : score;
+
+    setScore(newScore);
+
+    const isLastQuestion =
+      currentQuestion === questions.length - 1;
+
+    if (isLastQuestion) {
       finishQuiz(newScore);
+      return;
     }
+
+    setCurrentQuestion(
+      currentQuestion + 1
+    );
+
+    setSelectedAnswer("");
   };
 
   const finishQuiz = (finalScore) => {
-    const xp = finalScore * 10;
+    /*
+      Si el quiz ya fue completado anteriormente,
+      no damos XP otra vez.
+    */
+    if (alreadyCompleted) {
+      setFinished(true);
+      return;
+    }
 
-    const completedQuizzes = user.completedQuizzes || [];
+    const earnedXP =
+      finalScore * XP_PER_QUIZ_ANSWER;
+
+    const currentXP =
+      user.points || 0;
+
+    const newXP =
+      currentXP + earnedXP;
 
     const updatedUser = {
       ...user,
-      points: (user.points || 0) + xp,
-      completedQuizzes: completedQuizzes.includes(id)
-        ? completedQuizzes
-        : [...completedQuizzes, id]
+
+      points: newXP,
+
+      level: getLevel(newXP),
+
+      completedQuizzes: [
+        ...completedQuizzes,
+        id,
+      ],
     };
 
     localStorage.setItem(
       "novalearn_user",
       JSON.stringify(updatedUser)
     );
-
-    setScore(finalScore);
+    
     setFinished(true);
   };
 
@@ -84,116 +127,170 @@ function Quiz() {
       (score / questions.length) * 100
     );
 
+    const earnedXP =
+      alreadyCompleted
+        ? 0
+        : score * XP_PER_QUIZ_ANSWER;
+
     return (
       <div className="quiz-page">
 
-        <main className="quiz-result">
+        <div className="quiz-result">
 
-          <div className="result-icon">
-            {percentage >= 60 ? "🎉" : "💪"}
+          <div className="quiz-result-icon">
+            {percentage >= 70 ? "🎉" : "💪"}
           </div>
 
           <h1>¡Quiz terminado!</h1>
 
-          <p className="result-score">
-            Obtuviste {score} de {questions.length}
-          </p>
-
-          <div className="result-percentage">
+          <p className="quiz-result-score">
             {percentage}%
-          </div>
-
-          <p className="result-xp">
-            ⭐ Ganaste {score * 10} XP
           </p>
 
           <p>
-            {percentage >= 60
-              ? "¡Muy bien! Sigue así."
-              : "Sigue practicando. ¡Puedes mejorar!"}
+            Respondiste correctamente{" "}
+            <strong>
+              {score}
+            </strong>{" "}
+            de{" "}
+            <strong>
+              {questions.length}
+            </strong>{" "}
+            preguntas.
           </p>
 
-          <div className="result-buttons">
+          {alreadyCompleted ? (
+            <p className="quiz-no-xp">
+              Este quiz ya había sido completado.
+              No se otorgó XP adicional.
+            </p>
+          ) : (
+            <p className="quiz-earned-xp">
+              ⭐ +{earnedXP} XP
+            </p>
+          )}
 
-            <Link to="/dashboard">
-              Ir al dashboard
+          <div className="quiz-result-actions">
+
+            <Link
+              to="/courses"
+              className="quiz-button"
+            >
+              Volver a cursos
             </Link>
 
-            <Link to="/courses">
-              Ver cursos
+            <Link
+              to="/profile"
+              className="quiz-secondary-button"
+            >
+              Ver mi perfil
             </Link>
 
           </div>
 
-        </main>
+        </div>
 
       </div>
     );
   }
 
   const progress =
-    ((currentQuestion + 1) / questions.length) * 100;
+    ((currentQuestion + 1) /
+      questions.length) *
+    100;
 
   return (
     <div className="quiz-page">
 
-      <header className="quiz-header">
+      <div className="quiz-container">
 
-        <Link to="/courses">
-          ← Salir del quiz
+        <Link
+          to="/courses"
+          className="quiz-back"
+        >
+          ← Volver a cursos
         </Link>
 
-        <span>
-          Pregunta {currentQuestion + 1} de {questions.length}
-        </span>
+        <div className="quiz-header">
 
-      </header>
+          <p>NovaLearn · Quiz</p>
 
-      <main className="quiz-container">
+          <h1>
+            Pon a prueba tus conocimientos 🧠
+          </h1>
 
-        <div className="quiz-progress">
-          <div
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className="quiz-progress-info">
+
+            <span>
+              Pregunta{" "}
+              {currentQuestion + 1}{" "}
+              de{" "}
+              {questions.length}
+            </span>
+
+            <span>
+              {Math.round(progress)}%
+            </span>
+
+          </div>
+
+          <div className="quiz-progress-bar">
+
+            <div
+              className="quiz-progress-fill"
+              style={{
+                width: `${progress}%`,
+              }}
+            />
+
+          </div>
+
         </div>
 
-        <section className="question-card">
+        <div className="quiz-card">
 
-          <h1>{question.question}</h1>
+          <h2>
+            {question.question}
+          </h2>
 
-          <div className="answer-list">
+          <div className="quiz-options">
 
-            {question.options.map((option) => (
-
-              <button
-                key={option}
-                className={
-                  selectedAnswer === option
-                    ? "answer selected"
-                    : "answer"
-                }
-                onClick={() => setSelectedAnswer(option)}
-              >
-                {option}
-              </button>
-
-            ))}
+            {question.options.map(
+              (option) => (
+                <button
+                  key={option}
+                  type="button"
+                  className={`quiz-option ${
+                    selectedAnswer === option
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedAnswer(option)
+                  }
+                >
+                  {option}
+                </button>
+              )
+            )}
 
           </div>
 
           <button
-            className="next-question"
+            type="button"
+            className="quiz-next-button"
             onClick={handleAnswer}
             disabled={!selectedAnswer}
           >
-            {currentQuestion + 1 === questions.length
+            {currentQuestion ===
+            questions.length - 1
               ? "Terminar quiz"
-              : "Siguiente →"}
+              : "Siguiente pregunta →"}
           </button>
 
-        </section>
+        </div>
 
-      </main>
+      </div>
 
     </div>
   );

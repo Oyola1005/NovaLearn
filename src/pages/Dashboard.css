@@ -1,6 +1,11 @@
+/* ========================================
+   DASHBOARD
+======================================== */
+
 .dashboard-page {
   min-height: 100vh;
   background: #f7f8fc;
+  overflow-x: hidden;
 }
 
 .dashboard-container {
@@ -9,69 +14,110 @@
   padding: 45px 0 80px;
 }
 
+/* ========================================
+   WELCOME
+======================================== */
+
 .dashboard-welcome {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 30px;
   margin-bottom: 35px;
+
+  animation: dashboardFadeUp 0.7s ease-out both;
 }
 
 .dashboard-label,
 .level-card-header span,
 .section-title span,
-.overall-card span {
+.overall-card > div > span {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 1.5px;
   color: #777;
 }
 
+.dashboard-label {
+  color: #6c63ff;
+}
+
 .dashboard-welcome h1 {
   margin: 8px 0;
   font-size: 40px;
+  letter-spacing: -1.5px;
+  color: #18233a;
 }
 
 .dashboard-welcome p {
   margin: 0;
   color: #777;
+  font-size: 15px;
 }
+
+/* ========================================
+   LEVEL
+======================================== */
 
 .dashboard-level {
   display: flex;
   align-items: center;
   gap: 15px;
+
   padding: 15px 20px;
+
   background: white;
+  border: 1px solid #e9edf3;
   border-radius: 18px;
+
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.dashboard-level:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px rgba(31, 42, 61, 0.1);
 }
 
 .level-number {
   width: 52px;
   height: 52px;
+
   display: grid;
   place-items: center;
+
   border-radius: 50%;
+
   background: #6c5ce7;
   color: white;
+
   font-size: 22px;
   font-weight: 800;
+
+  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.25);
 }
 
-.dashboard-level span,
-.dashboard-level strong {
+.level-info span,
+.level-info strong {
   display: block;
 }
 
-.dashboard-level span {
+.level-info span {
   color: #888;
   font-size: 13px;
 }
 
-.dashboard-level strong {
+.level-info strong {
   margin-top: 3px;
+  color: #202a40;
 }
+
+/* ========================================
+   STATS
+======================================== */
 
 .dashboard-stats {
   display: grid;
@@ -84,20 +130,71 @@
   display: flex;
   align-items: center;
   gap: 15px;
+
   background: white;
+
   padding: 22px;
+
+  border: 1px solid #edf0f4;
   border-radius: 18px;
+
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+
+  opacity: 0;
+  animation: statAppear 0.6s ease-out forwards;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.dashboard-stat:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.dashboard-stat:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.dashboard-stat:nth-child(3) {
+  animation-delay: 0.26s;
+}
+
+.dashboard-stat:nth-child(4) {
+  animation-delay: 0.34s;
+}
+
+.dashboard-stat:hover {
+  transform: translateY(-5px);
+
+  border-color: #dedbff;
+
+  box-shadow:
+    0 15px 35px rgba(31, 42, 61, 0.08);
 }
 
 .stat-icon {
   width: 48px;
   height: 48px;
+
+  flex-shrink: 0;
+
   display: grid;
   place-items: center;
+
   background: #f1efff;
   border-radius: 14px;
+
   font-size: 22px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.dashboard-stat:hover .stat-icon {
+  transform: scale(1.08) rotate(-4deg);
 }
 
 .dashboard-stat strong,
@@ -107,19 +204,32 @@
 
 .dashboard-stat strong {
   font-size: 23px;
+  color: #202a40;
 }
 
 .dashboard-stat small {
   margin-top: 3px;
   color: #888;
+  font-size: 11px;
 }
+
+/* ========================================
+   LEVEL CARD
+======================================== */
 
 .level-card {
   background: white;
+
   padding: 25px;
+
+  border: 1px solid #e9edf3;
   border-radius: 20px;
+
   margin-bottom: 45px;
+
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+
+  animation: dashboardFadeUp 0.7s ease-out 0.35s both;
 }
 
 .level-card-header {
@@ -130,20 +240,41 @@
 
 .level-card-header h3 {
   margin: 6px 0 0;
+  color: #202a40;
+}
+
+.level-card-header > strong {
+  color: #6c5ce7;
+  font-size: 13px;
 }
 
 .level-progress {
   height: 10px;
+
   background: #eee;
+
   border-radius: 20px;
+
   overflow: hidden;
+
   margin: 18px 0 10px;
 }
 
 .level-progress div {
   height: 100%;
+
   background: #6c5ce7;
+
   border-radius: inherit;
+
+  animation: progressGrow 1.2s ease-out 0.5s both;
+}
+
+.level-progress-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .level-card p {
@@ -152,45 +283,122 @@
   font-size: 14px;
 }
 
+.level-card p strong {
+  color: #202a40;
+}
+
+.level-progress-footer > span {
+  color: #6c5ce7;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* ========================================
+   SECTION TITLE
+======================================== */
+
 .section-title {
   display: flex;
   justify-content: space-between;
   align-items: end;
+
   margin-bottom: 20px;
+
+  animation: dashboardFadeUp 0.7s ease-out both;
 }
 
 .section-title h2 {
   margin: 7px 0 0;
+
+  color: #18233a;
+
+  font-size: 25px;
+  letter-spacing: -0.5px;
 }
 
 .section-title a {
   text-decoration: none;
+
   color: #6c5ce7;
+
+  font-size: 13px;
   font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.section-title a:hover {
+  color: #5046d8;
+  transform: translateX(4px);
+}
+
+/* ========================================
+   CONTINUE LEARNING
+======================================== */
+
+.continue-section {
+  animation: dashboardFadeUp 0.7s ease-out 0.45s both;
 }
 
 .continue-card {
   display: flex;
   align-items: center;
   gap: 22px;
+
   background: white;
+
   padding: 25px;
+
+  border: 1px solid #e9edf3;
   border-radius: 22px;
+
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.continue-card:hover {
+  transform: translateY(-5px);
+
+  border-color: #dedbff;
+
+  box-shadow:
+    0 18px 40px rgba(31, 42, 61, 0.09);
 }
 
 .continue-icon {
   width: 75px;
   height: 75px;
+
+  flex-shrink: 0;
+
   display: grid;
   place-items: center;
+
   background: #f1efff;
+
   border-radius: 18px;
+
   font-size: 35px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.continue-card:hover .continue-icon {
+  transform: scale(1.06) rotate(-3deg);
+  background: #eae8ff;
 }
 
 .continue-info {
   flex: 1;
+  min-width: 0;
 }
 
 .continue-info > span {
@@ -201,12 +409,20 @@
 
 .continue-info h3 {
   margin: 5px 0;
+
+  color: #202a40;
+
   font-size: 21px;
 }
 
 .continue-info p {
   color: #777;
+
   margin: 0 0 15px;
+
+  font-size: 13px;
+
+  line-height: 1.6;
 }
 
 .course-progress {
@@ -218,109 +434,301 @@
 .progress-track {
   width: 220px;
   height: 8px;
+
   background: #eee;
+
   border-radius: 20px;
+
   overflow: hidden;
 }
 
 .progress-track div {
   height: 100%;
+
   background: #6c5ce7;
+
+  border-radius: inherit;
+
+  animation: progressGrow 1.1s ease-out 0.7s both;
 }
 
 .course-progress span {
   font-size: 13px;
   font-weight: 700;
+  color: #6c5ce7;
 }
 
 .continue-button {
   text-decoration: none;
+
   background: #111;
   color: white;
+
   padding: 13px 20px;
+
   border-radius: 12px;
+
+  font-size: 13px;
   font-weight: 700;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
+
+.continue-button:hover {
+  transform: translateY(-3px);
+
+  background: #202020;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   QUICK ACTIONS
+======================================== */
 
 .dashboard-actions {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
+
   margin-top: 45px;
+
+  animation: dashboardFadeUp 0.7s ease-out 0.55s both;
 }
 
 .action-card {
   display: flex;
   align-items: center;
   gap: 13px;
+
   padding: 20px;
+
   background: white;
+
+  border: 1px solid #edf0f4;
   border-radius: 18px;
+
   text-decoration: none;
   color: inherit;
+
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.action-card > span {
-  font-size: 27px;
+.action-card:hover {
+  transform: translateY(-6px);
+
+  border-color: #dedbff;
+
+  box-shadow:
+    0 15px 35px rgba(31, 42, 61, 0.08);
+}
+
+.action-icon {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  background: #f1efff;
+
+  border-radius: 12px;
+
+  font-size: 21px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.action-card:hover .action-icon {
+  transform: scale(1.08);
 }
 
 .action-card div {
   flex: 1;
+  min-width: 0;
 }
 
 .action-card h3 {
   margin: 0;
-  font-size: 16px;
+
+  color: #202a40;
+
+  font-size: 14px;
 }
 
 .action-card p {
   margin: 4px 0 0;
+
   color: #888;
-  font-size: 12px;
+
+  font-size: 11px;
+
+  line-height: 1.4;
 }
 
 .action-card b {
   color: #6c5ce7;
+
+  font-size: 18px;
+
+  transition:
+    transform 0.25s ease;
 }
+
+.action-card:hover b {
+  transform: translateX(4px);
+}
+
+/* NOVA */
+
+.nova-action {
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #f7f5ff
+    );
+}
+
+.nova-action .action-icon {
+  background: #eae8ff;
+}
+
+/* ========================================
+   OVERALL PROGRESS
+======================================== */
 
 .overall-card {
   margin-top: 45px;
+
   padding: 30px;
+
   border-radius: 22px;
+
   background: #111;
   color: white;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  gap: 30px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  animation: dashboardFadeUp 0.7s ease-out 0.65s both;
 }
 
-.overall-card span {
+.overall-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 250px;
+  height: 250px;
+
+  top: -150px;
+  right: 100px;
+
+  border-radius: 50%;
+
+  background: rgba(108, 99, 255, 0.12);
+
+  pointer-events: none;
+}
+
+.overall-content {
+  position: relative;
+  z-index: 1;
+}
+
+.overall-card > div > span {
   color: #aaa;
 }
 
 .overall-card h2 {
   margin: 8px 0;
+
+  font-size: 25px;
+  letter-spacing: -0.5px;
 }
 
 .overall-card p {
   color: #aaa;
+
   margin: 0;
+
+  font-size: 13px;
 }
+
+.overall-card p strong {
+  color: white;
+}
+
+/* ========================================
+   OVERALL CIRCLE
+======================================== */
 
 .overall-circle {
-  width: 110px;
-  height: 110px;
-  border: 8px solid #6c5ce7;
+  width: 115px;
+  height: 115px;
+
+  flex-shrink: 0;
+
   border-radius: 50%;
+
   display: grid;
-  place-content: center;
-  text-align: center;
+  place-items: center;
+
+  background:
+    conic-gradient(
+      #6c63ff var(--progress),
+      #303030 var(--progress)
+    );
+
+  position: relative;
+
+  animation: circleAppear 0.9s ease-out 0.7s both;
 }
 
-.overall-circle strong,
-.overall-circle span {
-  display: block;
+.overall-circle::before {
+  content: "";
+
+  position: absolute;
+
+  width: 91px;
+  height: 91px;
+
+  border-radius: 50%;
+
+  background: #111;
+}
+
+.overall-circle > div {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
 }
 
 .overall-circle strong {
@@ -328,10 +736,69 @@
 }
 
 .overall-circle span {
-  font-size: 10px;
+  margin-top: 2px;
+
+  color: #aaa;
+
+  font-size: 9px;
 }
 
-@media (max-width: 900px) {
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes dashboardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes progressGrow {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes circleAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.7) rotate(-40deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1000px) {
+
+  .dashboard-container {
+    width: min(92%, 760px);
+  }
+
   .dashboard-stats,
   .dashboard-actions {
     grid-template-columns: repeat(2, 1fr);
@@ -340,10 +807,24 @@
   .continue-card {
     flex-wrap: wrap;
   }
+
+  .continue-info {
+    min-width: 250px;
+  }
+
+  .continue-button {
+    margin-left: 97px;
+  }
 }
 
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 600px) {
+
   .dashboard-container {
+    width: 90%;
     padding-top: 30px;
   }
 
@@ -356,9 +837,46 @@
     font-size: 30px;
   }
 
+  .dashboard-welcome p {
+    font-size: 13px;
+  }
+
+  .dashboard-level {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .dashboard-stats,
   .dashboard-actions {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-stat {
+    padding: 18px;
+  }
+
+  .level-card {
+    padding: 20px;
+  }
+
+  .level-card-header {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .level-progress-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .section-title {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .section-title h2 {
+    font-size: 22px;
   }
 
   .continue-card {
@@ -366,11 +884,65 @@
     flex-direction: column;
   }
 
+  .continue-info {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .continue-info h3 {
+    font-size: 19px;
+  }
+
+  .continue-button {
+    margin-left: 0;
+  }
+
   .progress-track {
-    width: 160px;
+    width: 100%;
+  }
+
+  .course-progress {
+    width: 100%;
+  }
+
+  .course-progress span {
+    flex-shrink: 0;
   }
 
   .overall-card {
-    gap: 20px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
   }
+
+  .overall-card h2 {
+    font-size: 22px;
+  }
+
+  .overall-circle {
+    width: 105px;
+    height: 105px;
+  }
+
+  .overall-circle::before {
+    width: 83px;
+    height: 83px;
+  }
+
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
 }

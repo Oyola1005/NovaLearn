@@ -1,8 +1,37 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Landing.css";
 
 function Landing() {
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(".scroll-reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <div className="landing">
 
@@ -113,7 +142,10 @@ function Landing() {
       </section>
 
       {/* FEATURES */}
-      <section className="features-section" id="caracteristicas">
+      <section
+        className="features-section scroll-reveal"
+        id="caracteristicas"
+      >
 
         <div className="section-heading">
           <span>TODO EN UN SOLO LUGAR</span>
@@ -166,7 +198,10 @@ function Landing() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="how-section" id="como-funciona">
+      <section
+        className="how-section scroll-reveal"
+        id="como-funciona"
+      >
 
         <div className="section-heading">
           <span>¿CÓMO FUNCIONA?</span>
@@ -212,7 +247,7 @@ function Landing() {
       </section>
 
       {/* AI */}
-      <section className="ai-section">
+      <section className="ai-section scroll-reveal">
 
         <div className="ai-content">
 
@@ -240,10 +275,12 @@ function Landing() {
 
           <div className="chat-header">
             <div className="nova-avatar">✦</div>
+
             <div>
               <strong>Nova</strong>
               <small>Asistente educativo</small>
             </div>
+
             <span className="online-dot"></span>
           </div>
 
@@ -276,11 +313,13 @@ function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="cta-section">
+      <section className="cta-section scroll-reveal">
 
         <div>
           <span>¿LISTO PARA COMENZAR?</span>
-          <h2>Tu próxima aventura de aprendizaje comienza aquí.</h2>
+          <h2>
+            Tu próxima aventura de aprendizaje comienza aquí.
+          </h2>
         </div>
 
         <Link to="/register" className="cta-button">
@@ -293,6 +332,7 @@ function Landing() {
       <footer className="footer">
 
         <div className="footer-brand">
+
           <div className="navbar-logo">
             <span className="logo-icon">✦</span>
             <span>NovaLearn</span>
@@ -301,6 +341,7 @@ function Landing() {
           <p>
             Aprende. Juega. Descubre.
           </p>
+
         </div>
 
         <div className="footer-copy">

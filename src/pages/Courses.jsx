@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
 import { lessons } from "../data/lessons";
@@ -6,33 +6,110 @@ import { getCourseProgress } from "../utils/progress";
 import "./Courses.css";
 
 function Courses() {
+  const navigate = useNavigate();
+
   const user = JSON.parse(
     localStorage.getItem("novalearn_user")
   );
 
   if (!user) {
-    window.location.href = "/login";
+    navigate("/login");
     return null;
   }
 
-  const allCourses = Object.values(courses).flat();
+  /*
+    Obtenemos los cursos del grado del usuario.
 
-  const userCourses = allCourses.filter(
-    (course) =>
-      Number(course.grade) === Number(user.grade)
-  );
+    La estructura actual de courses.js puede ser:
+
+    {
+      1: [...],
+      2: [...],
+      3: [...],
+      ...
+    }
+
+    También dejamos compatibilidad con un array.
+  */
+
+  let userCourses = [];
+
+  if (Array.isArray(courses)) {
+    userCourses = courses.filter(
+      (course) =>
+        Number(course.grade) === Number(user.grade)
+    );
+  } else {
+    const coursesByGrade =
+      courses[user.grade];
+
+    if (Array.isArray(coursesByGrade)) {
+      userCourses = coursesByGrade;
+    } else {
+      const allCourses =
+        Object.values(courses).flat();
+
+      userCourses = allCourses.filter(
+        (course) =>
+          Number(course.grade) === Number(user.grade)
+      );
+    }
+  }
 
   const completedLessons =
     user.completedLessons || [];
 
+  const totalLessons =
+    userCourses.reduce(
+      (total, course) =>
+        total +
+        (lessons[course.id]?.length || 0),
+      0
+    );
+
+  const completedTotal =
+    userCourses.reduce(
+      (total, course) => {
+
+        const courseLessons =
+          lessons[course.id] || [];
+
+        const completed =
+          courseLessons.filter((lesson) =>
+            completedLessons.includes(
+              lesson.id
+            )
+          ).length;
+
+        return total + completed;
+      },
+      0
+    );
+
+  const averageProgress =
+    totalLessons > 0
+      ? Math.round(
+          (completedTotal /
+            totalLessons) *
+            100
+        )
+      : 0;
+
   return (
     <div className="courses-page">
+
       <Navbar />
 
       <main className="courses-container">
 
+        {/* ========================================
+            HEADER
+        ======================================== */}
+
         <section className="courses-header">
-          <div>
+
+          <div className="courses-header-content">
+
             <span className="courses-label">
               TU APRENDIZAJE
             </span>
@@ -45,139 +122,292 @@ function Courses() {
               Explora los cursos de tu grado y
               continúa aprendiendo a tu ritmo.
             </p>
+
           </div>
 
           <div className="grade-badge">
-            {user.grade}°
-            <span>Secundaria</span>
+
+            <strong>
+              {user.grade}°
+            </strong>
+
+            <span>
+              Secundaria
+            </span>
+
           </div>
+
         </section>
+
+        {/* ========================================
+            INFO
+        ======================================== */}
 
         <section className="courses-info">
-          <div>
-            <strong>{userCourses.length}</strong>
-            <span>Cursos disponibles</span>
+
+          <div className="courses-info-card">
+
+            <div className="courses-info-icon">
+              📚
+            </div>
+
+            <div>
+              <strong>
+                {userCourses.length}
+              </strong>
+
+              <span>
+                Cursos disponibles
+              </span>
+            </div>
+
           </div>
 
-          <div>
-            <strong>
-              {userCourses.reduce(
-                (total, course) =>
-                  total + (lessons[course.id]?.length || 0),
-                0
-              )}
-            </strong>
-            <span>Lecciones</span>
+          <div className="courses-info-card">
+
+            <div className="courses-info-icon">
+              📖
+            </div>
+
+            <div>
+              <strong>
+                {totalLessons}
+              </strong>
+
+              <span>
+                Lecciones
+              </span>
+            </div>
+
           </div>
 
-          <div>
-            <strong>
-              {completedLessons.length}
-            </strong>
-            <span>Completadas</span>
+          <div className="courses-info-card">
+
+            <div className="courses-info-icon">
+              ✅
+            </div>
+
+            <div>
+              <strong>
+                {completedTotal}
+              </strong>
+
+              <span>
+                Lecciones completadas
+              </span>
+            </div>
+
           </div>
+
         </section>
+
+        {/* ========================================
+            PROGRESO GENERAL
+        ======================================== */}
+
+        {userCourses.length > 0 && (
+
+          <section className="courses-overview">
+
+            <div>
+
+              <span>
+                PROGRESO DE TU GRADO
+              </span>
+
+              <h2>
+                Sigue avanzando 🚀
+              </h2>
+
+            </div>
+
+            <div className="courses-overview-progress">
+
+              <strong>
+                {averageProgress}%
+              </strong>
+
+              <div className="overview-track">
+
+                <div
+                  style={{
+                    width: `${averageProgress}%`,
+                  }}
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+        )}
+
+        {/* ========================================
+            CURSOS
+        ======================================== */}
 
         <section className="courses-grid">
 
-          {userCourses.map((course) => {
-            const courseLessons =
-              lessons[course.id] || [];
+          {userCourses.map(
+            (course, index) => {
 
-            const progress = getCourseProgress(
-              course.id,
-              completedLessons
-            );
+              const courseLessons =
+                lessons[course.id] || [];
 
-            return (
-              <article
-                className="course-card"
-                key={course.id}
-              >
+              const progress =
+                getCourseProgress(
+                  course.id,
+                  completedLessons
+                );
 
-                <div className="course-card-top">
-                  <div className="course-big-icon">
-                    {course.icon}
-                  </div>
+              return (
+                <article
+                  className="course-card"
+                  key={course.id}
+                  style={{
+                    "--card-delay": `${index * 0.08}s`,
+                  }}
+                >
 
-                  <span className="course-percent">
-                    {progress}%
-                  </span>
-                </div>
+                  {/* CARD TOP */}
 
-                <div className="course-card-body">
+                  <div className="course-card-top">
 
-                  <span className="course-category">
-                    {course.category}
-                  </span>
-
-                  <h2>
-                    {course.name}
-                  </h2>
-
-                  <p>
-                    {course.description}
-                  </p>
-
-                  <div className="course-meta">
-                    <span>
-                      📖 {courseLessons.length} lecciones
-                    </span>
-
-                    <span>
-                      ⭐ {courseLessons.length * 20} XP
-                    </span>
-                  </div>
-
-                  <div className="course-progress-area">
-
-                    <div className="course-progress-track">
-                      <div
-                        className="course-progress-fill"
-                        style={{
-                          width: `${progress}%`,
-                        }}
-                      />
+                    <div className="course-big-icon">
+                      {course.icon}
                     </div>
 
-                    <span>
-                      {progress}% completado
+                    <span className="course-percent">
+                      {progress}%
                     </span>
 
                   </div>
 
-                  <Link
-                    to={`/courses/${course.id}`}
-                    className="course-button"
-                  >
-                    {progress > 0
-                      ? "Continuar curso →"
-                      : "Comenzar curso →"}
-                  </Link>
+                  {/* CARD BODY */}
 
-                </div>
+                  <div className="course-card-body">
 
-              </article>
-            );
-          })}
+                    <span className="course-category">
+                      {course.category ||
+                        "Curso"}
+                    </span>
+
+                    <h2>
+                      {course.name}
+                    </h2>
+
+                    <p>
+                      {course.description}
+                    </p>
+
+                    {/* META */}
+
+                    <div className="course-meta">
+
+                      <span>
+                        📖{" "}
+                        {courseLessons.length}{" "}
+                        lecciones
+                      </span>
+
+                      <span>
+                        ⚡{" "}
+                        {courseLessons.length *
+                          20}{" "}
+                        XP
+                      </span>
+
+                    </div>
+
+                    {/* PROGRESS */}
+
+                    <div className="course-progress-area">
+
+                      <div className="course-progress-header">
+
+                        <span>
+                          Progreso
+                        </span>
+
+                        <strong>
+                          {progress}%
+                        </strong>
+
+                      </div>
+
+                      <div className="course-progress-track">
+
+                        <div
+                          className="course-progress-fill"
+                          style={{
+                            width: `${progress}%`,
+                          }}
+                        />
+
+                      </div>
+
+                    </div>
+
+                    {/* BUTTON */}
+
+                    <Link
+                      to={`/courses/${course.id}`}
+                      className="course-button"
+                    >
+
+                      <span>
+                        {progress > 0
+                          ? "Continuar curso"
+                          : "Comenzar curso"}
+                      </span>
+
+                      <span>
+                        →
+                      </span>
+
+                    </Link>
+
+                  </div>
+
+                </article>
+              );
+            }
+          )}
 
         </section>
 
+        {/* ========================================
+            EMPTY
+        ======================================== */}
+
         {userCourses.length === 0 && (
+
           <section className="courses-empty">
-            <span>📚</span>
-            <h2>No encontramos cursos</h2>
+
+            <div className="empty-icon">
+              📚
+            </div>
+
+            <h2>
+              No encontramos cursos
+            </h2>
+
             <p>
-              Revisa que tengas un grado seleccionado.
+              Revisa que tengas un grado
+              seleccionado.
             </p>
 
             <Link to="/grades">
               Seleccionar grado
             </Link>
+
           </section>
+
         )}
 
       </main>
+
     </div>
   );
 }

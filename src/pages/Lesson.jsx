@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { lessons } from "../data/lessons";
@@ -22,6 +22,39 @@ function Lesson() {
     );
   });
 
+  /*
+    Animaciones al hacer scroll
+  */
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(
+      ".lesson-scroll-reveal"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [id]);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
@@ -35,8 +68,7 @@ function Lesson() {
       "cie-1": [...]
     }
 
-    Por eso buscamos la lección dentro
-    de todos los cursos.
+    Buscamos la lección dentro de todos los cursos.
   */
 
   let currentLesson = null;
@@ -58,9 +90,7 @@ function Lesson() {
   );
 
   /*
-    Si la lección no existe,
-    mostramos una pantalla en lugar de dejar
-    la aplicación en blanco.
+    Si la lección no existe
   */
 
   if (!currentLesson) {
@@ -69,12 +99,14 @@ function Lesson() {
         <Navbar />
 
         <main className="lesson-container">
-          <div className="lesson-not-found">
+          <div className="lesson-not-found lesson-scroll-reveal visible">
             <div className="lesson-not-found-icon">
               📚
             </div>
 
-            <h1>Lección no encontrada</h1>
+            <h1>
+              Lección no encontrada
+            </h1>
 
             <p>
               No pudimos encontrar la lección que
@@ -100,12 +132,15 @@ function Lesson() {
 
   /*
     Detectamos si tenemos un video real de YouTube.
-    Por ahora lessons.js utiliza "REEMPLAZAR".
   */
 
   const hasVideo =
     currentLesson.videoId &&
     currentLesson.videoId !== "REEMPLAZAR";
+
+  /*
+    Completar lección
+  */
 
   const handleComplete = () => {
     if (completed) {
@@ -158,14 +193,15 @@ function Lesson() {
 
         <Link
           to={`/courses/${courseId}`}
-          className="lesson-back"
+          className="lesson-back lesson-scroll-reveal visible"
         >
           ← Volver al curso
         </Link>
 
+
         {/* HEADER */}
 
-        <section className="lesson-header">
+        <section className="lesson-header lesson-scroll-reveal">
 
           <div className="lesson-header-info">
 
@@ -207,13 +243,21 @@ function Lesson() {
 
         </section>
 
+
         {/* VIDEO */}
 
-        <section className="lesson-video-section">
+        <section className="lesson-video-section lesson-scroll-reveal">
 
           <div className="lesson-section-heading">
-            <span>APRENDE</span>
-            <h2>Video de la lección</h2>
+
+            <span>
+              APRENDE
+            </span>
+
+            <h2>
+              Video de la lección
+            </h2>
+
           </div>
 
           {hasVideo ? (
@@ -252,28 +296,41 @@ function Lesson() {
 
         </section>
 
+
         {/* INFORMACIÓN */}
 
-        <section className="lesson-content-card">
+        <section className="lesson-content-card lesson-scroll-reveal">
 
           <div className="lesson-section-heading">
-            <span>CONTENIDO</span>
+
+            <span>
+              CONTENIDO
+            </span>
+
             <h2>
               ¿Qué aprenderás?
             </h2>
+
           </div>
 
           <p>
             En esta lección aprenderás los conceptos
-            principales de <strong>{currentLesson.title}</strong>.
+            principales de{" "}
+            <strong>
+              {currentLesson.title}
+            </strong>.
             Presta atención al contenido y luego
             completa la lección para ganar XP.
           </p>
 
           <div className="lesson-tip">
-            <span>💡</span>
+
+            <span>
+              💡
+            </span>
 
             <div>
+
               <strong>
                 Consejo de Nova
               </strong>
@@ -283,14 +340,17 @@ function Lesson() {
                 palabras lo que aprendiste. Eso te
                 ayudará a recordar mejor el contenido.
               </p>
+
             </div>
+
           </div>
 
         </section>
 
+
         {/* COMPLETAR */}
 
-        <section className="lesson-complete-card">
+        <section className="lesson-complete-card lesson-scroll-reveal">
 
           <div>
 
@@ -330,9 +390,10 @@ function Lesson() {
 
         </section>
 
+
         {/* NAVEGACIÓN */}
 
-        <div className="lesson-navigation">
+        <div className="lesson-navigation lesson-scroll-reveal">
 
           {previousLesson ? (
             <Link
@@ -340,10 +401,15 @@ function Lesson() {
               className="lesson-nav-button secondary"
             >
               ←
+
               <span>
-                <small>Anterior</small>
+                <small>
+                  Anterior
+                </small>
+
                 {previousLesson.title}
               </span>
+
             </Link>
           ) : (
             <Link
@@ -351,10 +417,15 @@ function Lesson() {
               className="lesson-nav-button secondary"
             >
               ←
+
               <span>
-                <small>Volver</small>
+                <small>
+                  Volver
+                </small>
+
                 Al curso
               </span>
+
             </Link>
           )}
 
@@ -363,22 +434,34 @@ function Lesson() {
               to={`/lessons/${nextLesson.id}`}
               className="lesson-nav-button primary"
             >
+
               <span>
-                <small>Siguiente</small>
+                <small>
+                  Siguiente
+                </small>
+
                 {nextLesson.title}
               </span>
+
               →
+
             </Link>
           ) : (
             <Link
               to={`/courses/${courseId}`}
               className="lesson-nav-button primary"
             >
+
               <span>
-                <small>Finalizar</small>
+                <small>
+                  Finalizar
+                </small>
+
                 Volver al curso
               </span>
+
               →
+
             </Link>
           )}
 

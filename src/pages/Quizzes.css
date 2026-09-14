@@ -9,7 +9,26 @@
   padding: 50px 28px 80px;
 }
 
-/* HEADER */
+/* ========================================
+   SCROLL REVEAL
+======================================== */
+
+.quizzes-scroll-reveal {
+  opacity: 0;
+  transform: translateY(45px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.quizzes-scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   HEADER
+======================================== */
 
 .quizzes-header {
   display: flex;
@@ -19,6 +38,10 @@
   gap: 30px;
 
   margin-bottom: 30px;
+}
+
+.quizzes-header-content {
+  flex: 1;
 }
 
 .quizzes-label {
@@ -51,6 +74,10 @@
   font-size: 15px;
 }
 
+/* ========================================
+   HEADER ICON
+======================================== */
+
 .quiz-header-icon {
   width: 95px;
   height: 95px;
@@ -58,6 +85,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex-shrink: 0;
 
   border-radius: 25px;
 
@@ -67,9 +96,28 @@
 
   box-shadow:
     0 8px 25px rgba(30, 35, 60, 0.07);
+
+  animation:
+    quizzesHeaderIconFloat
+    3s
+    ease-in-out
+    infinite;
 }
 
-/* STATS */
+@keyframes quizzesHeaderIconFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+/* ========================================
+   STATS
+======================================== */
 
 .quiz-stats {
   display: grid;
@@ -96,6 +144,49 @@
 
   box-shadow:
     0 5px 20px rgba(30, 35, 60, 0.05);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.quiz-stat.visible {
+  animation:
+    quizzesStatAppear
+    0.65s
+    ease-out
+    both;
+}
+
+.quiz-stat:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.quiz-stat:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.quiz-stat:nth-child(3) {
+  transition-delay: 0.19s;
+}
+
+.quiz-stat:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 12px 28px rgba(30, 35, 60, 0.09);
+}
+
+@keyframes quizzesStatAppear {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .quiz-stat > span {
@@ -106,11 +197,21 @@
   align-items: center;
   justify-content: center;
 
+  flex-shrink: 0;
+
   border-radius: 13px;
 
   background: #eeeaff;
 
   font-size: 21px;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.quiz-stat:hover > span {
+  transform: scale(1.08) rotate(-3deg);
 }
 
 .quiz-stat strong {
@@ -127,10 +228,32 @@
   font-size: 11px;
 }
 
-/* SECTION */
+/* ========================================
+   SECTION
+======================================== */
 
 .quiz-section-heading {
   margin-bottom: 20px;
+}
+
+.quiz-section-heading.visible {
+  animation:
+    quizzesHeadingAppear
+    0.7s
+    ease-out
+    both;
+}
+
+@keyframes quizzesHeadingAppear {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quiz-section-heading span {
@@ -150,7 +273,9 @@
   font-size: 28px;
 }
 
-/* GRID */
+/* ========================================
+   GRID
+======================================== */
 
 .quiz-grid {
   display: grid;
@@ -161,7 +286,9 @@
   gap: 22px;
 }
 
-/* CARD */
+/* ========================================
+   CARD
+======================================== */
 
 .quiz-card {
   overflow: hidden;
@@ -174,16 +301,47 @@
     0 7px 25px rgba(30, 35, 60, 0.06);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  transition-delay: var(--quiz-delay);
+}
+
+.quiz-card.visible {
+  animation:
+    quizzesCardAppear
+    0.7s
+    ease-out
+    var(--quiz-delay)
+    both;
+}
+
+@keyframes quizzesCardAppear {
+  from {
+    opacity: 0;
+    transform:
+      translateY(35px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
 }
 
 .quiz-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-7px);
 
   box-shadow:
-    0 12px 30px rgba(30, 35, 60, 0.1);
+    0 16px 38px rgba(30, 35, 60, 0.11);
 }
+
+/* ========================================
+   CARD TOP
+======================================== */
 
 .quiz-card-top {
   height: 120px;
@@ -215,6 +373,23 @@
   background: white;
 
   font-size: 34px;
+
+  box-shadow:
+    0 5px 15px rgba(30, 35, 60, 0.05);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.quiz-card:hover .quiz-icon {
+  transform:
+    translateY(-3px)
+    rotate(-3deg)
+    scale(1.05);
+
+  box-shadow:
+    0 8px 20px rgba(30, 35, 60, 0.08);
 }
 
 .quiz-completed {
@@ -228,9 +403,30 @@
 
   font-size: 10px;
   font-weight: 800;
+
+  animation:
+    quizzesBadgeAppear
+    0.5s
+    ease-out
+    0.25s
+    both;
 }
 
-/* BODY */
+@keyframes quizzesBadgeAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   BODY
+======================================== */
 
 .quiz-card-body {
   padding: 24px;
@@ -253,6 +449,13 @@
   color: #182238;
 
   font-size: 21px;
+
+  transition:
+    color 0.2s ease;
+}
+
+.quiz-card:hover h3 {
+  color: #6c5ce7;
 }
 
 .quiz-card p {
@@ -278,6 +481,20 @@
   font-weight: 700;
 }
 
+.quiz-card-info span {
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.quiz-card:hover .quiz-card-info span {
+  transform: translateX(2px);
+}
+
+/* ========================================
+   BUTTON
+======================================== */
+
 .quiz-button {
   display: block;
 
@@ -297,10 +514,20 @@
 
   font-size: 13px;
   font-weight: 800;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .quiz-button:hover {
   background: #5b4bd5;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 18px rgba(108, 92, 231, 0.2);
 }
 
 .quiz-button.completed {
@@ -309,7 +536,13 @@
   color: #6c5ce7;
 }
 
-/* EMPTY */
+.quiz-button.completed:hover {
+  background: #e5e1ff;
+}
+
+/* ========================================
+   EMPTY
+======================================== */
 
 .quiz-empty {
   padding: 70px 20px;
@@ -319,10 +552,51 @@
   background: white;
 
   text-align: center;
+
+  box-shadow:
+    0 7px 25px rgba(30, 35, 60, 0.05);
+}
+
+.quiz-empty.visible {
+  animation:
+    quizzesEmptyAppear
+    0.7s
+    ease-out;
+}
+
+@keyframes quizzesEmptyAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quiz-empty > span {
+  display: inline-block;
+
   font-size: 48px;
+
+  animation:
+    quizzesEmptyFloat
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+@keyframes quizzesEmptyFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
 }
 
 .quiz-empty h2 {
@@ -349,9 +623,20 @@
   text-decoration: none;
 
   font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-/* RESPONSIVE */
+.quiz-empty a:hover {
+  background: #5b4bd5;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
 
 @media (max-width: 800px) {
   .quiz-grid {
@@ -366,5 +651,86 @@
     align-items: flex-start;
 
     flex-direction: column;
+  }
+
+  .quiz-header-icon {
+    width: 75px;
+    height: 75px;
+
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 500px) {
+  .quizzes-container {
+    padding:
+      35px
+      16px
+      60px;
+  }
+
+  .quizzes-header h1 {
+    font-size: 30px;
+  }
+
+  .quizzes-header p {
+    font-size: 14px;
+  }
+
+  .quiz-stat {
+    padding: 17px;
+  }
+
+  .quiz-card-top {
+    height: 105px;
+    padding: 18px;
+  }
+
+  .quiz-icon {
+    width: 58px;
+    height: 58px;
+
+    font-size: 30px;
+  }
+
+  .quiz-card-body {
+    padding: 20px;
+  }
+
+  .quiz-card-info {
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .quizzes-scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .quizzes-scroll-reveal.visible {
+    animation: none !important;
+  }
+
+  .quiz-header-icon,
+  .quiz-completed,
+  .quiz-empty > span,
+  .quiz-card,
+  .quiz-stat,
+  .quiz-icon,
+  .quiz-button {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .quiz-card.visible {
+    opacity: 1;
+    transform: none;
   }
 }

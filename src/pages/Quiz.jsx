@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { quizzes } from "../data/quizzes";
@@ -35,6 +35,38 @@ function Quiz() {
   const [answerChecked, setAnswerChecked] =
     useState(false);
 
+  /* ========================================
+     SCROLL REVEAL
+  ======================================== */
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(
+      ".quiz-scroll-reveal"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [currentQuestion, finished]);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
@@ -42,13 +74,10 @@ function Quiz() {
   if (questions.length === 0) {
     return (
       <div className="quiz-page">
-
         <Navbar />
 
         <main className="quiz-container">
-
-          <div className="quiz-not-found">
-
+          <div className="quiz-not-found quiz-scroll-reveal visible">
             <div>🏆</div>
 
             <h1>
@@ -62,11 +91,8 @@ function Quiz() {
             <Link to="/quizzes">
               Volver a quizzes
             </Link>
-
           </div>
-
         </main>
-
       </div>
     );
   }
@@ -79,7 +105,6 @@ function Quiz() {
   ======================================== */
 
   const isCorrectAnswer = (answerIndex) => {
-
     if (answerIndex === null) {
       return false;
     }
@@ -98,7 +123,6 @@ function Quiz() {
   ======================================== */
 
   const handleAnswer = (answerIndex) => {
-
     if (answerChecked) {
       return;
     }
@@ -108,12 +132,10 @@ function Quiz() {
     setAnswerChecked(true);
 
     if (isCorrectAnswer(answerIndex)) {
-
       setScore(
         (previousScore) =>
           previousScore + 1
       );
-
     }
   };
 
@@ -122,7 +144,6 @@ function Quiz() {
   ======================================== */
 
   const finishQuiz = (finalScore) => {
-
     const xp =
       finalScore * XP_PER_QUIZ_ANSWER;
 
@@ -143,11 +164,9 @@ function Quiz() {
     let updatedUser = currentUser;
 
     if (!alreadyCompleted) {
-
       const xpUser = addXP(xp);
 
       if (xpUser) {
-
         updatedUser = {
           ...xpUser,
 
@@ -161,7 +180,6 @@ function Quiz() {
           "novalearn_user",
           JSON.stringify(updatedUser)
         );
-
       }
     }
 
@@ -170,6 +188,11 @@ function Quiz() {
     );
 
     setFinished(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   /* ========================================
@@ -177,38 +200,22 @@ function Quiz() {
   ======================================== */
 
   const nextQuestion = () => {
-
     if (!answerChecked) {
       return;
     }
 
     /*
-      IMPORTANTE:
+      handleAnswer() ya sumó el punto
+      de la respuesta actual.
 
-      handleAnswer() ya sumó el punto de la
-      respuesta actual.
-
-      Por eso, cuando estamos en la última
-      pregunta, NO debemos volver a sumar 1.
-
-      Antes teníamos:
-
-      score + (lastAnswerCorrect ? 1 : 0)
-
-      Eso provocaba resultados como:
-
-      4 / 3
-      133%
-      +40 XP
-
-      Ahora usamos directamente score.
+      Por eso, en la última pregunta
+      usamos directamente score.
     */
 
     if (
       currentQuestion ===
       questions.length - 1
     ) {
-
       const finalScore = score;
 
       finishQuiz(finalScore);
@@ -224,6 +231,11 @@ function Quiz() {
     setSelectedAnswer(null);
 
     setAnswerChecked(false);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   /* ========================================
@@ -231,7 +243,6 @@ function Quiz() {
   ======================================== */
 
   const restartQuiz = () => {
-
     setCurrentQuestion(0);
 
     setSelectedAnswer(null);
@@ -243,6 +254,11 @@ function Quiz() {
     setEarnedXP(0);
 
     setAnswerChecked(false);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   /* ========================================
@@ -250,7 +266,6 @@ function Quiz() {
   ======================================== */
 
   if (finished) {
-
     const percentage =
       Math.round(
         (score / questions.length) * 100
@@ -260,38 +275,28 @@ function Quiz() {
       "Sigue practicando. Cada intento te ayuda a mejorar.";
 
     if (percentage === 100) {
-
       resultMessage =
         "¡Excelente! Dominaste este quiz. 🌟";
-
     } else if (percentage >= 70) {
-
       resultMessage =
         "¡Muy buen trabajo! Ya estás dominando el tema. 🚀";
-
     } else if (percentage >= 50) {
-
       resultMessage =
         "¡Bien! Repasa un poco más y vuelve a intentarlo. 💪";
     }
 
     return (
       <div className="quiz-page">
-
         <Navbar />
 
         <main className="quiz-container">
-
-          <div className="quiz-result">
-
+          <div className="quiz-result quiz-scroll-reveal visible">
             <div className="result-icon">
-
               {percentage === 100
                 ? "🏆"
                 : percentage >= 70
                 ? "🎉"
                 : "💪"}
-
             </div>
 
             <span className="result-label">
@@ -307,13 +312,11 @@ function Quiz() {
             </p>
 
             <div className="result-score">
-
               {score}
 
               <span>
                 / {questions.length}
               </span>
-
             </div>
 
             <div className="result-percentage">
@@ -325,15 +328,12 @@ function Quiz() {
             </p>
 
             {earnedXP > 0 && (
-
-              <div className="xp-earned">
-
+              <div className="xp-earned quiz-scroll-reveal visible">
                 <span>
                   ⚡
                 </span>
 
                 <div>
-
                   <strong>
                     +{earnedXP} XP
                   </strong>
@@ -341,26 +341,18 @@ function Quiz() {
                   <small>
                     XP ganados
                   </small>
-
                 </div>
-
               </div>
-
             )}
 
             {earnedXP === 0 && (
-
-              <div className="already-completed">
-
+              <div className="already-completed quiz-scroll-reveal visible">
                 Este quiz ya había sido completado.
                 Puedes volver a intentarlo para practicar.
-
               </div>
-
             )}
 
-            <div className="result-actions">
-
+            <div className="result-actions quiz-scroll-reveal visible">
               <Link
                 to="/quizzes"
                 className="result-button primary"
@@ -374,13 +366,9 @@ function Quiz() {
               >
                 Intentar de nuevo
               </button>
-
             </div>
-
           </div>
-
         </main>
-
       </div>
     );
   }
@@ -403,13 +391,11 @@ function Quiz() {
 
   return (
     <div className="quiz-page">
-
       <Navbar />
 
       <main className="quiz-container">
 
-        <div className="quiz-top">
-
+        <div className="quiz-top quiz-scroll-reveal visible">
           <Link
             to="/quizzes"
             className="quiz-back"
@@ -418,7 +404,6 @@ function Quiz() {
           </Link>
 
           <div className="quiz-progress-info">
-
             <span>
               Pregunta{" "}
               {currentQuestion + 1} de{" "}
@@ -428,22 +413,18 @@ function Quiz() {
             <strong>
               {Math.round(progress)}%
             </strong>
-
           </div>
-
         </div>
 
-        <div className="quiz-progress-bar">
-
+        <div className="quiz-progress-bar quiz-scroll-reveal visible">
           <div
             style={{
               width: `${progress}%`,
             }}
           />
-
         </div>
 
-        <section className="question-card">
+        <section className="question-card quiz-scroll-reveal">
 
           <div className="question-number">
             PREGUNTA {currentQuestion + 1}
@@ -477,24 +458,16 @@ function Quiz() {
                   "answer-option";
 
                 if (answerChecked) {
-
                   if (correct) {
-
                     optionClass +=
                       " answer-correct";
-
                   } else if (selected) {
-
                     optionClass +=
                       " answer-incorrect";
-
                   }
-
                 } else if (selected) {
-
                   optionClass +=
                     " answer-selected";
-
                 }
 
                 return (
@@ -507,7 +480,6 @@ function Quiz() {
                     }
                     disabled={answerChecked}
                   >
-
                     <span className="answer-letter">
                       {String.fromCharCode(
                         65 + index
@@ -519,7 +491,6 @@ function Quiz() {
                     </span>
 
                     <span className="answer-status">
-
                       {answerChecked &&
                         correct &&
                         "✓"}
@@ -528,9 +499,7 @@ function Quiz() {
                         selected &&
                         !correct &&
                         "✕"}
-
                     </span>
-
                   </button>
                 );
               }
@@ -541,15 +510,13 @@ function Quiz() {
           {/* FEEDBACK */}
 
           {answerChecked && (
-
             <div
               className={
                 selectedIsCorrect
-                  ? "answer-feedback correct"
-                  : "answer-feedback incorrect"
+                  ? "answer-feedback correct quiz-scroll-reveal visible"
+                  : "answer-feedback incorrect quiz-scroll-reveal visible"
               }
             >
-
               <span>
                 {selectedIsCorrect
                   ? "✓"
@@ -557,7 +524,6 @@ function Quiz() {
               </span>
 
               <div>
-
                 <strong>
                   {selectedIsCorrect
                     ? "¡Respuesta correcta!"
@@ -569,11 +535,8 @@ function Quiz() {
                     ? "Muy bien. Continúa con la siguiente pregunta."
                     : `La respuesta correcta es: ${question.answer}`}
                 </p>
-
               </div>
-
             </div>
-
           )}
 
           {/* SIGUIENTE */}
@@ -583,18 +546,15 @@ function Quiz() {
             onClick={nextQuestion}
             disabled={!answerChecked}
           >
-
             {currentQuestion ===
             questions.length - 1
               ? "Ver resultado →"
               : "Siguiente pregunta →"}
-
           </button>
 
         </section>
 
       </main>
-
     </div>
   );
 }

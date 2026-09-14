@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
@@ -8,6 +9,38 @@ function Quizzes() {
   const user = JSON.parse(
     localStorage.getItem("novalearn_user")
   );
+
+  /* ========================================
+     SCROLL REVEAL
+  ======================================== */
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(
+      ".quizzes-scroll-reveal"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   if (!user) {
     window.location.href = "/login";
@@ -58,11 +91,14 @@ function Quizzes() {
 
       <main className="quizzes-container">
 
-        {/* HEADER */}
+        {/* ========================================
+            HEADER
+        ======================================== */}
 
-        <section className="quizzes-header">
+        <section className="quizzes-header quizzes-scroll-reveal">
 
-          <div>
+          <div className="quizzes-header-content">
+
             <span className="quizzes-label">
               RETOS Y DESAFÍOS
             </span>
@@ -75,6 +111,7 @@ function Quizzes() {
               Responde preguntas, demuestra tus
               conocimientos y gana XP.
             </p>
+
           </div>
 
           <div className="quiz-header-icon">
@@ -83,11 +120,14 @@ function Quizzes() {
 
         </section>
 
-        {/* STATS */}
+        {/* ========================================
+            STATS
+        ======================================== */}
 
         <section className="quiz-stats">
 
-          <div className="quiz-stat">
+          <div className="quiz-stat quizzes-scroll-reveal">
+
             <span>🏆</span>
 
             <div>
@@ -99,9 +139,11 @@ function Quizzes() {
                 Quizzes disponibles
               </small>
             </div>
+
           </div>
 
-          <div className="quiz-stat">
+          <div className="quiz-stat quizzes-scroll-reveal">
+
             <span>✓</span>
 
             <div>
@@ -113,9 +155,11 @@ function Quizzes() {
                 Quizzes completados
               </small>
             </div>
+
           </div>
 
-          <div className="quiz-stat">
+          <div className="quiz-stat quizzes-scroll-reveal">
+
             <span>❓</span>
 
             <div>
@@ -127,17 +171,21 @@ function Quizzes() {
                 Preguntas
               </small>
             </div>
+
           </div>
 
         </section>
 
-        {/* LISTA */}
+        {/* ========================================
+            LISTA
+        ======================================== */}
 
         <section className="quiz-list-section">
 
-          <div className="quiz-section-heading">
+          <div className="quiz-section-heading quizzes-scroll-reveal">
 
             <div>
+
               <span>
                 TUS QUIZZES
               </span>
@@ -145,14 +193,16 @@ function Quizzes() {
               <h2>
                 Elige un reto
               </h2>
+
             </div>
 
           </div>
 
           {availableQuizzes.length > 0 ? (
+
             <div className="quiz-grid">
 
-              {availableQuizzes.map((quiz) => {
+              {availableQuizzes.map((quiz, index) => {
 
                 const completed =
                   completedQuizzes.includes(
@@ -161,12 +211,15 @@ function Quizzes() {
 
                 return (
                   <article
-                    className={`quiz-card ${
+                    className={`quiz-card quizzes-scroll-reveal ${
                       completed
                         ? "quiz-card-completed"
                         : ""
                     }`}
                     key={quiz.id}
+                    style={{
+                      "--quiz-delay": `${index * 0.08}s`,
+                    }}
                   >
 
                     <div className="quiz-card-top">
@@ -231,8 +284,10 @@ function Quizzes() {
               })}
 
             </div>
+
           ) : (
-            <div className="quiz-empty">
+
+            <div className="quiz-empty quizzes-scroll-reveal">
 
               <span>🏆</span>
 
@@ -250,6 +305,7 @@ function Quizzes() {
               </Link>
 
             </div>
+
           )}
 
         </section>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
@@ -19,16 +20,42 @@ function Dashboard() {
     localStorage.getItem("novalearn_user")
   );
 
+  useEffect(() => {
+    if (!user) return;
+
+    const revealElements =
+      document.querySelectorAll(".dashboard-scroll-reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [user]);
+
   if (!user) {
     navigate("/login");
     return null;
   }
 
-  /*
-    courses puede estar guardado como objeto.
-    Lo convertimos a un array para poder trabajar
-    con filter/map/reduce.
-  */
   const allCourses = Array.isArray(courses)
     ? courses
     : Object.values(courses).flat();
@@ -90,12 +117,14 @@ function Dashboard() {
 
   return (
     <div className="dashboard-page">
+
       <Navbar />
 
       <main className="dashboard-container">
 
         {/* BIENVENIDA */}
-        <section className="dashboard-welcome">
+        <section className="dashboard-welcome dashboard-scroll-reveal">
+
           <div>
             <span className="dashboard-label">
               TU ESPACIO DE APRENDIZAJE
@@ -121,10 +150,12 @@ function Dashboard() {
               <strong>{xp} XP</strong>
             </div>
           </div>
+
         </section>
 
+
         {/* ESTADÍSTICAS */}
-        <section className="dashboard-stats">
+        <section className="dashboard-stats dashboard-scroll-reveal">
 
           <div className="dashboard-stat">
             <span className="stat-icon">⚡</span>
@@ -140,6 +171,7 @@ function Dashboard() {
 
             <div>
               <strong>{completedTotal}</strong>
+
               <small>
                 Lecciones completadas
               </small>
@@ -177,8 +209,9 @@ function Dashboard() {
 
         </section>
 
+
         {/* PROGRESO DEL NIVEL */}
-        <section className="level-card">
+        <section className="level-card dashboard-scroll-reveal">
 
           <div className="level-card-header">
 
@@ -216,9 +249,10 @@ function Dashboard() {
 
         </section>
 
+
         {/* CONTINUAR APRENDIENDO */}
         {continueCourse && (
-          <section className="continue-section">
+          <section className="continue-section dashboard-scroll-reveal">
 
             <div className="section-title">
 
@@ -296,8 +330,9 @@ function Dashboard() {
           </section>
         )}
 
+
         {/* ACCESOS RÁPIDOS */}
-        <section className="dashboard-actions">
+        <section className="dashboard-actions dashboard-scroll-reveal">
 
           <Link
             to="/courses"
@@ -307,6 +342,7 @@ function Dashboard() {
 
             <div>
               <h3>Mis cursos</h3>
+
               <p>
                 Explora todos tus cursos.
               </p>
@@ -314,6 +350,7 @@ function Dashboard() {
 
             <b>→</b>
           </Link>
+
 
           <Link
             to="/quizzes"
@@ -323,6 +360,7 @@ function Dashboard() {
 
             <div>
               <h3>Quizzes</h3>
+
               <p>
                 Pon a prueba lo aprendido.
               </p>
@@ -330,6 +368,7 @@ function Dashboard() {
 
             <b>→</b>
           </Link>
+
 
           <Link
             to="/videos"
@@ -339,6 +378,7 @@ function Dashboard() {
 
             <div>
               <h3>Videos</h3>
+
               <p>
                 Aprende con tutoriales.
               </p>
@@ -346,6 +386,7 @@ function Dashboard() {
 
             <b>→</b>
           </Link>
+
 
           <Link
             to="/nova"
@@ -355,6 +396,7 @@ function Dashboard() {
 
             <div>
               <h3>Hablar con Nova</h3>
+
               <p>
                 Resuelve tus dudas.
               </p>
@@ -365,8 +407,9 @@ function Dashboard() {
 
         </section>
 
+
         {/* PROGRESO GENERAL */}
-        <section className="overall-card">
+        <section className="overall-card dashboard-scroll-reveal">
 
           <div>
             <span>
@@ -397,6 +440,7 @@ function Dashboard() {
         </section>
 
       </main>
+
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -9,39 +9,47 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import Lesson from "./pages/Lesson";
 import Quiz from "./pages/Quiz";
+import Quizzes from "./pages/Quizzes";
+import Videos from "./pages/Videos";
 import Profile from "./pages/Profile";
 import Nova from "./pages/Nova";
-import Videos from "./pages/Videos";
-import Quizzes from "./pages/Quizzes";
+
+import "./index.css";
 
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-
+        {/* Público */}
         <Route path="/" element={<Landing />} />
-
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<Register />} />
 
+        {/* Configuración */}
         <Route path="/grades" element={<Grades />} />
 
-        <Route
-          path="/dashboard"
-          element={<Dashboard />}
-        />
+        {/* Plataforma */}
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/course/:id" element={<CourseDetail />} />
-        <Route path="/lesson/:id" element={<Lesson />} />
-        <Route path="/quiz/:id" element={<Quiz />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/nova" element={<Nova />} />
-        <Route path="/videos" element={<Videos />} />
-        <Route path="/quizzes" element={<Quizzes />} />
-      </Routes>
+        <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/lessons/:id" element={<Lesson />} />
 
+        {/* Evaluación */}
+        <Route path="/quizzes" element={<Quizzes />} />
+        <Route path="/quiz/:id" element={<Quiz />} />
+
+        {/* Recursos */}
+        <Route path="/videos" element={<Videos />} />
+
+        {/* Usuario */}
+        <Route path="/profile" element={<Profile />} />
+
+        {/* IA */}
+        <Route path="/nova" element={<Nova />} />
+
+        {/* Cualquier ruta desconocida */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }

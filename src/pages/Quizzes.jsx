@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
-import { lessons } from "../data/lessons";
 import { quizzes } from "../data/quizzes";
 import "./Quizzes.css";
 
@@ -11,13 +10,46 @@ function Quizzes() {
   );
 
   if (!user) {
+    window.location.href = "/login";
     return null;
   }
 
-  const grade = user.grade || 1;
-  const gradeCourses = courses[grade] || [];
+  const allCourses = Object.values(courses).flat();
+
+  const userCourses = allCourses.filter(
+    (course) =>
+      Number(course.grade) === Number(user.grade)
+  );
+
   const completedQuizzes =
     user.completedQuizzes || [];
+
+  /*
+    Obtenemos todos los quizzes relacionados
+    con los cursos del estudiante.
+  */
+
+  const availableQuizzes = [];
+
+  userCourses.forEach((course) => {
+    const courseQuizzes = Object.entries(quizzes)
+      .filter(([quizId]) =>
+        quizId.startsWith(`${course.id}-`)
+      )
+      .map(([quizId, questions]) => ({
+        id: quizId,
+        questions,
+        course,
+      }));
+
+    availableQuizzes.push(...courseQuizzes);
+  });
+
+  const totalQuestions = availableQuizzes.reduce(
+    (total, quiz) =>
+      total + quiz.questions.length,
+    0
+  );
 
   return (
     <div className="quizzes-page">
@@ -26,133 +58,201 @@ function Quizzes() {
 
       <main className="quizzes-container">
 
+        {/* HEADER */}
+
         <section className="quizzes-header">
 
-          <span>🧠 NOVALEARN</span>
+          <div>
+            <span className="quizzes-label">
+              RETOS Y DESAFÍOS
+            </span>
 
-          <h1>Quizzes y retos</h1>
+            <h1>
+              Pon a prueba lo aprendido 🏆
+            </h1>
 
-          <p>
-            Pon a prueba lo que aprendiste y
-            consigue XP.
-          </p>
+            <p>
+              Responde preguntas, demuestra tus
+              conocimientos y gana XP.
+            </p>
+          </div>
+
+          <div className="quiz-header-icon">
+            🏆
+          </div>
 
         </section>
 
-        <div className="quiz-summary">
+        {/* STATS */}
 
-          <div>
-            <strong>
-              {completedQuizzes.length}
-            </strong>
+        <section className="quiz-stats">
 
-            <span>Quizzes completados</span>
+          <div className="quiz-stat">
+            <span>🏆</span>
+
+            <div>
+              <strong>
+                {availableQuizzes.length}
+              </strong>
+
+              <small>
+                Quizzes disponibles
+              </small>
+            </div>
           </div>
 
-          <div>
-            <strong>+10 XP</strong>
+          <div className="quiz-stat">
+            <span>✓</span>
 
-            <span>Por respuesta correcta</span>
+            <div>
+              <strong>
+                {completedQuizzes.length}
+              </strong>
+
+              <small>
+                Quizzes completados
+              </small>
+            </div>
           </div>
 
-        </div>
+          <div className="quiz-stat">
+            <span>❓</span>
 
-        <div className="quizzes-courses">
+            <div>
+              <strong>
+                {totalQuestions}
+              </strong>
 
-          {gradeCourses.map((course) => {
+              <small>
+                Preguntas
+              </small>
+            </div>
+          </div>
 
-            const courseLessons =
-              lessons[course.id] || [];
+        </section>
 
-            return (
-              <section
-                className="quiz-course"
-                key={course.id}
-              >
+        {/* LISTA */}
 
-                <div className="quiz-course-title">
+        <section className="quiz-list-section">
 
-                  <span>
-                    {course.icon}
-                  </span>
+          <div className="quiz-section-heading">
 
-                  <div>
-                    <h2>{course.name}</h2>
-                    <p>
-                      {courseLessons.length} retos
-                    </p>
-                  </div>
+            <div>
+              <span>
+                TUS QUIZZES
+              </span>
 
-                </div>
+              <h2>
+                Elige un reto
+              </h2>
+            </div>
 
-                <div className="quiz-list">
+          </div>
 
-                  {courseLessons.map((lesson) => {
+          {availableQuizzes.length > 0 ? (
+            <div className="quiz-grid">
 
-                    const questionList =
-                      quizzes[lesson.id] || [];
+              {availableQuizzes.map((quiz) => {
 
-                    const completed =
-                      completedQuizzes.includes(
-                        lesson.id
-                      );
+                const completed =
+                  completedQuizzes.includes(
+                    quiz.id
+                  );
 
-                    return (
-                      <article
-                        className="quiz-item"
-                        key={lesson.id}
+                return (
+                  <article
+                    className={`quiz-card ${
+                      completed
+                        ? "quiz-card-completed"
+                        : ""
+                    }`}
+                    key={quiz.id}
+                  >
+
+                    <div className="quiz-card-top">
+
+                      <div className="quiz-icon">
+                        {quiz.course.icon}
+                      </div>
+
+                      {completed && (
+                        <span className="quiz-completed">
+                          ✓ Completado
+                        </span>
+                      )}
+
+                    </div>
+
+                    <div className="quiz-card-body">
+
+                      <span className="quiz-course">
+                        {quiz.course.name}
+                      </span>
+
+                      <h3>
+                        Quiz {quiz.id.split("-").pop()}
+                      </h3>
+
+                      <p>
+                        Demuestra cuánto has aprendido
+                        en esta sección.
+                      </p>
+
+                      <div className="quiz-card-info">
+
+                        <span>
+                          ❓ {quiz.questions.length} preguntas
+                        </span>
+
+                        <span>
+                          ⚡{" "}
+                          {quiz.questions.length * 10} XP
+                        </span>
+
+                      </div>
+
+                      <Link
+                        to={`/quiz/${quiz.id}`}
+                        className={
+                          completed
+                            ? "quiz-button completed"
+                            : "quiz-button"
+                        }
                       >
+                        {completed
+                          ? "Volver a intentar →"
+                          : "Comenzar quiz →"}
+                      </Link>
 
-                        <div className="quiz-item-icon">
-                          {completed
-                            ? "✅"
-                            : "🧠"}
-                        </div>
+                    </div>
 
-                        <div className="quiz-item-info">
+                  </article>
+                );
+              })}
 
-                          <span>
-                            {questionList.length} preguntas
-                          </span>
+            </div>
+          ) : (
+            <div className="quiz-empty">
 
-                          <h3>
-                            {lesson.title}
-                          </h3>
+              <span>🏆</span>
 
-                          <p>
-                            {completed
-                              ? "Quiz completado"
-                              : "Aún no completado"}
-                          </p>
+              <h2>
+                Aún no hay quizzes para tu grado
+              </h2>
 
-                        </div>
+              <p>
+                Estamos preparando nuevos retos
+                para ti.
+              </p>
 
-                        <Link
-                          to={`/quiz/${lesson.id}`}
-                          className={
-                            completed
-                              ? "quiz-retake"
-                              : "quiz-start"
-                          }
-                        >
-                          {completed
-                            ? "Repetir →"
-                            : "Comenzar →"}
-                        </Link>
+              <Link to="/courses">
+                Explorar mis cursos
+              </Link>
 
-                      </article>
-                    );
+            </div>
+          )}
 
-                  })}
-
-                </div>
-
-              </section>
-            );
-
-          })}
-
-        </div>
+        </section>
 
       </main>
 

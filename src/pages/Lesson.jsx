@@ -1,233 +1,388 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import { lessons } from "../data/lessons";
-import { quizzes } from "../data/quizzes";
-import {
-  XP_PER_LESSON,
-  getLevel,
-} from "../utils/gamification";
+import { XP_PER_LESSON, addXP } from "../utils/gamification";
 import "./Lesson.css";
 
 function Lesson() {
   const { id } = useParams();
-  const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("novalearn_user"));
+  const user = JSON.parse(
+    localStorage.getItem("novalearn_user")
+  );
 
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
-
-  let lesson = null;
-  let courseId = null;
-
-  Object.entries(lessons).forEach(([key, courseLessons]) => {
-    const found = courseLessons.find(
-      (item) => item.id === id
+  const [completed, setCompleted] = useState(() => {
+    const currentUser = JSON.parse(
+      localStorage.getItem("novalearn_user")
     );
 
-    if (found) {
-      lesson = found;
-      courseId = key;
-    }
+    return (
+      currentUser?.completedLessons?.includes(id) || false
+    );
   });
 
-  if (!lesson) {
-    return (
-      <div className="lesson-message">
-        <h2>Lección no encontrada 😕</h2>
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-        <Link to="/courses">
-          Volver a cursos
-        </Link>
+  /*
+    lessons está organizado por curso:
+
+    {
+      "mat-1": [...],
+      "com-1": [...],
+      "cie-1": [...]
+    }
+
+    Por eso buscamos la lección dentro
+    de todos los cursos.
+  */
+
+  let currentLesson = null;
+  let courseId = null;
+  let lessonIndex = 0;
+
+  Object.entries(lessons).forEach(
+    ([currentCourseId, courseLessons]) => {
+      const index = courseLessons.findIndex(
+        (lesson) => lesson.id === id
+      );
+
+      if (index !== -1) {
+        currentLesson = courseLessons[index];
+        courseId = currentCourseId;
+        lessonIndex = index;
+      }
+    }
+  );
+
+  /*
+    Si la lección no existe,
+    mostramos una pantalla en lugar de dejar
+    la aplicación en blanco.
+  */
+
+  if (!currentLesson) {
+    return (
+      <div className="lesson-page">
+        <Navbar />
+
+        <main className="lesson-container">
+          <div className="lesson-not-found">
+            <div className="lesson-not-found-icon">
+              📚
+            </div>
+
+            <h1>Lección no encontrada</h1>
+
+            <p>
+              No pudimos encontrar la lección que
+              estás buscando.
+            </p>
+
+            <Link to="/courses">
+              Volver a mis cursos
+            </Link>
+          </div>
+        </main>
       </div>
     );
   }
 
-  const completedLessons = user.completedLessons || [];
+  const courseLessons = lessons[courseId] || [];
 
-  const isCompleted = completedLessons.includes(id);
+  const previousLesson =
+    courseLessons[lessonIndex - 1];
 
-  const hasQuiz =
-    quizzes[id] && quizzes[id].length > 0;
+  const nextLesson =
+    courseLessons[lessonIndex + 1];
 
-  const completeLesson = () => {
-    // Evita ganar XP varias veces por la misma lección
-    if (isCompleted) {
+  /*
+    Detectamos si tenemos un video real de YouTube.
+    Por ahora lessons.js utiliza "REEMPLAZAR".
+  */
+
+  const hasVideo =
+    currentLesson.videoId &&
+    currentLesson.videoId !== "REEMPLAZAR";
+
+  const handleComplete = () => {
+    if (completed) {
       return;
     }
 
-    const currentXP = user.points || 0;
-
-    const newXP = currentXP + XP_PER_LESSON;
-
-    const updatedUser = {
-      ...user,
-
-      // Actualizamos XP
-      points: newXP,
-
-      // Actualizamos automáticamente el nivel
-      level: getLevel(newXP),
-
-      // Guardamos la lección como completada
-      completedLessons: [
-        ...completedLessons,
-        id,
-      ],
-    };
-
-    localStorage.setItem(
-      "novalearn_user",
-      JSON.stringify(updatedUser)
+    const currentUser = JSON.parse(
+      localStorage.getItem("novalearn_user")
     );
 
-    // Recargamos para actualizar toda la interfaz
-    window.location.reload();
+    if (!currentUser) {
+      return;
+    }
+
+    const completedLessons =
+      currentUser.completedLessons || [];
+
+    if (!completedLessons.includes(id)) {
+      const updatedUser = addXP(XP_PER_LESSON);
+
+      if (updatedUser) {
+        const finalUser = {
+          ...updatedUser,
+          completedLessons: [
+            ...completedLessons,
+            id,
+          ],
+        };
+
+        localStorage.setItem(
+          "novalearn_user",
+          JSON.stringify(finalUser)
+        );
+
+        setCompleted(true);
+      }
+    } else {
+      setCompleted(true);
+    }
   };
 
   return (
     <div className="lesson-page">
 
-      <header className="lesson-header">
+      <Navbar />
+
+      <main className="lesson-container">
+
+        {/* VOLVER */}
 
         <Link
-          to={`/course/${courseId}`}
+          to={`/courses/${courseId}`}
           className="lesson-back"
         >
           ← Volver al curso
         </Link>
 
-        <p>NovaLearn · Lección</p>
+        {/* HEADER */}
 
-        <h1>{lesson.title}</h1>
+        <section className="lesson-header">
 
-        <span>
-          ⏱️ {lesson.duration}
-        </span>
+          <div className="lesson-header-info">
 
-      </header>
+            <span className="lesson-label">
+              LECCIÓN {lessonIndex + 1}
+            </span>
 
-      <main className="lesson-content">
+            <h1>
+              {currentLesson.title}
+            </h1>
 
-        {/* VIDEO */}
+            <p>
+              {currentLesson.description}
+            </p>
 
-        <section className="video-container">
+            <div className="lesson-meta">
 
-          {lesson.videoId === "REEMPLAZAR" ? (
+              <span>
+                ⏱️ {currentLesson.duration}
+              </span>
 
-            <div className="video-placeholder">
+              <span>
+                ⚡ +{XP_PER_LESSON} XP
+              </span>
 
-              <div>🎥</div>
-
-              <h2>Video educativo</h2>
-
-              <p>
-                Aquí aparecerá el video de YouTube.
-              </p>
+              {completed && (
+                <span className="lesson-completed-badge">
+                  ✓ Completada
+                </span>
+              )}
 
             </div>
 
-          ) : (
+          </div>
 
-            <iframe
-              src={`https://www.youtube.com/embed/${lesson.videoId}`}
-              title={lesson.title}
-              allowFullScreen
-            ></iframe>
-
-          )}
-
-        </section>
-
-
-        {/* CONTENIDO */}
-
-        <section className="lesson-text">
-
-          <h2>📖 Contenido de la lección</h2>
-
-          <p>
-            {lesson.description}
-          </p>
-
-          <div className="lesson-learning">
-
-            <h3>🎯 ¿Qué aprenderás?</h3>
-
-            <p>
-              En esta lección aprenderás los conceptos
-              fundamentales del tema y podrás ponerlos
-              en práctica mediante un quiz.
-            </p>
-
+          <div className="lesson-number-large">
+            {String(lessonIndex + 1).padStart(2, "0")}
           </div>
 
         </section>
 
+        {/* VIDEO */}
 
-        {/* COMPLETAR */}
+        <section className="lesson-video-section">
 
-        <section className="lesson-complete">
+          <div className="lesson-section-heading">
+            <span>APRENDE</span>
+            <h2>Video de la lección</h2>
+          </div>
 
-          {!isCompleted ? (
+          {hasVideo ? (
+            <div className="lesson-video">
 
-            <button
-              onClick={completeLesson}
-              className="complete-button"
-            >
-              ✅ Completar lección +{XP_PER_LESSON} XP
-            </button>
+              <iframe
+                src={`https://www.youtube.com/embed/${currentLesson.videoId}`}
+                title={currentLesson.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
 
-          ) : (
-
-            <div className="completed-message">
-              ✅ Lección completada
             </div>
+          ) : (
+            <div className="video-placeholder">
 
+              <div className="video-placeholder-icon">
+                ▶
+              </div>
+
+              <h3>
+                Video educativo
+              </h3>
+
+              <p>
+                El tutorial de esta lección se
+                agregará próximamente.
+              </p>
+
+              <small>
+                Demo NovaLearn
+              </small>
+
+            </div>
           )}
 
         </section>
 
+        {/* INFORMACIÓN */}
 
-        {/* QUIZ */}
+        <section className="lesson-content-card">
 
-        {hasQuiz && (
+          <div className="lesson-section-heading">
+            <span>CONTENIDO</span>
+            <h2>
+              ¿Qué aprenderás?
+            </h2>
+          </div>
 
-          <section className="lesson-quiz-card">
+          <p>
+            En esta lección aprenderás los conceptos
+            principales de <strong>{currentLesson.title}</strong>.
+            Presta atención al contenido y luego
+            completa la lección para ganar XP.
+          </p>
 
-            <div className="quiz-card-icon">
-              🧠
-            </div>
+          <div className="lesson-tip">
+            <span>💡</span>
 
-            <div className="quiz-card-content">
-
-              <h2>
-                Pon a prueba tus conocimientos
-              </h2>
+            <div>
+              <strong>
+                Consejo de Nova
+              </strong>
 
               <p>
-                Responde las preguntas de esta lección
-                y consigue más XP.
+                Intenta explicar con tus propias
+                palabras lo que aprendiste. Eso te
+                ayudará a recordar mejor el contenido.
               </p>
-
-              <span>
-                {quizzes[id].length} preguntas ·
-                {" "}10 XP por respuesta correcta
-              </span>
-
             </div>
+          </div>
 
+        </section>
+
+        {/* COMPLETAR */}
+
+        <section className="lesson-complete-card">
+
+          <div>
+
+            <span>
+              {completed
+                ? "LECCIÓN COMPLETADA"
+                : "¿TERMINASTE LA LECCIÓN?"}
+            </span>
+
+            <h2>
+              {completed
+                ? "¡Excelente trabajo! 🎉"
+                : "Marca esta lección como completada"}
+            </h2>
+
+            <p>
+              {completed
+                ? `Ya ganaste ${XP_PER_LESSON} XP por esta lección.`
+                : `Completa la lección para ganar ${XP_PER_LESSON} XP.`}
+            </p>
+
+          </div>
+
+          <button
+            onClick={handleComplete}
+            disabled={completed}
+            className={
+              completed
+                ? "complete-button completed"
+                : "complete-button"
+            }
+          >
+            {completed
+              ? "✓ Completada"
+              : `Completar +${XP_PER_LESSON} XP`}
+          </button>
+
+        </section>
+
+        {/* NAVEGACIÓN */}
+
+        <div className="lesson-navigation">
+
+          {previousLesson ? (
             <Link
-              to={`/quiz/${id}`}
-              className="quiz-button"
+              to={`/lessons/${previousLesson.id}`}
+              className="lesson-nav-button secondary"
             >
-              Hacer quiz →
+              ←
+              <span>
+                <small>Anterior</small>
+                {previousLesson.title}
+              </span>
             </Link>
+          ) : (
+            <Link
+              to={`/courses/${courseId}`}
+              className="lesson-nav-button secondary"
+            >
+              ←
+              <span>
+                <small>Volver</small>
+                Al curso
+              </span>
+            </Link>
+          )}
 
-          </section>
+          {nextLesson ? (
+            <Link
+              to={`/lessons/${nextLesson.id}`}
+              className="lesson-nav-button primary"
+            >
+              <span>
+                <small>Siguiente</small>
+                {nextLesson.title}
+              </span>
+              →
+            </Link>
+          ) : (
+            <Link
+              to={`/courses/${courseId}`}
+              className="lesson-nav-button primary"
+            >
+              <span>
+                <small>Finalizar</small>
+                Volver al curso
+              </span>
+              →
+            </Link>
+          )}
 
-        )}
+        </div>
 
       </main>
 

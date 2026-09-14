@@ -10,11 +10,37 @@ function Videos() {
   );
 
   if (!user) {
+    window.location.href = "/login";
     return null;
   }
 
-  const grade = user.grade || 1;
-  const gradeCourses = courses[grade] || [];
+  const allCourses = Object.values(courses).flat();
+
+  const userCourses = allCourses.filter(
+    (course) =>
+      Number(course.grade) === Number(user.grade)
+  );
+
+  const videoLessons = [];
+
+  userCourses.forEach((course) => {
+    const courseLessons =
+      lessons[course.id] || [];
+
+    courseLessons.forEach((lesson) => {
+      videoLessons.push({
+        ...lesson,
+        course,
+      });
+    });
+  });
+
+  const availableVideos =
+    videoLessons.filter(
+      (lesson) =>
+        lesson.videoId &&
+        lesson.videoId !== "REEMPLAZAR"
+    );
 
   return (
     <div className="videos-page">
@@ -24,116 +50,152 @@ function Videos() {
       <main className="videos-container">
 
         <section className="videos-header">
-          <span>🎥 NOVALEARN</span>
 
-          <h1>Videos educativos</h1>
+          <div>
+            <span className="videos-label">
+              APRENDE CON VIDEOS
+            </span>
 
-          <p>
-            Aprende cada tema con videos y
-            complementa tus lecciones.
-          </p>
+            <h1>
+              Videos educativos 🎥
+            </h1>
+
+            <p>
+              Refuerza tus conocimientos con
+              tutoriales relacionados con tus cursos.
+            </p>
+          </div>
+
+          <div className="videos-header-icon">
+            🎥
+          </div>
+
         </section>
 
-        <div className="videos-grid">
+        <section className="videos-stats">
 
-          {gradeCourses.map((course) => {
-            const courseLessons =
-              lessons[course.id] || [];
+          <div>
+            <strong>
+              {videoLessons.length}
+            </strong>
 
-            return (
-              <section
-                className="video-course"
-                key={course.id}
-              >
+            <span>
+              Lecciones disponibles
+            </span>
+          </div>
 
-                <div className="video-course-header">
-                  <div>
-                    <span className="video-course-icon">
-                      {course.icon}
-                    </span>
+          <div>
+            <strong>
+              {availableVideos.length}
+            </strong>
 
-                    <div>
-                      <h2>{course.name}</h2>
+            <span>
+              Videos disponibles
+            </span>
+          </div>
 
-                      <p>
-                        {courseLessons.length} lecciones
-                      </p>
-                    </div>
-                  </div>
+          <div>
+            <strong>
+              {userCourses.length}
+            </strong>
 
-                  <Link
-                    to={`/course/${course.id}`}
-                    className="video-course-link"
-                  >
-                    Ver curso →
-                  </Link>
-                </div>
+            <span>
+              Cursos
+            </span>
+          </div>
 
-                <div className="video-lessons">
+        </section>
 
-                  {courseLessons.map((lesson) => (
+        <section className="videos-section">
 
-                    <article
-                      className="video-card"
-                      key={lesson.id}
-                    >
+          <div className="videos-section-heading">
 
-                      <div className="video-preview">
+            <span>
+              TUTORIALES
+            </span>
 
-                        {lesson.videoId === "REEMPLAZAR" ? (
+            <h2>
+              Aprende visualmente
+            </h2>
 
-                          <div className="video-placeholder-small">
-                            🎥
-                            <span>
-                              Video próximamente
-                            </span>
-                          </div>
+          </div>
 
-                        ) : (
+          <div className="videos-grid">
 
-                          <iframe
-                            src={`https://www.youtube.com/embed/${lesson.videoId}`}
-                            title={lesson.title}
-                            allowFullScreen
-                          ></iframe>
+            {videoLessons.map((lesson) => {
 
-                        )}
+              const hasVideo =
+                lesson.videoId &&
+                lesson.videoId !==
+                  "REEMPLAZAR";
 
-                      </div>
+              return (
+                <article
+                  className="video-card"
+                  key={lesson.id}
+                >
 
-                      <div className="video-card-content">
+                  <div className="video-card-preview">
+
+                    {hasVideo ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${lesson.videoId}`}
+                        title={lesson.title}
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div className="video-placeholder">
+
+                        <div>
+                          ▶
+                        </div>
 
                         <span>
-                          Lección · {lesson.duration}
+                          Video próximamente
                         </span>
 
-                        <h3>
-                          {lesson.title}
-                        </h3>
-
-                        <p>
-                          {lesson.description}
-                        </p>
-
-                        <Link
-                          to={`/lesson/${lesson.id}`}
-                        >
-                          Ir a la lección →
-                        </Link>
-
                       </div>
+                    )}
 
-                    </article>
+                  </div>
 
-                  ))}
+                  <div className="video-card-body">
 
-                </div>
+                    <span className="video-course">
+                      {lesson.course.name}
+                    </span>
 
-              </section>
-            );
-          })}
+                    <h3>
+                      {lesson.title}
+                    </h3>
 
-        </div>
+                    <p>
+                      {lesson.description}
+                    </p>
+
+                    <div className="video-card-footer">
+
+                      <span>
+                        ⏱️ {lesson.duration}
+                      </span>
+
+                      <Link
+                        to={`/lessons/${lesson.id}`}
+                      >
+                        Ver lección →
+                      </Link>
+
+                    </div>
+
+                  </div>
+
+                </article>
+              );
+            })}
+
+          </div>
+
+        </section>
 
       </main>
 

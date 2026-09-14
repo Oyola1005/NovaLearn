@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
 import { lessons } from "../data/lessons";
 import { getCourseProgress } from "../utils/progress";
@@ -8,131 +9,199 @@ function CourseDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("novalearn_user"));
+  const user = JSON.parse(
+    localStorage.getItem("novalearn_user")
+  );
 
   if (!user) {
     navigate("/login");
     return null;
   }
 
-  const userCourses = courses[user.grade] || [];
+  const allCourses = Object.values(courses).flat();
 
-  const course = userCourses.find(
+  const course = allCourses.find(
     (item) => item.id === id
   );
 
   if (!course) {
     return (
       <div className="course-detail-page">
-        <h1>Curso no encontrado</h1>
+        <Navbar />
 
-        <Link to="/courses">
-          Volver a cursos
-        </Link>
+        <main className="course-detail-container">
+          <div className="course-not-found">
+            <span>📚</span>
+
+            <h1>Curso no encontrado</h1>
+
+            <p>
+              No pudimos encontrar este curso.
+            </p>
+
+            <Link to="/courses">
+              Volver a mis cursos
+            </Link>
+          </div>
+        </main>
       </div>
     );
   }
 
-  const courseLessons = lessons[id] || [];
-  const completedLessons = user.completedLessons || [];
+  const courseLessons = lessons[course.id] || [];
+
+  const completedLessons =
+    user.completedLessons || [];
 
   const progress = getCourseProgress(
-    id,
+    course.id,
     completedLessons
   );
 
   return (
     <div className="course-detail-page">
-      <div className="course-detail-container">
+      <Navbar />
 
-        <Link to="/courses" className="course-detail-back">
-          ← Volver a cursos
+      <main className="course-detail-container">
+
+        <Link
+          to="/courses"
+          className="back-link"
+        >
+          ← Volver a mis cursos
         </Link>
 
-        <div className="course-detail-header">
+        <section className="course-detail-hero">
 
           <div className="course-detail-icon">
             {course.icon}
           </div>
 
           <div className="course-detail-info">
-            <p className="course-detail-eyebrow">
-              Curso
+
+            <span className="course-detail-category">
+              {course.category}
+            </span>
+
+            <h1>
+              {course.name}
+            </h1>
+
+            <p>
+              {course.description}
             </p>
 
-            <h1>{course.name}</h1>
+            <div className="course-detail-stats">
+              <span>
+                📖 {courseLessons.length} lecciones
+              </span>
 
-            <p>{course.description}</p>
+              <span>
+                ⚡ {courseLessons.length * 20} XP
+              </span>
 
-            <div className="course-detail-progress">
-              <div className="course-detail-progress-header">
-                <span>Progreso del curso</span>
-                <strong>{progress}%</strong>
-              </div>
-
-              <div className="course-detail-progress-bar">
-                <div
-                  className="course-detail-progress-fill"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+              <span>
+                🎯 {progress}% completado
+              </span>
             </div>
+
           </div>
 
-        </div>
+          <div className="course-detail-progress">
 
-        <div className="lessons-section">
+            <strong>
+              {progress}%
+            </strong>
 
-          <h2>Lecciones 📖</h2>
+            <span>
+              Progreso
+            </span>
+
+          </div>
+
+        </section>
+
+        <section className="lessons-section">
+
+          <div className="lessons-heading">
+            <div>
+              <span>
+                CONTENIDO DEL CURSO
+              </span>
+
+              <h2>
+                Lecciones
+              </h2>
+            </div>
+
+            <strong>
+              {courseLessons.filter((lesson) =>
+                completedLessons.includes(lesson.id)
+              ).length}{" "}
+              de {courseLessons.length}
+            </strong>
+          </div>
 
           <div className="lessons-list">
 
             {courseLessons.map((lesson, index) => {
 
-              const completed = completedLessons.includes(
-                lesson.id
-              );
+              const completed =
+                completedLessons.includes(
+                  lesson.id
+                );
 
               return (
-                <div
-                  className={`lesson-card ${
-                    completed ? "completed" : ""
-                  }`}
+                <Link
                   key={lesson.id}
+                  to={`/lessons/${lesson.id}`}
+                  className={`lesson-card ${
+                    completed
+                      ? "lesson-completed"
+                      : ""
+                  }`}
                 >
 
                   <div className="lesson-number">
-                    {completed ? "✓" : index + 1}
+                    {completed
+                      ? "✓"
+                      : String(index + 1).padStart(2, "0")}
                   </div>
 
-                  <div className="lesson-info">
-
-                    <h3>{lesson.title}</h3>
-
-                    <p>{lesson.description}</p>
+                  <div className="lesson-content">
 
                     <span>
-                      ⏱️ {lesson.duration}
+                      LECCIÓN {index + 1}
                     </span>
+
+                    <h3>
+                      {lesson.title}
+                    </h3>
+
+                    <p>
+                      {lesson.description}
+                    </p>
 
                   </div>
 
-                  <Link
-                    to={`/lesson/${lesson.id}`}
-                    className="lesson-button"
-                  >
-                    {completed ? "Repasar" : "Empezar"}
-                  </Link>
+                  <div className="lesson-duration">
+                    <span>⏱️</span>
+                    {lesson.duration}
+                  </div>
 
-                </div>
+                  <div className="lesson-arrow">
+                    →
+                  </div>
+
+                </Link>
               );
             })}
 
           </div>
 
-        </div>
+        </section>
 
-      </div>
+      </main>
     </div>
   );
 }

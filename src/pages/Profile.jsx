@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getLevelProgress } from "../utils/gamification";
+import Navbar from "../components/Navbar";
+import { getLevel } from "../utils/gamification";
 import "./Profile.css";
 
 function Profile() {
@@ -15,136 +16,178 @@ function Profile() {
   }
 
   const xp = user.points || 0;
-  const level = user.level || 1;
+  const level = getLevel(xp);
 
-  const progress = getLevelProgress(xp);
+  const completedLessons =
+    user.completedLessons || [];
 
-  const lessonsCompleted =
-    user.completedLessons?.length || 0;
+  const completedQuizzes =
+    user.completedQuizzes || [];
 
-  const quizzesCompleted =
-    user.completedQuizzes?.length || 0;
+  const handleLogout = () => {
+    localStorage.removeItem(
+      "novalearn_logged"
+    );
+
+    navigate("/login");
+  };
 
   return (
     <div className="profile-page">
 
-      <header className="profile-header">
+      <Navbar />
 
-        <Link to="/dashboard">
-          ← Dashboard
-        </Link>
+      <main className="profile-container">
 
-        <h1>Mi perfil 👤</h1>
-
-      </header>
-
-      <main className="profile-content">
-
-        <section className="profile-card">
+        <section className="profile-header">
 
           <div className="profile-avatar">
-            {user.name?.charAt(0).toUpperCase()}
+            {user.name
+              ?.charAt(0)
+              ?.toUpperCase() || "U"}
           </div>
 
-          <h2>{user.name}</h2>
+          <div>
 
-          <p>{user.email}</p>
+            <span>
+              MI PERFIL
+            </span>
 
-          <span>
-            {user.grade}° de secundaria
-          </span>
+            <h1>
+              {user.name}
+            </h1>
 
-        </section>
+            <p>
+              {user.email}
+            </p>
 
-
-        <section className="stats-grid">
-
-          <div className="profile-stat">
-            <strong>⭐ {xp}</strong>
-            <span>XP total</span>
-          </div>
-
-          <div className="profile-stat">
-            <strong>🆙 {level}</strong>
-            <span>Nivel</span>
-          </div>
-
-          <div className="profile-stat">
-            <strong>📖 {lessonsCompleted}</strong>
-            <span>Lecciones</span>
-          </div>
-
-          <div className="profile-stat">
-            <strong>🧠 {quizzesCompleted}</strong>
-            <span>Quizzes</span>
           </div>
 
         </section>
 
+        <section className="profile-level">
 
-        <section className="level-card">
-
-          <div className="level-title">
-            <span>Nivel {level}</span>
-            <strong>{progress}/100 XP</strong>
+          <div className="profile-level-number">
+            {level}
           </div>
 
-          <div className="level-bar">
-            <div
-              style={{
-                width: `${progress}%`
-              }}
-            />
+          <div className="profile-level-info">
+
+            <span>
+              NIVEL ACTUAL
+            </span>
+
+            <h2>
+              Nivel {level}
+            </h2>
+
+            <p>
+              {xp} XP acumulados
+            </p>
+
           </div>
 
-          <p>
-            ¡Sigue aprendiendo para alcanzar el siguiente nivel!
-          </p>
+          <Link to="/courses">
+            Continuar aprendiendo →
+          </Link>
 
         </section>
 
+        <section className="profile-stats">
 
-        <section className="achievements">
+          <div>
+            <span>⚡</span>
+            <strong>{xp}</strong>
+            <small>XP acumulados</small>
+          </div>
 
-          <h2>🏆 Logros</h2>
+          <div>
+            <span>📚</span>
+            <strong>
+              {completedLessons.length}
+            </strong>
+            <small>
+              Lecciones completadas
+            </small>
+          </div>
 
-          <div className="achievement-grid">
+          <div>
+            <span>🏆</span>
+            <strong>
+              {completedQuizzes.length}
+            </strong>
+            <small>
+              Quizzes completados
+            </small>
+          </div>
 
-            <div className={
-              lessonsCompleted >= 1
-                ? "achievement unlocked"
-                : "achievement"
-            }>
-              📖
-              <span>Primera lección</span>
+          <div>
+            <span>🔥</span>
+            <strong>
+              {user.streak || 0}
+            </strong>
+            <small>
+              Días de racha
+            </small>
+          </div>
+
+        </section>
+
+        <section className="profile-information">
+
+          <div className="profile-card">
+
+            <span>
+              INFORMACIÓN
+            </span>
+
+            <h2>
+              Datos del estudiante
+            </h2>
+
+            <div className="profile-row">
+              <span>
+                Nombre
+              </span>
+
+              <strong>
+                {user.name}
+              </strong>
             </div>
 
-            <div className={
-              quizzesCompleted >= 1
-                ? "achievement unlocked"
-                : "achievement"
-            }>
-              🧠
-              <span>Primer quiz</span>
+            <div className="profile-row">
+              <span>
+                Correo
+              </span>
+
+              <strong>
+                {user.email}
+              </strong>
             </div>
 
-            <div className={
-              xp >= 100
-                ? "achievement unlocked"
-                : "achievement"
-            }>
-              ⭐
-              <span>100 XP</span>
+            <div className="profile-row">
+              <span>
+                Grado
+              </span>
+
+              <strong>
+                {user.grade}° de secundaria
+              </strong>
             </div>
 
-            <div className={
-              xp >= 500
-                ? "achievement unlocked"
-                : "achievement"
-            }>
-              🚀
-              <span>500 XP</span>
-            </div>
+          </div>
+
+          <div className="profile-actions">
+
+            <Link to="/dashboard">
+              ← Volver al Dashboard
+            </Link>
+
+            <button
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </button>
 
           </div>
 

@@ -32,3 +32,19 @@ a {
   color: inherit;
   text-decoration: none;
 }
+/* ========================================
+   SMOOTH SCROLL
+======================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Evita que la sección quede escondida
+   detrás del Navbar */
+
+#inicio,
+#caracteristicas,
+#como-funciona {
+  scroll-margin-top: 80px;
+}

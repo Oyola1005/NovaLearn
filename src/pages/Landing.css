@@ -1,8 +1,15 @@
+/* ========================================
+   LANDING
+======================================== */
+
 .landing {
   overflow: hidden;
+  background: white;
 }
 
-/* HERO */
+/* ========================================
+   HERO
+======================================== */
 
 .hero {
   min-height: 680px;
@@ -11,13 +18,23 @@
   align-items: center;
   justify-content: space-between;
   gap: 60px;
+
   background:
-    radial-gradient(circle at 80% 20%, rgba(108, 99, 255, 0.14), transparent 35%),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(108, 99, 255, 0.14),
+      transparent 35%
+    ),
     #f8fafc;
+
+  position: relative;
 }
+
+/* entrada del contenido */
 
 .hero-content {
   max-width: 580px;
+  animation: heroContentIn 0.8s ease-out both;
 }
 
 .hero-badge {
@@ -31,6 +48,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  animation: fadeUp 0.7s ease-out 0.1s both;
 }
 
 .hero h1 {
@@ -38,6 +57,8 @@
   line-height: 0.96;
   letter-spacing: -4px;
   color: #18233a;
+
+  animation: fadeUp 0.7s ease-out 0.2s both;
 }
 
 .hero h1 span {
@@ -47,15 +68,24 @@
 .hero-content > p {
   max-width: 500px;
   margin: 28px 0;
+
   color: #687386;
   font-size: 17px;
   line-height: 1.7;
+
+  animation: fadeUp 0.7s ease-out 0.3s both;
 }
+
+/* ========================================
+   BUTTONS
+======================================== */
 
 .hero-buttons {
   display: flex;
   gap: 13px;
   margin-bottom: 40px;
+
+  animation: fadeUp 0.7s ease-out 0.4s both;
 }
 
 .primary-button,
@@ -63,10 +93,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: 14px 22px;
   border-radius: 11px;
+
   font-size: 14px;
   font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
 .primary-button {
@@ -75,21 +112,44 @@
   box-shadow: 0 10px 25px rgba(108, 99, 255, 0.2);
 }
 
+.primary-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 32px rgba(108, 99, 255, 0.3);
+}
+
 .secondary-button {
   background: white;
   border: 1px solid #e1e6ee;
   color: #455066;
 }
 
+.secondary-button:hover {
+  transform: translateY(-3px);
+  border-color: #d3d0ff;
+  box-shadow: 0 10px 25px rgba(31, 42, 61, 0.08);
+}
+
+/* ========================================
+   HERO STATS
+======================================== */
+
 .hero-stats {
   display: flex;
   gap: 35px;
+
+  animation: fadeUp 0.7s ease-out 0.5s both;
 }
 
 .hero-stats div {
   display: flex;
   flex-direction: column;
   gap: 3px;
+
+  transition: transform 0.25s ease;
+}
+
+.hero-stats div:hover {
+  transform: translateY(-3px);
 }
 
 .hero-stats strong {
@@ -102,30 +162,57 @@
   color: #8992a2;
 }
 
-/* HERO VISUAL */
+/* ========================================
+   HERO VISUAL
+======================================== */
 
 .hero-visual {
   width: 440px;
   min-width: 440px;
   height: 500px;
+
   position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  animation: visualIn 1s ease-out 0.15s both;
 }
+
+/* ========================================
+   MAIN LEARNING CARD
+======================================== */
 
 .learning-card {
   width: 310px;
   padding: 25px;
+
   background: white;
   border: 1px solid #e9edf3;
   border-radius: 24px;
+
   box-shadow: 0 25px 70px rgba(31, 42, 61, 0.12);
+
+  position: relative;
+  z-index: 2;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+  animation: cardFloat 5s ease-in-out infinite;
+}
+
+.learning-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 30px 80px rgba(31, 42, 61, 0.16);
 }
 
 .learning-card-top {
   display: flex;
   justify-content: space-between;
+
   font-size: 12px;
   color: #8992a2;
 }
@@ -135,33 +222,49 @@
   font-weight: 700;
 }
 
+/* ========================================
+   PROGRESS CIRCLE
+======================================== */
+
 .progress-circle {
   width: 145px;
   height: 145px;
+
   margin: 25px auto;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background: conic-gradient(
     #6c63ff 0deg 260deg,
     #eeeef8 260deg 360deg
   );
+
   position: relative;
+
+  animation: progressAppear 1.2s ease-out 0.5s both;
 }
 
 .progress-circle::after {
   content: "";
+
   position: absolute;
+
   width: 115px;
   height: 115px;
+
   border-radius: 50%;
+
   background: white;
 }
 
 .progress-circle div {
   position: relative;
   z-index: 2;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -191,9 +294,11 @@
 .mini-course > span {
   width: 40px;
   height: 40px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 10px;
   background: #f0efff;
 }
@@ -216,39 +321,79 @@
 .mini-progress {
   width: 100%;
   height: 6px;
+
   margin: 15px 0;
+
   border-radius: 20px;
   background: #eef0f4;
+
+  overflow: hidden;
 }
 
 .mini-progress div {
   width: 70%;
   height: 100%;
+
   border-radius: inherit;
   background: #6c63ff;
+
+  animation: progressBarIn 1.2s ease-out 0.8s both;
 }
 
 .learning-card button {
   width: 100%;
   padding: 11px;
+
   border: 0;
   border-radius: 9px;
+
   background: #f1f0ff;
   color: #6259df;
+
   font-size: 11px;
   font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
 }
+
+.learning-card button:hover {
+  transform: translateY(-2px);
+  background: #e8e6ff;
+}
+
+/* ========================================
+   FLOATING CARDS
+======================================== */
 
 .floating-card {
   position: absolute;
+
   padding: 13px 16px;
+
   display: flex;
   align-items: center;
   gap: 10px;
+
   background: white;
   border: 1px solid #edf0f4;
   border-radius: 14px;
+
   box-shadow: 0 15px 35px rgba(31, 42, 61, 0.1);
+
+  z-index: 3;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.floating-card:hover {
+  transform: translateY(-7px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(31, 42, 61, 0.14);
 }
 
 .floating-card > span {
@@ -273,14 +418,20 @@
 .card-one {
   top: 65px;
   left: -5px;
+
+  animation: floatingOne 4s ease-in-out infinite;
 }
 
 .card-two {
   bottom: 65px;
   right: -10px;
+
+  animation: floatingTwo 4.5s ease-in-out infinite;
 }
 
-/* SECTIONS */
+/* ========================================
+   SECTIONS
+======================================== */
 
 .features-section,
 .how-section {
@@ -290,32 +441,45 @@
 .section-heading {
   max-width: 650px;
   margin: 0 auto 60px;
+
   text-align: center;
+
+  animation: fadeUp 0.7s ease-out both;
 }
 
 .section-heading > span {
   color: #6c63ff;
+
   font-size: 11px;
   font-weight: 800;
+
   letter-spacing: 1.5px;
 }
 
 .section-heading h2 {
   margin: 12px 0;
+
   color: #18233a;
+
   font-size: 38px;
   letter-spacing: -1.5px;
 }
 
 .section-heading p {
   color: #7b8596;
+
   font-size: 15px;
   line-height: 1.7;
 }
 
+/* ========================================
+   FEATURE CARDS
+======================================== */
+
 .features-grid {
   max-width: 1100px;
   margin: auto;
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -323,20 +487,48 @@
 
 .feature-card {
   padding: 28px;
+
   background: white;
   border: 1px solid #e9edf3;
   border-radius: 18px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+
+  border-color: #dedbff;
+
+  box-shadow:
+    0 18px 40px rgba(31, 42, 61, 0.09);
 }
 
 .feature-icon {
   width: 48px;
   height: 48px;
+
   margin-bottom: 20px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 13px;
+
   font-size: 22px;
+
+  transition:
+    transform 0.3s ease,
+    scale 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: translateY(-3px) rotate(-4deg);
+  scale: 1.08;
 }
 
 .purple {
@@ -362,11 +554,14 @@
 
 .feature-card p {
   color: #80899a;
+
   font-size: 12px;
   line-height: 1.7;
 }
 
-/* STEPS */
+/* ========================================
+   STEPS
+======================================== */
 
 .how-section {
   background: #f1f3f8;
@@ -375,16 +570,39 @@
 .steps {
   max-width: 1000px;
   margin: auto;
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
 }
 
+.step {
+  padding: 10px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-6px);
+}
+
 .step-number {
   margin-bottom: 20px;
+
   color: #6c63ff;
+
   font-size: 13px;
   font-weight: 800;
+
+  transition:
+    transform 0.3s ease,
+    letter-spacing 0.3s ease;
+}
+
+.step:hover .step-number {
+  transform: translateX(5px);
+  letter-spacing: 2px;
 }
 
 .step h3 {
@@ -394,31 +612,44 @@
 
 .step p {
   color: #7c8697;
+
   font-size: 12px;
   line-height: 1.7;
 }
 
-/* AI */
+/* ========================================
+   AI SECTION
+======================================== */
 
 .ai-section {
   padding: 100px 10%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 100px;
+
   background: #1d2538;
   color: white;
+
+  position: relative;
 }
 
 .ai-content {
   max-width: 480px;
+
+  animation: fadeUp 0.8s ease-out both;
 }
 
 .ai-label {
   margin-bottom: 20px;
+
   color: #aaa4ff;
+
   font-size: 11px;
   font-weight: 800;
+
   letter-spacing: 1px;
 }
 
@@ -434,36 +665,55 @@
 
 .ai-content p {
   margin: 22px 0 28px;
+
   color: #aab1c0;
+
   line-height: 1.7;
   font-size: 14px;
 }
 
+/* ========================================
+   NOVA CHAT
+======================================== */
+
 .ai-chat {
   width: 330px;
+
   overflow: hidden;
+
   background: white;
   border-radius: 20px;
+
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+
+  animation: chatFloat 5s ease-in-out infinite;
 }
 
 .chat-header {
   padding: 16px;
+
   display: flex;
   align-items: center;
+
   gap: 10px;
+
   border-bottom: 1px solid #edf0f4;
 }
 
 .nova-avatar {
   width: 35px;
   height: 35px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 10px;
+
   background: #6c63ff;
   color: white;
+
+  animation: novaPulse 2.5s ease-in-out infinite;
 }
 
 .chat-header div:nth-child(2) {
@@ -485,101 +735,169 @@
 .online-dot {
   width: 7px;
   height: 7px;
+
   margin-left: auto;
+
   border-radius: 50%;
+
   background: #45c77a;
+
+  animation: onlinePulse 2s ease-in-out infinite;
 }
 
 .chat-body {
   padding: 18px;
+
   display: flex;
   flex-direction: column;
+
   gap: 12px;
 }
 
 .nova-message,
 .student-message {
   max-width: 85%;
+
   padding: 11px 13px;
+
   border-radius: 12px;
+
   font-size: 10px;
   line-height: 1.6;
 }
 
 .nova-message {
   align-self: flex-start;
+
   background: #f1f0ff;
   color: #45416f;
+
+  animation: messageIn 0.5s ease-out both;
 }
 
 .student-message {
   align-self: flex-end;
+
   background: #6c63ff;
   color: white;
+
+  animation: messageIn 0.5s ease-out 0.25s both;
+}
+
+.chat-body .nova-message:last-child {
+  animation-delay: 0.5s;
 }
 
 .chat-input {
   margin: 0 15px 15px;
   padding: 11px;
+
   display: flex;
   justify-content: space-between;
+
   border: 1px solid #e6e9ef;
   border-radius: 9px;
+
   color: #a4aab5;
+
   font-size: 9px;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.chat-input:hover {
+  border-color: #cfcaff;
+  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.08);
 }
 
 .chat-input span {
   color: #6c63ff;
+
+  transition: transform 0.25s ease;
 }
 
-/* CTA */
+.chat-input:hover span {
+  transform: translateX(3px);
+}
+
+/* ========================================
+   CTA
+======================================== */
 
 .cta-section {
   padding: 80px 10%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 40px;
 }
 
 .cta-section > div > span {
   color: #6c63ff;
+
   font-size: 10px;
   font-weight: 800;
+
   letter-spacing: 1px;
 }
 
 .cta-section h2 {
   max-width: 600px;
+
   margin-top: 10px;
+
   font-size: 30px;
   line-height: 1.2;
 }
 
 .cta-button {
   padding: 14px 22px;
+
   border-radius: 10px;
+
   background: #6c63ff;
   color: white;
+
   font-size: 13px;
   font-weight: 700;
+
   white-space: nowrap;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-/* FOOTER */
+.cta-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 30px rgba(108, 99, 255, 0.25);
+}
+
+/* ========================================
+   FOOTER
+======================================== */
 
 .footer {
   padding: 35px 8%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   border-top: 1px solid #e7ebf0;
 }
 
 .footer-brand p {
   margin-top: 8px;
+
   color: #9199a8;
+
   font-size: 10px;
 }
 
@@ -588,7 +906,151 @@
   font-size: 10px;
 }
 
-/* RESPONSIVE */
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroContentIn {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes visualIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatingOne {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(-1deg);
+  }
+}
+
+@keyframes floatingTwo {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(9px) rotate(1deg);
+  }
+}
+
+@keyframes progressAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.7) rotate(-30deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes progressBarIn {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 70%;
+  }
+}
+
+@keyframes chatFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes novaPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(108, 99, 255, 0);
+  }
+
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 6px rgba(108, 99, 255, 0.1);
+  }
+}
+
+@keyframes onlinePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
 
 @media (max-width: 1000px) {
   .hero {
@@ -626,6 +1088,10 @@
   }
 }
 
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 600px) {
   .hero {
     padding: 60px 5%;
@@ -639,7 +1105,20 @@
   .hero-visual {
     width: 100%;
     min-width: 0;
+
     transform: scale(0.85);
+  }
+
+  .floating-card {
+    transform: scale(0.9);
+  }
+
+  .card-one {
+    left: -15px;
+  }
+
+  .card-two {
+    right: -15px;
   }
 
   .features-grid,
@@ -652,6 +1131,10 @@
     padding: 80px 5%;
   }
 
+  .section-heading h2 {
+    font-size: 32px;
+  }
+
   .ai-section {
     padding: 80px 5%;
   }
@@ -660,8 +1143,111 @@
     font-size: 35px;
   }
 
+  .ai-chat {
+    width: min(330px, 100%);
+  }
+
   .footer {
     flex-direction: column;
     gap: 25px;
+    text-align: center;
   }
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* ========================================
+   SCROLL REVEAL
+======================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(45px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FEATURES: aparecen una por una */
+
+.features-grid .feature-card {
+  opacity: 0;
+  transform: translateY(30px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.features-section.visible .feature-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.features-section.visible .feature-card:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.features-section.visible .feature-card:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.features-section.visible .feature-card:nth-child(3) {
+  transition-delay: 0.25s;
+}
+
+.features-section.visible .feature-card:nth-child(4) {
+  transition-delay: 0.35s;
+}
+
+/* PASOS: aparecen uno por uno */
+
+.steps .step {
+  opacity: 0;
+  transform: translateY(25px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.how-section.visible .step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.how-section.visible .step:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.how-section.visible .step:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.how-section.visible .step:nth-child(3) {
+  transition-delay: 0.25s;
+}
+
+.how-section.visible .step:nth-child(4) {
+  transition-delay: 0.35s;
 }

@@ -23,7 +23,8 @@ function Quiz() {
   const [selectedAnswer, setSelectedAnswer] =
     useState(null);
 
-  const [score, setScore] = useState(0);
+  const [score, setScore] =
+    useState(0);
 
   const [finished, setFinished] =
     useState(false);
@@ -41,13 +42,18 @@ function Quiz() {
   if (questions.length === 0) {
     return (
       <div className="quiz-page">
+
         <Navbar />
 
         <main className="quiz-container">
+
           <div className="quiz-not-found">
+
             <div>🏆</div>
 
-            <h1>Quiz no encontrado</h1>
+            <h1>
+              Quiz no encontrado
+            </h1>
 
             <p>
               No encontramos este quiz.
@@ -56,15 +62,24 @@ function Quiz() {
             <Link to="/quizzes">
               Volver a quizzes
             </Link>
+
           </div>
+
         </main>
+
       </div>
     );
   }
 
-  const question = questions[currentQuestion];
+  const question =
+    questions[currentQuestion];
+
+  /* ========================================
+     COMPROBAR RESPUESTA
+  ======================================== */
 
   const isCorrectAnswer = (answerIndex) => {
+
     if (answerIndex === null) {
       return false;
     }
@@ -78,31 +93,36 @@ function Quiz() {
     );
   };
 
+  /* ========================================
+     SELECCIONAR RESPUESTA
+  ======================================== */
+
   const handleAnswer = (answerIndex) => {
+
     if (answerChecked) {
       return;
     }
 
     setSelectedAnswer(answerIndex);
+
     setAnswerChecked(true);
 
     if (isCorrectAnswer(answerIndex)) {
+
       setScore(
         (previousScore) =>
           previousScore + 1
       );
+
     }
   };
 
-  /*
-    Terminamos el quiz utilizando el score
-    que recibimos como argumento.
-
-    Esto evita el problema de React de actualizar
-    el estado de score de forma asíncrona.
-  */
+  /* ========================================
+     FINALIZAR QUIZ
+  ======================================== */
 
   const finishQuiz = (finalScore) => {
+
     const xp =
       finalScore * XP_PER_QUIZ_ANSWER;
 
@@ -123,11 +143,14 @@ function Quiz() {
     let updatedUser = currentUser;
 
     if (!alreadyCompleted) {
+
       const xpUser = addXP(xp);
 
       if (xpUser) {
+
         updatedUser = {
           ...xpUser,
+
           completedQuizzes: [
             ...completedQuizzes,
             id,
@@ -138,6 +161,7 @@ function Quiz() {
           "novalearn_user",
           JSON.stringify(updatedUser)
         );
+
       }
     }
 
@@ -148,29 +172,44 @@ function Quiz() {
     setFinished(true);
   };
 
+  /* ========================================
+     SIGUIENTE PREGUNTA
+  ======================================== */
+
   const nextQuestion = () => {
+
     if (!answerChecked) {
       return;
     }
 
     /*
-      Si es la última pregunta tenemos que comprobar
-      manualmente si la respuesta actual fue correcta,
-      porque setScore todavía puede no haberse actualizado.
+      IMPORTANTE:
+
+      handleAnswer() ya sumó el punto de la
+      respuesta actual.
+
+      Por eso, cuando estamos en la última
+      pregunta, NO debemos volver a sumar 1.
+
+      Antes teníamos:
+
+      score + (lastAnswerCorrect ? 1 : 0)
+
+      Eso provocaba resultados como:
+
+      4 / 3
+      133%
+      +40 XP
+
+      Ahora usamos directamente score.
     */
 
     if (
       currentQuestion ===
       questions.length - 1
     ) {
-      const lastAnswerCorrect =
-        isCorrectAnswer(selectedAnswer);
 
-      const finalScore =
-        score +
-        (lastAnswerCorrect ? 1 : 0);
-
-      setScore(finalScore);
+      const finalScore = score;
 
       finishQuiz(finalScore);
 
@@ -183,37 +222,55 @@ function Quiz() {
     );
 
     setSelectedAnswer(null);
+
     setAnswerChecked(false);
   };
+
+  /* ========================================
+     REINICIAR QUIZ
+  ======================================== */
 
   const restartQuiz = () => {
+
     setCurrentQuestion(0);
+
     setSelectedAnswer(null);
+
     setScore(0);
+
     setFinished(false);
+
     setEarnedXP(0);
+
     setAnswerChecked(false);
   };
 
-  /*
-    RESULTADO
-  */
+  /* ========================================
+     RESULTADO
+  ======================================== */
 
   if (finished) {
-    const percentage = Math.round(
-      (score / questions.length) * 100
-    );
+
+    const percentage =
+      Math.round(
+        (score / questions.length) * 100
+      );
 
     let resultMessage =
       "Sigue practicando. Cada intento te ayuda a mejorar.";
 
     if (percentage === 100) {
+
       resultMessage =
         "¡Excelente! Dominaste este quiz. 🌟";
+
     } else if (percentage >= 70) {
+
       resultMessage =
         "¡Muy buen trabajo! Ya estás dominando el tema. 🚀";
+
     } else if (percentage >= 50) {
+
       resultMessage =
         "¡Bien! Repasa un poco más y vuelve a intentarlo. 💪";
     }
@@ -228,11 +285,13 @@ function Quiz() {
           <div className="quiz-result">
 
             <div className="result-icon">
+
               {percentage === 100
                 ? "🏆"
                 : percentage >= 70
                 ? "🎉"
                 : "💪"}
+
             </div>
 
             <span className="result-label">
@@ -248,10 +307,13 @@ function Quiz() {
             </p>
 
             <div className="result-score">
+
               {score}
+
               <span>
                 / {questions.length}
               </span>
+
             </div>
 
             <div className="result-percentage">
@@ -263,11 +325,15 @@ function Quiz() {
             </p>
 
             {earnedXP > 0 && (
+
               <div className="xp-earned">
 
-                <span>⚡</span>
+                <span>
+                  ⚡
+                </span>
 
                 <div>
+
                   <strong>
                     +{earnedXP} XP
                   </strong>
@@ -275,16 +341,22 @@ function Quiz() {
                   <small>
                     XP ganados
                   </small>
+
                 </div>
 
               </div>
+
             )}
 
             {earnedXP === 0 && (
+
               <div className="already-completed">
+
                 Este quiz ya había sido completado.
                 Puedes volver a intentarlo para practicar.
+
               </div>
+
             )}
 
             <div className="result-actions">
@@ -313,6 +385,10 @@ function Quiz() {
     );
   }
 
+  /* ========================================
+     PROGRESO
+  ======================================== */
+
   const progress =
     ((currentQuestion + 1) /
       questions.length) *
@@ -320,6 +396,10 @@ function Quiz() {
 
   const selectedIsCorrect =
     isCorrectAnswer(selectedAnswer);
+
+  /* ========================================
+     QUIZ
+  ======================================== */
 
   return (
     <div className="quiz-page">
@@ -354,11 +434,13 @@ function Quiz() {
         </div>
 
         <div className="quiz-progress-bar">
+
           <div
             style={{
               width: `${progress}%`,
             }}
           />
+
         </div>
 
         <section className="question-card">
@@ -397,11 +479,15 @@ function Quiz() {
                 if (answerChecked) {
 
                   if (correct) {
+
                     optionClass +=
                       " answer-correct";
+
                   } else if (selected) {
+
                     optionClass +=
                       " answer-incorrect";
+
                   }
 
                 } else if (selected) {
@@ -452,7 +538,10 @@ function Quiz() {
 
           </div>
 
+          {/* FEEDBACK */}
+
           {answerChecked && (
+
             <div
               className={
                 selectedIsCorrect
@@ -484,17 +573,22 @@ function Quiz() {
               </div>
 
             </div>
+
           )}
+
+          {/* SIGUIENTE */}
 
           <button
             className="next-question-button"
             onClick={nextQuestion}
             disabled={!answerChecked}
           >
+
             {currentQuestion ===
             questions.length - 1
               ? "Ver resultado →"
               : "Siguiente pregunta →"}
+
           </button>
 
         </section>

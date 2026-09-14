@@ -1,17 +1,10 @@
 import { useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { quizzes } from "../data/quizzes";
-
 import {
   XP_PER_QUIZ_ANSWER,
-  getLevel,
+  addXP,
 } from "../utils/gamification";
-
 import "./Quiz.css";
 
 function Quiz() {
@@ -25,9 +18,10 @@ function Quiz() {
   const questions = quizzes[id] || [];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [earnedXP, setEarnedXP] = useState(0);
 
   if (!user) {
     navigate("/login");
@@ -36,90 +30,84 @@ function Quiz() {
 
   if (questions.length === 0) {
     return (
-      <div className="quiz-message">
-        <h2>Quiz no encontrado 😕</h2>
+      <div className="quiz-page">
+        <div className="quiz-empty">
+          <h2>Quiz no encontrado</h2>
+          <p>
+            Todavía no hay preguntas disponibles para este
+            quiz.
+          </p>
 
-        <Link to="/courses">
-          Volver a cursos
-        </Link>
+          <Link to="/quizzes" className="quiz-back-button">
+            Volver a quizzes
+          </Link>
+        </div>
       </div>
     );
   }
 
   const question = questions[currentQuestion];
 
-  const completedQuizzes =
-    user.completedQuizzes || [];
+  const handleAnswer = (answerIndex) => {
+    if (selectedAnswer !== null) return;
 
-  const alreadyCompleted =
-    completedQuizzes.includes(id);
+    setSelectedAnswer(answerIndex);
 
-  const handleAnswer = () => {
-    if (!selectedAnswer) {
-      return;
+    if (answerIndex === question.correctAnswer) {
+      setScore((previousScore) => previousScore + 1);
     }
-
-    const isCorrect =
-      selectedAnswer === question.answer;
-
-    const newScore =
-      isCorrect ? score + 1 : score;
-
-    setScore(newScore);
-
-    const isLastQuestion =
-      currentQuestion === questions.length - 1;
-
-    if (isLastQuestion) {
-      finishQuiz(newScore);
-      return;
-    }
-
-    setCurrentQuestion(
-      currentQuestion + 1
-    );
-
-    setSelectedAnswer("");
   };
 
-  const finishQuiz = (finalScore) => {
-    /*
-      Si el quiz ya fue completado anteriormente,
-      no damos XP otra vez.
-    */
-    if (alreadyCompleted) {
-      setFinished(true);
-      return;
+  const finishQuiz = () => {
+    const finalScore =
+      score +
+      (selectedAnswer === question.correctAnswer ? 1 : 0);
+
+    const xp = finalScore * XP_PER_QUIZ_ANSWER;
+
+    const completedQuizzes =
+      user.completedQuizzes || [];
+
+    const alreadyCompleted =
+      completedQuizzes.includes(id);
+
+    let updatedUser = user;
+
+    if (!alreadyCompleted) {
+      const xpUser = addXP(xp);
+
+      if (xpUser) {
+        updatedUser = {
+          ...xpUser,
+          completedQuizzes: [
+            ...completedQuizzes,
+            id,
+          ],
+        };
+
+        localStorage.setItem(
+          "novalearn_user",
+          JSON.stringify(updatedUser)
+        );
+      }
     }
 
-    const earnedXP =
-      finalScore * XP_PER_QUIZ_ANSWER;
-
-    const currentXP =
-      user.points || 0;
-
-    const newXP =
-      currentXP + earnedXP;
-
-    const updatedUser = {
-      ...user,
-
-      points: newXP,
-
-      level: getLevel(newXP),
-
-      completedQuizzes: [
-        ...completedQuizzes,
-        id,
-      ],
-    };
-
-    localStorage.setItem(
-      "novalearn_user",
-      JSON.stringify(updatedUser)
-    );
-    
+    setScore(finalScore);
+    setEarnedXP(alreadyCompleted ? 0 : xp);
     setFinished(true);
+  };
+
+  const nextQuestion = () => {
+    if (selectedAnswer === null) return;
+
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(
+        (previousQuestion) => previousQuestion + 1
+      );
+      setSelectedAnswer(null);
+    } else {
+      finishQuiz();
+    }
   };
 
   if (finished) {
@@ -127,171 +115,178 @@ function Quiz() {
       (score / questions.length) * 100
     );
 
-    const earnedXP =
-      alreadyCompleted
-        ? 0
-        : score * XP_PER_QUIZ_ANSWER;
-
     return (
       <div className="quiz-page">
-
         <div className="quiz-result">
-
-          <div className="quiz-result-icon">
-            {percentage >= 70 ? "🎉" : "💪"}
+          <div className="result-icon">
+            {percentage >= 80
+              ? "🏆"
+              : percentage >= 60
+              ? "⭐"
+              : "💪"}
           </div>
 
           <h1>¡Quiz terminado!</h1>
 
-          <p className="quiz-result-score">
+          <p className="result-score">
+            Obtuviste{" "}
+            <strong>
+              {score} / {questions.length}
+            </strong>
+          </p>
+
+          <div className="result-percentage">
             {percentage}%
-          </p>
+          </div>
 
-          <p>
-            Respondiste correctamente{" "}
-            <strong>
-              {score}
-            </strong>{" "}
-            de{" "}
-            <strong>
-              {questions.length}
-            </strong>{" "}
-            preguntas.
-          </p>
-
-          {alreadyCompleted ? (
-            <p className="quiz-no-xp">
-              Este quiz ya había sido completado.
-              No se otorgó XP adicional.
+          {earnedXP > 0 ? (
+            <p className="result-xp">
+              ✨ Ganaste {earnedXP} XP
             </p>
           ) : (
-            <p className="quiz-earned-xp">
-              ⭐ +{earnedXP} XP
+            <p className="result-xp">
+              Este quiz ya había sido completado.
             </p>
           )}
 
-          <div className="quiz-result-actions">
-
-            <Link
-              to="/courses"
-              className="quiz-button"
+          <div className="result-actions">
+            <button
+              onClick={() => navigate("/quizzes")}
+              className="quiz-primary-button"
             >
-              Volver a cursos
-            </Link>
+              Ver mis quizzes
+            </button>
 
-            <Link
-              to="/profile"
+            <button
+              onClick={() => navigate(-1)}
               className="quiz-secondary-button"
             >
-              Ver mi perfil
-            </Link>
-
+              Volver al curso
+            </button>
           </div>
-
         </div>
-
       </div>
     );
   }
 
-  const progress =
-    ((currentQuestion + 1) /
-      questions.length) *
-    100;
-
   return (
     <div className="quiz-page">
-
       <div className="quiz-container">
 
-        <Link
-          to="/courses"
-          className="quiz-back"
-        >
-          ← Volver a cursos
-        </Link>
+        <div className="quiz-top">
+          <Link to="/quizzes" className="quiz-back">
+            ← Volver
+          </Link>
 
-        <div className="quiz-header">
+          <span className="quiz-progress">
+            Pregunta {currentQuestion + 1} de{" "}
+            {questions.length}
+          </span>
+        </div>
 
-          <p>NovaLearn · Quiz</p>
-
-          <h1>
-            Pon a prueba tus conocimientos 🧠
-          </h1>
-
-          <div className="quiz-progress-info">
-
-            <span>
-              Pregunta{" "}
-              {currentQuestion + 1}{" "}
-              de{" "}
-              {questions.length}
-            </span>
-
-            <span>
-              {Math.round(progress)}%
-            </span>
-
-          </div>
-
-          <div className="quiz-progress-bar">
-
-            <div
-              className="quiz-progress-fill"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
-
-          </div>
-
+        <div className="quiz-progress-bar">
+          <div
+            style={{
+              width: `${
+                ((currentQuestion + 1) /
+                  questions.length) *
+                100
+              }%`,
+            }}
+          />
         </div>
 
         <div className="quiz-card">
 
-          <h2>
-            {question.question}
-          </h2>
+          <span className="quiz-question-number">
+            PREGUNTA {currentQuestion + 1}
+          </span>
+
+          <h1>{question.question}</h1>
 
           <div className="quiz-options">
-
             {question.options.map(
-              (option) => (
-                <button
-                  key={option}
-                  type="button"
-                  className={`quiz-option ${
-                    selectedAnswer === option
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedAnswer(option)
-                  }
-                >
-                  {option}
-                </button>
-              )
-            )}
+              (option, index) => {
 
+                let optionClass = "";
+
+                if (selectedAnswer !== null) {
+                  if (
+                    index === question.correctAnswer
+                  ) {
+                    optionClass = "correct";
+                  } else if (
+                    index === selectedAnswer
+                  ) {
+                    optionClass = "incorrect";
+                  }
+                }
+
+                return (
+                  <button
+                    key={index}
+                    className={`quiz-option ${optionClass}`}
+                    onClick={() =>
+                      handleAnswer(index)
+                    }
+                    disabled={
+                      selectedAnswer !== null
+                    }
+                  >
+                    <span className="option-letter">
+                      {String.fromCharCode(
+                        65 + index
+                      )}
+                    </span>
+
+                    <span>{option}</span>
+
+                    {selectedAnswer !== null &&
+                      index ===
+                        question.correctAnswer && (
+                        <span>✓</span>
+                      )}
+
+                    {selectedAnswer !== null &&
+                      index === selectedAnswer &&
+                      index !==
+                        question.correctAnswer && (
+                        <span>✕</span>
+                      )}
+                  </button>
+                );
+              }
+            )}
           </div>
 
+          {selectedAnswer !== null && (
+            <div
+              className={
+                selectedAnswer ===
+                question.correctAnswer
+                  ? "answer-feedback correct-feedback"
+                  : "answer-feedback incorrect-feedback"
+              }
+            >
+              {selectedAnswer ===
+              question.correctAnswer
+                ? "¡Correcto! 🎉"
+                : "Casi. Revisa la respuesta correcta y sigue intentando."}
+            </div>
+          )}
+
           <button
-            type="button"
             className="quiz-next-button"
-            onClick={handleAnswer}
-            disabled={!selectedAnswer}
+            onClick={nextQuestion}
+            disabled={selectedAnswer === null}
           >
-            {currentQuestion ===
-            questions.length - 1
+            {currentQuestion === questions.length - 1
               ? "Terminar quiz"
               : "Siguiente pregunta →"}
           </button>
 
         </div>
-
       </div>
-
     </div>
   );
 }

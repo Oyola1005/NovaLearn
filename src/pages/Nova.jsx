@@ -1,6 +1,7 @@
-  import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import ReactMarkdown from "react-markdown";
 import "./Nova.css";
 
 function Nova() {
@@ -8,17 +9,59 @@ function Nova() {
     localStorage.getItem("novalearn_user")
   );
 
+  const storageKey = user
+    ? `novalearn_nova_chat_${user.email}`
+    : null;
+
   const [message, setMessage] = useState("");
 
-  const [messages, setMessages] = useState([
-    {
-      type: "nova",
-      text:
-        "¡Hola! 👋 Soy Nova. Estoy aquí para ayudarte a entender tus lecciones. ¿Qué quieres aprender hoy?",
-    },
-  ]);
+  const [messages, setMessages] = useState(() => {
+    if (!storageKey) {
+      return [
+        {
+          type: "nova",
+          text:
+            "¡Hola! 👋 Soy Nova. Estoy aquí para ayudarte a entender tus lecciones. ¿Qué quieres aprender hoy?",
+        },
+      ];
+    }
+
+    const savedMessages = localStorage.getItem(storageKey);
+
+    if (savedMessages) {
+      try {
+        return JSON.parse(savedMessages);
+      } catch {
+        return [
+          {
+            type: "nova",
+            text:
+              "¡Hola! 👋 Soy Nova. Estoy aquí para ayudarte a entender tus lecciones. ¿Qué quieres aprender hoy?",
+          },
+        ];
+      }
+    }
+
+    return [
+      {
+        type: "nova",
+        text:
+          "¡Hola! 👋 Soy Nova. Estoy aquí para ayudarte a entender tus lecciones. ¿Qué quieres aprender hoy?",
+      },
+    ];
+  });
 
   const [loading, setLoading] = useState(false);
+
+  // Guardar automáticamente la conversación
+  useEffect(() => {
+    if (!storageKey) return;
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(messages)
+    );
+  }, [messages, storageKey]);
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -29,16 +72,16 @@ function Nova() {
 
     const cleanMessage = message.trim();
 
-    if (!cleanMessage || loading) {
-      return;
-    }
+    if (!cleanMessage || loading) return;
+
+    const studentMessage = {
+      type: "student",
+      text: cleanMessage,
+    };
 
     setMessages((previousMessages) => [
       ...previousMessages,
-      {
-        type: "student",
-        text: cleanMessage,
-      },
+      studentMessage,
     ]);
 
     setMessage("");
@@ -47,11 +90,9 @@ function Nova() {
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           message: cleanMessage,
           user: {
@@ -65,7 +106,7 @@ function Nova() {
 
       if (!response.ok) {
         throw new Error(
-          data.error || "Error al comunicarse con Nova."
+          data.error || "No se pudo obtener una respuesta."
         );
       }
 
@@ -77,14 +118,14 @@ function Nova() {
         },
       ]);
     } catch (error) {
-      console.error(error);
+      console.error("Error al enviar mensaje:", error);
 
       setMessages((previousMessages) => [
         ...previousMessages,
         {
           type: "nova",
           text:
-            "Lo siento 😕 No pude responder en este momento. Intenta nuevamente.",
+            "Lo siento 😔 No pude responder en este momento. Intenta nuevamente.",
         },
       ]);
     } finally {
@@ -92,62 +133,42 @@ function Nova() {
     }
   };
 
-  const useSuggestion = (text) => {
-    setMessage(text);
-  };
-
   return (
     <div className="nova-page">
-
       <Navbar />
 
       <main className="nova-container">
 
         <section className="nova-header">
-
           <div className="nova-main-avatar">
             ✦
           </div>
 
           <div>
-            <span>
-              NOVA AI
-            </span>
-
-            <h1>
-              Habla con Nova 🤖
-            </h1>
-
+            <span>NOVA AI</span>
+            <h1>Habla con Nova 🤖</h1>
             <p>
-              Tu asistente educativo para resolver
-              dudas y entender mejor tus lecciones.
+              Tu asistente educativo para resolver dudas y
+              entender mejor tus lecciones.
             </p>
           </div>
-
         </section>
 
         <section className="nova-chat">
 
           <div className="nova-chat-header">
-
             <div className="nova-small-avatar">
               ✦
             </div>
 
             <div>
-              <strong>
-                Nova
-              </strong>
-
-              <small>
-                Asistente educativo
-              </small>
+              <strong>Nova</strong>
+              <small>Asistente educativo</small>
             </div>
 
             <span className="nova-online">
-              ● En línea
+              • En línea
             </span>
-
           </div>
 
           <div className="nova-messages">
@@ -169,21 +190,24 @@ function Nova() {
                 )}
 
                 <div
-                  className={
-                    item.type === "nova"
-                      ? "nova-message-bubble"
-                      : "student-message-bubble"
-                  }
-                >
-                  {item.text}
-                </div>
+  className={
+    item.type === "nova"
+      ? "nova-message-bubble"
+      : "student-message-bubble"
+  }
+>
+  {item.type === "nova" ? (
+    <ReactMarkdown>{item.text}</ReactMarkdown>
+  ) : (
+    item.text
+  )}
+</div>
 
               </div>
             ))}
 
             {loading && (
               <div className="nova-message-row">
-
                 <div className="nova-message-avatar">
                   ✦
                 </div>
@@ -193,7 +217,6 @@ function Nova() {
                   <span></span>
                   <span></span>
                 </div>
-
               </div>
             )}
 
@@ -203,7 +226,6 @@ function Nova() {
             className="nova-input-area"
             onSubmit={sendMessage}
           >
-
             <input
               type="text"
               value={message}
@@ -216,53 +238,15 @@ function Nova() {
 
             <button
               type="submit"
-              disabled={loading || !message.trim()}
+              disabled={loading}
             >
-              ➤
+              {loading ? "..." : "➤"}
             </button>
-
           </form>
 
         </section>
 
-        <section className="nova-suggestions">
-
-          <span>
-            PRUEBA PREGUNTAR
-          </span>
-
-          <div>
-
-            <button
-              onClick={() =>
-                useSuggestion("¿Qué es una fracción?")
-              }
-            >
-              ¿Qué es una fracción?
-            </button>
-
-            <button
-              onClick={() =>
-                useSuggestion("¿Qué es una célula?")
-              }
-            >
-              ¿Qué es una célula?
-            </button>
-
-            <button
-              onClick={() =>
-                useSuggestion("¿Qué es una ecuación?")
-              }
-            >
-              ¿Qué es una ecuación?
-            </button>
-
-          </div>
-
-        </section>
-
       </main>
-
     </div>
   );
 }

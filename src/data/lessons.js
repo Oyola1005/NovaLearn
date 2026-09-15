@@ -1,11 +1,52 @@
+const videoIds = {
+  // 1° SECUNDARIA — Matemática
+  "mat-1-1": "w8gm9q3KXkk",
+  "mat-1-2": "No2pC-S093g",
+  "mat-1-4": "qzl-c3rbkE8",
+
+  // 1° SECUNDARIA — Comunicación
+  "com-1-2": "Xi-CscdXAA4",
+  "com-1-3": "sNYkk_nRf8U",
+  "com-1-4": "za0CG9wnV64",
+
+  // 1° SECUNDARIA — Ciencia
+  "cie-1-1": "6xjb-kueb20",
+  "cie-1-2": "s8c5vwelama92s6c",
+  "cie-1-3": "dyix14yb5kujdiyb",
+
+  // 1° SECUNDARIA — Inglés
+  "ing-1-3": "2HpidX9cFrQ",
+  "ing-1-4": "h-mdJt22aOQ",
+
+  // 2° SECUNDARIA — Matemática
+  "mat-2-3": "FFQ91D1W1gk",
+
+  // 2° SECUNDARIA — Comunicación
+  "com-2-1": "SNUYkb4D5lM",
+
+  // 2° SECUNDARIA — Inglés
+  "ing-2-1": "zNDIhOXy3IU",
+  "ing-2-2": "u9tzdbWZ-TU",
+  "ing-2-3": "YIkewDhlSwQ",
+
+  // 2° SECUNDARIA — Tecnología
+  "tec-2-3": "REEMPLAZAR",
+
+  // 2° SECUNDARIA — Historia
+  "soc-2-2": "vZ0Ta0RvKLU",
+};
 const createLessons = (courseId, topics) =>
-  topics.map((topic, index) => ({
-    id: `${courseId}-${index + 1}`,
-    title: topic.title,
-    description: topic.description,
-    duration: topic.duration,
-    videoId: "REEMPLAZAR",
-  }));
+  topics.map((topic, index) => {
+    const lessonId = `${courseId}-${index + 1}`;
+
+    return {
+      id: lessonId,
+      title: topic.title,
+      description: topic.description,
+      duration: topic.duration,
+      videoId: videoIds[lessonId] || "REEMPLAZAR",
+    };
+  });
 
 export const lessons = {
   // =====================================================

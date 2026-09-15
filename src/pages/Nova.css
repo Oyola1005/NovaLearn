@@ -324,3 +324,76 @@
     max-width: 82%;
   }
 }
+/* ========================================
+   NOVA AI STATES
+======================================== */
+
+.nova-input-area input:disabled {
+  background: #f5f6fa;
+  cursor: not-allowed;
+}
+
+.nova-input-area button {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.nova-input-area button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #5b4bd5;
+}
+
+.nova-input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nova-loading {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  min-width: 48px;
+}
+
+.nova-loading span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #6c5ce7;
+
+  animation: novaTyping 1.2s infinite ease-in-out;
+}
+
+.nova-loading span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.nova-loading span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes novaTyping {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nova-loading span {
+    animation: none;
+    opacity: 1;
+  }
+}

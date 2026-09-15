@@ -1,10 +1,17 @@
+/* ========================================
+   LOGIN / AUTH PAGE
+======================================== */
+
 .auth-page {
   min-height: 100vh;
+
   padding: 40px 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   background:
     radial-gradient(
       circle at top right,
@@ -14,46 +21,108 @@
     #f8fafc;
 }
 
+/* ========================================
+   BRAND
+======================================== */
+
 .auth-brand {
   margin-bottom: 30px;
+
   text-align: center;
+
+  animation:
+    loginFadeUp
+    0.7s
+    ease-out
+    both;
 }
 
 .auth-logo {
   display: inline-flex;
+
   align-items: center;
+
   gap: 9px;
+
   color: #18233a;
+
   font-size: 22px;
   font-weight: 800;
+
+  text-decoration: none;
 }
 
 .auth-logo span {
   width: 34px;
   height: 34px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   border-radius: 10px;
+
   background: #6c63ff;
   color: white;
+
+  box-shadow:
+    0 8px 20px rgba(108, 99, 255, 0.2);
+
+  animation:
+    loginLogoPulse
+    2.5s
+    ease-in-out
+    infinite;
 }
 
 .auth-brand p {
   margin-top: 8px;
+
   color: #8a93a3;
+
   font-size: 12px;
 }
+
+/* ========================================
+   CARD
+======================================== */
 
 .auth-card {
   width: 100%;
   max-width: 430px;
+
   padding: 38px;
+
   background: white;
+
   border: 1px solid #e7ebf1;
+
   border-radius: 22px;
-  box-shadow: 0 20px 60px rgba(31, 42, 61, 0.08);
+
+  box-shadow:
+    0 20px 60px rgba(31, 42, 61, 0.08);
+
+  animation:
+    loginCardAppear
+    0.8s
+    ease-out
+    0.1s
+    both;
+
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
+
+.auth-card:hover {
+  box-shadow:
+    0 25px 70px rgba(31, 42, 61, 0.11);
+}
+
+/* ========================================
+   HEADER
+======================================== */
 
 .auth-header {
   margin-bottom: 28px;
@@ -61,23 +130,36 @@
 
 .auth-label {
   color: #6c63ff;
+
   font-size: 10px;
   font-weight: 800;
+
   letter-spacing: 1px;
 }
 
 .auth-header h1 {
   margin: 10px 0;
+
   color: #18233a;
+
   font-size: 28px;
+
+  line-height: 1.15;
+
   letter-spacing: -1px;
 }
 
 .auth-header p {
   color: #7d8798;
+
   font-size: 13px;
+
   line-height: 1.6;
 }
+
+/* ========================================
+   FORM
+======================================== */
 
 .form-group {
   margin-bottom: 18px;
@@ -85,61 +167,306 @@
 
 .form-group label {
   display: block;
+
   margin-bottom: 7px;
+
   color: #39445a;
+
   font-size: 12px;
   font-weight: 700;
 }
 
 .form-group input {
+  box-sizing: border-box;
+
   width: 100%;
+
   padding: 13px 14px;
+
   border: 1px solid #dfe4eb;
+
   border-radius: 10px;
+
   outline: none;
+
   color: #263149;
+
   background: #fbfcfd;
+
+  font-family: inherit;
+
   font-size: 13px;
-  transition: 0.2s;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #a5adba;
+}
+
+.form-group input:hover {
+  border-color: #cfd5df;
+
+  background: white;
 }
 
 .form-group input:focus {
   border-color: #6c63ff;
+
   background: white;
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.08);
+
+  box-shadow:
+    0 0 0 3px rgba(108, 99, 255, 0.08);
+
+  transform: translateY(-1px);
 }
+
+/* ========================================
+   BUTTON
+======================================== */
 
 .auth-button {
   width: 100%;
+
   margin-top: 8px;
+
   padding: 14px;
+
   border: none;
+
   border-radius: 10px;
+
   background: #6c63ff;
+
   color: white;
+
+  font-family: inherit;
+
   font-size: 13px;
+
   font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(108, 99, 255, 0.15);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .auth-button:hover {
   background: #5b53e6;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 25px rgba(108, 99, 255, 0.23);
 }
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+/* ========================================
+   FOOTER
+======================================== */
 
 .auth-footer {
   margin-top: 25px;
+
   text-align: center;
+
   color: #8a93a3;
+
   font-size: 12px;
+
+  line-height: 1.6;
 }
 
 .auth-footer a {
   margin-left: 5px;
+
   color: #6c63ff;
+
   font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease;
 }
 
+.auth-footer a:hover {
+  color: #5048d4;
+
+  text-decoration: underline;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes loginFadeUp {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes loginCardAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(25px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes loginLogoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 700px) {
+  .auth-page {
+    padding: 35px 20px;
+  }
+
+  .auth-card {
+    max-width: 500px;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 500px) {
+  .auth-page {
+    padding: 30px 16px;
+  }
+
+  .auth-brand {
+    margin-bottom: 22px;
+  }
+
+  .auth-logo {
+    font-size: 20px;
+  }
+
+  .auth-logo span {
+    width: 32px;
+    height: 32px;
+  }
+
+  .auth-brand p {
+    font-size: 11px;
+  }
+
   .auth-card {
     padding: 28px 22px;
+
+    border-radius: 18px;
+  }
+
+  .auth-header {
+    margin-bottom: 24px;
+  }
+
+  .auth-header h1 {
+    font-size: 26px;
+  }
+
+  .auth-header p {
+    font-size: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group input {
+    padding: 13px;
+
+    font-size: 13px;
+  }
+
+  .auth-button {
+    padding: 14px;
+  }
+}
+
+/* ========================================
+   VERY SMALL PHONES
+======================================== */
+
+@media (max-width: 360px) {
+  .auth-page {
+    padding: 24px 12px;
+  }
+
+  .auth-card {
+    padding: 24px 18px;
+  }
+
+  .auth-header h1 {
+    font-size: 24px;
+  }
+
+  .auth-footer {
+    font-size: 11px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-brand,
+  .auth-card,
+  .auth-logo span {
+    animation: none;
+  }
+
+  .auth-card,
+  .form-group input,
+  .auth-button {
+    transition: none;
   }
 }

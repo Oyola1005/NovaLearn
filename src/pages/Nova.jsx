@@ -1,4 +1,4 @@
-import { useState } from "react";
+  import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Nova.css";
@@ -8,8 +8,7 @@ function Nova() {
     localStorage.getItem("novalearn_user")
   );
 
-  const [message, setMessage] =
-    useState("");
+  const [message, setMessage] = useState("");
 
   const [messages, setMessages] = useState([
     {
@@ -19,135 +18,82 @@ function Nova() {
     },
   ]);
 
+  const [loading, setLoading] = useState(false);
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  const getResponse = (question) => {
-    const text =
-      question.toLowerCase();
-
-    if (
-      text.includes("fracción") ||
-      text.includes("fracciones")
-    ) {
-      return "Una fracción representa una parte de un todo. Tiene un numerador, que indica cuántas partes tomamos, y un denominador, que indica en cuántas partes iguales se divide el todo.";
-    }
-
-    if (
-      text.includes("ecuación") ||
-      text.includes("ecuaciones")
-    ) {
-      return "Una ecuación es una igualdad matemática que contiene una o más incógnitas. Resolverla significa encontrar el valor que hace verdadera la igualdad.";
-    }
-
-    if (
-      text.includes("número natural") ||
-      text.includes("números naturales")
-    ) {
-      return "Los números naturales son los números que usamos para contar, como 1, 2, 3, 4 y 5. Dependiendo de la convención, el 0 también puede considerarse natural.";
-    }
-
-    if (
-      text.includes("célula") ||
-      text.includes("celula")
-    ) {
-      return "La célula es la unidad básica de los seres vivos. Algunas estructuras importantes son la membrana celular, el citoplasma y, en muchas células, el núcleo.";
-    }
-
-    if (
-      text.includes("ecosistema") ||
-      text.includes("ecosistemas")
-    ) {
-      return "Un ecosistema está formado por los seres vivos y los elementos no vivos de un ambiente, junto con las relaciones que existen entre ellos.";
-    }
-
-    if (
-      text.includes("energía") ||
-      text.includes("energia")
-    ) {
-      return "La energía es la capacidad de producir cambios o realizar trabajo. Puede presentarse de diferentes formas, como energía cinética, potencial, térmica y eléctrica.";
-    }
-
-    if (
-      text.includes("velocidad")
-    ) {
-      return "La velocidad relaciona el desplazamiento de un objeto con el tiempo que tarda en realizarlo. En un movimiento uniforme puede expresarse como v = d / t.";
-    }
-
-    if (
-      text.includes("fuerza") ||
-      text.includes("fuerzas")
-    ) {
-      return "Una fuerza es una interacción capaz de cambiar el movimiento de un objeto o deformarlo. Se mide en newtons (N).";
-    }
-
-    if (
-      text.includes("literatura")
-    ) {
-      return "La literatura utiliza el lenguaje de forma artística para expresar ideas, emociones, historias y experiencias. Puede incluir géneros como narrativa, poesía y teatro.";
-    }
-
-    if (
-      text.includes("historia")
-    ) {
-      return "La historia estudia los acontecimientos y procesos de las sociedades humanas a lo largo del tiempo, utilizando diferentes fuentes para comprender el pasado.";
-    }
-
-    if (
-      text.includes("átomo") ||
-      text.includes("atomo") ||
-      text.includes("átomos") ||
-      text.includes("atomos")
-    ) {
-      return "El átomo es una unidad fundamental de la materia. Está formado por un núcleo con protones y neutrones, y electrones alrededor del núcleo.";
-    }
-
-    if (
-      text.includes("química") ||
-      text.includes("quimica")
-    ) {
-      return "La química estudia la materia, sus propiedades, su composición y los cambios que puede experimentar.";
-    }
-
-    if (
-      text.includes("hola") ||
-      text.includes("buenas")
-    ) {
-      return "¡Hola! 👋 Qué bueno verte. Pregúntame sobre Matemática, Ciencia, Comunicación, Historia u otros temas de tus cursos.";
-    }
-
-    return "¡Buena pregunta! 🤔 En esta versión demo todavía estoy aprendiendo más contenidos. Intenta preguntarme sobre fracciones, ecuaciones, números naturales, células, ecosistemas, energía, velocidad, fuerzas, literatura, historia, átomos o química.";
-  };
-
-  const sendMessage = (event) => {
+  const sendMessage = async (event) => {
     event.preventDefault();
 
-    const cleanMessage =
-      message.trim();
+    const cleanMessage = message.trim();
 
-    if (!cleanMessage) {
+    if (!cleanMessage || loading) {
       return;
     }
 
-    const response =
-      getResponse(cleanMessage);
-
     setMessages((previousMessages) => [
       ...previousMessages,
-
       {
         type: "student",
         text: cleanMessage,
       },
-
-      {
-        type: "nova",
-        text: response,
-      },
     ]);
 
     setMessage("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          message: cleanMessage,
+          user: {
+            name: user.name,
+            grade: user.grade,
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Error al comunicarse con Nova."
+        );
+      }
+
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        {
+          type: "nova",
+          text: data.response,
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        {
+          type: "nova",
+          text:
+            "Lo siento 😕 No pude responder en este momento. Intenta nuevamente.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const useSuggestion = (text) => {
+    setMessage(text);
   };
 
   return (
@@ -165,7 +111,7 @@ function Nova() {
 
           <div>
             <span>
-              NOVA AI · DEMO
+              NOVA AI
             </span>
 
             <h1>
@@ -206,35 +152,49 @@ function Nova() {
 
           <div className="nova-messages">
 
-            {messages.map(
-              (item, index) => (
+            {messages.map((item, index) => (
+              <div
+                key={index}
+                className={
+                  item.type === "nova"
+                    ? "nova-message-row"
+                    : "student-message-row"
+                }
+              >
+
+                {item.type === "nova" && (
+                  <div className="nova-message-avatar">
+                    ✦
+                  </div>
+                )}
+
                 <div
-                  key={index}
                   className={
                     item.type === "nova"
-                      ? "nova-message-row"
-                      : "student-message-row"
+                      ? "nova-message-bubble"
+                      : "student-message-bubble"
                   }
                 >
-
-                  {item.type === "nova" && (
-                    <div className="nova-message-avatar">
-                      ✦
-                    </div>
-                  )}
-
-                  <div
-                    className={
-                      item.type === "nova"
-                        ? "nova-message-bubble"
-                        : "student-message-bubble"
-                    }
-                  >
-                    {item.text}
-                  </div>
-
+                  {item.text}
                 </div>
-              )
+
+              </div>
+            ))}
+
+            {loading && (
+              <div className="nova-message-row">
+
+                <div className="nova-message-avatar">
+                  ✦
+                </div>
+
+                <div className="nova-message-bubble nova-loading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+
+              </div>
             )}
 
           </div>
@@ -251,9 +211,13 @@ function Nova() {
                 setMessage(event.target.value)
               }
               placeholder="Escribe tu pregunta..."
+              disabled={loading}
             />
 
-            <button type="submit">
+            <button
+              type="submit"
+              disabled={loading || !message.trim()}
+            >
               ➤
             </button>
 
@@ -271,9 +235,7 @@ function Nova() {
 
             <button
               onClick={() =>
-                setMessage(
-                  "¿Qué es una fracción?"
-                )
+                useSuggestion("¿Qué es una fracción?")
               }
             >
               ¿Qué es una fracción?
@@ -281,9 +243,7 @@ function Nova() {
 
             <button
               onClick={() =>
-                setMessage(
-                  "¿Qué es una célula?"
-                )
+                useSuggestion("¿Qué es una célula?")
               }
             >
               ¿Qué es una célula?
@@ -291,9 +251,7 @@ function Nova() {
 
             <button
               onClick={() =>
-                setMessage(
-                  "¿Qué es una ecuación?"
-                )
+                useSuggestion("¿Qué es una ecuación?")
               }
             >
               ¿Qué es una ecuación?
@@ -309,4 +267,4 @@ function Nova() {
   );
 }
 
-export default Nova;  
+export default Nova;

@@ -9,7 +9,26 @@
   padding: 50px 25px 80px;
 }
 
-/* HEADER */
+/* ========================================
+   SCROLL REVEAL
+======================================== */
+
+.profile-scroll-reveal {
+  opacity: 0;
+  transform: translateY(45px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.profile-scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   HEADER
+======================================== */
 
 .profile-header {
   display: flex;
@@ -20,6 +39,25 @@
   margin-bottom: 30px;
 }
 
+.profile-header.visible {
+  animation:
+    profileHeaderAppear
+    0.7s
+    ease-out;
+}
+
+@keyframes profileHeaderAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .profile-avatar {
   width: 80px;
   height: 80px;
@@ -27,6 +65,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex-shrink: 0;
 
   border-radius: 50%;
 
@@ -36,6 +76,26 @@
 
   font-size: 30px;
   font-weight: 800;
+
+  box-shadow:
+    0 8px 25px rgba(108, 92, 231, 0.2);
+
+  animation:
+    profileAvatarFloat
+    3s
+    ease-in-out
+    infinite;
+}
+
+@keyframes profileAvatarFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .profile-header span {
@@ -63,7 +123,9 @@
   font-size: 13px;
 }
 
-/* LEVEL */
+/* ========================================
+   LEVEL
+======================================== */
 
 .profile-level {
   display: flex;
@@ -79,6 +141,17 @@
 
   box-shadow:
     0 7px 25px rgba(30, 35, 60, 0.06);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.profile-level:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 35px rgba(30, 35, 60, 0.1);
 }
 
 .profile-level-number {
@@ -89,6 +162,8 @@
   align-items: center;
   justify-content: center;
 
+  flex-shrink: 0;
+
   border-radius: 18px;
 
   background: #eeeaff;
@@ -97,6 +172,26 @@
 
   font-size: 25px;
   font-weight: 800;
+
+  box-shadow:
+    0 5px 15px rgba(108, 92, 231, 0.08);
+
+  animation:
+    profileLevelPulse
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+@keyframes profileLevelPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 .profile-level-info {
@@ -128,6 +223,75 @@
   font-size: 12px;
 }
 
+/* ========================================
+   XP PROGRESS
+======================================== */
+
+.profile-xp-progress {
+  max-width: 500px;
+  margin-top: 13px;
+}
+
+.profile-xp-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 6px;
+
+  color: #7a8291;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.profile-xp-top strong {
+  color: #6c5ce7;
+}
+
+.profile-xp-bar {
+  width: 100%;
+  height: 7px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #e9e8ef;
+}
+
+.profile-xp-bar > div {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #6c5ce7;
+
+  transition:
+    width 1s ease;
+
+  animation:
+    profileXpGrow
+    1s
+    ease-out;
+}
+
+@keyframes profileXpGrow {
+  from {
+    width: 0;
+  }
+}
+
+.profile-xp-progress small {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #9298a5;
+
+  font-size: 9px;
+}
+
 .profile-level > a {
   padding: 11px 16px;
 
@@ -141,9 +305,25 @@
 
   font-size: 12px;
   font-weight: 800;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-/* STATS */
+.profile-level > a:hover {
+  background: #5b4bd5;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 18px rgba(108, 92, 231, 0.2);
+}
+
+/* ========================================
+   STATS
+======================================== */
 
 .profile-stats {
   display: grid;
@@ -156,7 +336,7 @@
   margin-top: 25px;
 }
 
-.profile-stats > div {
+.profile-stat-card {
   padding: 20px;
 
   border-radius: 16px;
@@ -165,17 +345,77 @@
 
   box-shadow:
     0 5px 20px rgba(30, 35, 60, 0.05);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.profile-stats span {
+.profile-stat-card.visible {
+  animation:
+    profileStatAppear
+    0.6s
+    ease-out
+    both;
+}
+
+.profile-stat-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.profile-stat-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.profile-stat-card:nth-child(3) {
+  animation-delay: 0.19s;
+}
+
+.profile-stat-card:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+@keyframes profileStatAppear {
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.profile-stat-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 12px 28px rgba(30, 35, 60, 0.09);
+}
+
+.profile-stat-card span {
   display: block;
 
   margin-bottom: 10px;
 
   font-size: 22px;
+
+  transition:
+    transform 0.25s ease;
 }
 
-.profile-stats strong {
+.profile-stat-card:hover span {
+  transform:
+    scale(1.1)
+    rotate(-4deg);
+}
+
+.profile-stat-card strong {
   display: block;
 
   color: #182238;
@@ -183,13 +423,168 @@
   font-size: 22px;
 }
 
-.profile-stats small {
+.profile-stat-card small {
   color: #7a8291;
 
   font-size: 10px;
 }
 
-/* INFORMATION */
+/* ========================================
+   GAMIFICATION
+======================================== */
+
+.profile-gamification {
+  margin-top: 25px;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eeeaff,
+      #f8f7ff
+    );
+
+  box-shadow:
+    0 7px 25px rgba(30, 35, 60, 0.05);
+}
+
+.profile-gamification.visible {
+  animation:
+    profileGamificationAppear
+    0.7s
+    ease-out;
+}
+
+@keyframes profileGamificationAppear {
+  from {
+    opacity: 0;
+    transform:
+      translateY(30px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.gamification-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.gamification-heading > div:first-child > span {
+  color: #6c5ce7;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.gamification-heading h2 {
+  margin: 5px 0 0;
+
+  color: #182238;
+
+  font-size: 21px;
+}
+
+.gamification-level-badge {
+  padding: 8px 12px;
+
+  border-radius: 20px;
+
+  background: white;
+
+  color: #6c5ce7;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  box-shadow:
+    0 4px 12px rgba(30, 35, 60, 0.06);
+}
+
+.gamification-message {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 20px;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.gamification-message-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: #6c5ce7;
+
+  font-size: 20px;
+
+  animation:
+    profileXpPulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+@keyframes profileXpPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.gamification-message strong {
+  display: block;
+
+  color: #30394d;
+
+  font-size: 13px;
+}
+
+.gamification-message p {
+  margin: 4px 0 0;
+
+  color: #7a8291;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+/* ========================================
+   INFORMATION
+======================================== */
 
 .profile-information {
   display: grid;
@@ -210,6 +605,25 @@
 
   box-shadow:
     0 7px 25px rgba(30, 35, 60, 0.06);
+}
+
+.profile-card.visible {
+  animation:
+    profileCardAppear
+    0.7s
+    ease-out;
+}
+
+@keyframes profileCardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-card > span {
@@ -251,7 +665,9 @@
   font-size: 12px;
 }
 
-/* ACTIONS */
+/* ========================================
+   ACTIONS
+======================================== */
 
 .profile-actions {
   display: flex;
@@ -259,6 +675,25 @@
   flex-direction: column;
 
   gap: 12px;
+}
+
+.profile-actions.visible {
+  animation:
+    profileActionsAppear
+    0.7s
+    ease-out;
+}
+
+@keyframes profileActionsAppear {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .profile-actions a,
@@ -277,12 +712,23 @@
   text-decoration: none;
 
   cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .profile-actions a {
   background: #eeeaff;
 
   color: #6c5ce7;
+}
+
+.profile-actions a:hover {
+  background: #e5e1ff;
+
+  transform: translateY(-2px);
 }
 
 .profile-actions button {
@@ -296,7 +742,15 @@
     0 5px 20px rgba(30, 35, 60, 0.05);
 }
 
-/* RESPONSIVE */
+.profile-actions button:hover {
+  background: #fff5f5;
+
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
 
 @media (max-width: 750px) {
   .profile-level {
@@ -320,5 +774,100 @@
 
   .profile-information {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-container {
+    padding:
+      35px
+      16px
+      60px;
+  }
+
+  .profile-header {
+    gap: 14px;
+  }
+
+  .profile-avatar {
+    width: 65px;
+    height: 65px;
+
+    font-size: 25px;
+  }
+
+  .profile-header h1 {
+    font-size: 27px;
+  }
+
+  .profile-level {
+    padding: 20px;
+  }
+
+  .profile-level-info {
+    width: 100%;
+  }
+
+  .profile-xp-progress {
+    max-width: none;
+    width: 100%;
+  }
+
+  .profile-stats {
+    gap: 12px;
+  }
+
+  .profile-stat-card {
+    padding: 16px;
+  }
+
+  .profile-gamification {
+    padding: 20px;
+  }
+
+  .gamification-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .gamification-message {
+    align-items: flex-start;
+  }
+
+  .profile-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .profile-scroll-reveal.visible {
+    animation: none !important;
+  }
+
+  .profile-avatar,
+  .profile-level-number,
+  .gamification-message-icon,
+  .profile-xp-bar > div,
+  .profile-stat-card {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .profile-stat-card.visible {
+    opacity: 1;
+    transform: none;
   }
 }

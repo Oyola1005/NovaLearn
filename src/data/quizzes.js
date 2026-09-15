@@ -2301,4 +2301,1078 @@ export const quizzes = {
       answer: "Ayuda a comprender y transformar la materia",
     },
   ]),
+    // =====================================================
+  // 1° SECUNDARIA - INGLÉS
+  // =====================================================
+
+  "ing-1-1": createQuiz([
+    {
+      question: "¿Cómo se dice 'Hola' en inglés?",
+      options: ["Hello", "Goodbye", "Thanks", "Please"],
+      answer: "Hello",
+    },
+    {
+      question: "¿Cómo se dice 'Buenos días'?",
+      options: ["Good night", "Good morning", "Goodbye", "Good afternoon"],
+      answer: "Good morning",
+    },
+    {
+      question: "¿Cuál es una forma de presentarse?",
+      options: ["My name is...", "See you...", "Good night", "Thank you"],
+      answer: "My name is...",
+    },
+  ]),
+
+  "ing-1-2": createQuiz([
+    {
+      question: "¿Cuál es el número 5 en inglés?",
+      options: ["Four", "Five", "Six", "Seven"],
+      answer: "Five",
+    },
+    {
+      question: "¿Cómo se dice 'rojo'?",
+      options: ["Blue", "Green", "Red", "Yellow"],
+      answer: "Red",
+    },
+    {
+      question: "¿Cómo se dice 'libro'?",
+      options: ["Book", "Table", "Chair", "Pen"],
+      answer: "Book",
+    },
+  ]),
+
+  "ing-1-3": createQuiz([
+    {
+      question: "¿Cuál es un pronombre personal?",
+      options: ["I", "Book", "School", "Blue"],
+      answer: "I",
+    },
+    {
+      question: "Completa: I ___ a student.",
+      options: ["am", "is", "are", "be"],
+      answer: "am",
+    },
+    {
+      question: "Completa: She ___ my friend.",
+      options: ["am", "is", "are", "be"],
+      answer: "is",
+    },
+  ]),
+
+  "ing-1-4": createQuiz([
+    {
+      question: "¿Cuál oración está correctamente escrita?",
+      options: [
+        "I am a student.",
+        "I student am.",
+        "Am I student a.",
+        "Student I am a.",
+      ],
+      answer: "I am a student.",
+    },
+    {
+      question: "¿Cómo se dice 'Yo tengo un libro'?",
+      options: [
+        "I have a book.",
+        "I am a book.",
+        "I is a book.",
+        "I book have.",
+      ],
+      answer: "I have a book.",
+    },
+    {
+      question: "¿Qué significa 'My name is Ana'?",
+      options: [
+        "Mi nombre es Ana",
+        "Ana es mi amiga",
+        "Tengo una amiga llamada Ana",
+        "Ana es estudiante",
+      ],
+      answer: "Mi nombre es Ana",
+    },
+  ]),
+
+  // =====================================================
+  // 1° SECUNDARIA - EDUCACIÓN AMBIENTAL
+  // =====================================================
+
+  "amb-1-1": createQuiz([
+    {
+      question: "¿Qué es el ambiente?",
+      options: [
+        "El conjunto de elementos que nos rodean",
+        "Solo los animales",
+        "Solo las plantas",
+        "Solo las ciudades",
+      ],
+      answer: "El conjunto de elementos que nos rodean",
+    },
+    {
+      question: "¿Cuál forma parte del ambiente?",
+      options: ["Agua", "Solo computadoras", "Solo edificios", "Solo vehículos"],
+      answer: "Agua",
+    },
+    {
+      question: "¿Por qué es importante cuidar el ambiente?",
+      options: [
+        "Porque permite la vida",
+        "Porque elimina la naturaleza",
+        "Porque aumenta los residuos",
+        "Porque evita la biodiversidad",
+      ],
+      answer: "Porque permite la vida",
+    },
+  ]),
+
+  "amb-1-2": createQuiz([
+    {
+      question: "¿Cuál es un recurso natural?",
+      options: ["Agua", "Una computadora", "Una carretera", "Un cuaderno"],
+      answer: "Agua",
+    },
+    {
+      question: "¿Cuál es un recurso natural renovable?",
+      options: ["Luz solar", "Petróleo", "Carbón", "Gas natural"],
+      answer: "Luz solar",
+    },
+    {
+      question: "¿Por qué debemos cuidar los recursos naturales?",
+      options: [
+        "Porque son importantes para la vida",
+        "Porque no tienen utilidad",
+        "Porque siempre son infinitos",
+        "Porque contaminan por sí mismos",
+      ],
+      answer: "Porque son importantes para la vida",
+    },
+  ]),
+
+  "amb-1-3": createQuiz([
+    {
+      question: "¿Qué es la contaminación?",
+      options: [
+        "La introducción de sustancias o elementos dañinos al ambiente",
+        "La protección de los ecosistemas",
+        "La conservación del agua",
+        "La limpieza de un lugar",
+      ],
+      answer: "La introducción de sustancias o elementos dañinos al ambiente",
+    },
+    {
+      question: "¿Cuál puede contaminar el agua?",
+      options: [
+        "Arrojar residuos a un río",
+        "Ahorrar agua",
+        "Plantar árboles",
+        "Reciclar",
+      ],
+      answer: "Arrojar residuos a un río",
+    },
+    {
+      question: "¿Qué puede causar la contaminación?",
+      options: [
+        "Daños a los ecosistemas",
+        "Mayor biodiversidad siempre",
+        "Agua más limpia",
+        "Menos residuos",
+      ],
+      answer: "Daños a los ecosistemas",
+    },
+  ]),
+
+  "amb-1-4": createQuiz([
+    {
+      question: "¿Qué acción ayuda a cuidar el ambiente?",
+      options: [
+        "Reducir los residuos",
+        "Arrojar basura al río",
+        "Desperdiciar agua",
+        "Quemar residuos",
+      ],
+      answer: "Reducir los residuos",
+    },
+    {
+      question: "¿Qué podemos hacer con algunos residuos?",
+      options: ["Reciclarlos", "Arrojarlos al río", "Quemarlos siempre", "Dejarlos en la calle"],
+      answer: "Reciclarlos",
+    },
+    {
+      question: "¿Qué recurso debemos evitar desperdiciar?",
+      options: ["Agua", "Basura", "Contaminación", "Humo"],
+      answer: "Agua",
+    },
+  ]),
+
+  // =====================================================
+  // 2° SECUNDARIA - INGLÉS
+  // =====================================================
+
+  "ing-2-1": createQuiz([
+    {
+      question: "¿Qué significa 'every day'?",
+      options: ["Todos los días", "Una vez", "Nunca", "Ayer"],
+      answer: "Todos los días",
+    },
+    {
+      question: "¿Cuál es una actividad diaria?",
+      options: ["Wake up", "Yesterday", "Blue", "Schoolbag"],
+      answer: "Wake up",
+    },
+    {
+      question: "¿Cómo se dice 'desayunar'?",
+      options: ["Have breakfast", "Go to bed", "Play football", "Go home"],
+      answer: "Have breakfast",
+    },
+  ]),
+
+  "ing-2-2": createQuiz([
+    {
+      question: "Completa: I ___ to school every day.",
+      options: ["go", "goes", "going", "went"],
+      answer: "go",
+    },
+    {
+      question: "Completa: She ___ English.",
+      options: ["study", "studies", "studying", "studied"],
+      answer: "studies",
+    },
+    {
+      question: "¿Qué tiempo verbal se usa para rutinas?",
+      options: [
+        "Present simple",
+        "Past simple",
+        "Future perfect",
+        "Present perfect",
+      ],
+      answer: "Present simple",
+    },
+  ]),
+
+  "ing-2-3": createQuiz([
+    {
+      question: "¿Cómo se pregunta '¿Dónde vives?'?",
+      options: [
+        "Where do you live?",
+        "What are you?",
+        "When do you sleep?",
+        "Who are you?",
+      ],
+      answer: "Where do you live?",
+    },
+    {
+      question: "¿Cuál es una respuesta correcta a 'How are you?'?",
+      options: ["I'm fine.", "I'm blue.", "I'm school.", "I'm book."],
+      answer: "I'm fine.",
+    },
+    {
+      question: "¿Qué palabra se usa para preguntar por una persona?",
+      options: ["Who", "Where", "When", "How"],
+      answer: "Who",
+    },
+  ]),
+
+  "ing-2-4": createQuiz([
+    {
+      question: "¿Cómo se dice 'Me levanto a las siete'?",
+      options: [
+        "I get up at seven.",
+        "I sleep at seven.",
+        "I eat at seven.",
+        "I study at seven.",
+      ],
+      answer: "I get up at seven.",
+    },
+    {
+      question: "¿Qué expresión indica una hora?",
+      options: ["At seven", "Every blue", "In school", "My book"],
+      answer: "At seven",
+    },
+    {
+      question: "¿Qué significa 'I go to school'?",
+      options: [
+        "Voy a la escuela",
+        "Duermo en la escuela",
+        "Trabajo en la escuela",
+        "Vivo en la escuela",
+      ],
+      answer: "Voy a la escuela",
+    },
+  ]),
+
+  // =====================================================
+  // 2° SECUNDARIA - TECNOLOGÍA
+  // =====================================================
+
+  "tec-2-1": createQuiz([
+    {
+      question: "¿Qué es la tecnología?",
+      options: [
+        "Aplicación de conocimientos para resolver necesidades",
+        "Solo computadoras",
+        "Solo teléfonos",
+        "Solo internet",
+      ],
+      answer: "Aplicación de conocimientos para resolver necesidades",
+    },
+    {
+      question: "¿Para qué puede servir la tecnología?",
+      options: [
+        "Resolver problemas",
+        "Crear problemas siempre",
+        "Eliminar el aprendizaje",
+        "Evitar soluciones",
+      ],
+      answer: "Resolver problemas",
+    },
+    {
+      question: "¿Cuál es un ejemplo de tecnología?",
+      options: ["Una computadora", "Una montaña", "Un río", "Una planta"],
+      answer: "Una computadora",
+    },
+  ]),
+
+  "tec-2-2": createQuiz([
+    {
+      question: "¿Qué es un dato?",
+      options: [
+        "Una representación de información",
+        "Una herramienta física siempre",
+        "Una planta",
+        "Una emoción",
+      ],
+      answer: "Una representación de información",
+    },
+    {
+      question: "¿Dónde podemos almacenar información digital?",
+      options: ["En un dispositivo de almacenamiento", "En una piedra", "En el aire", "En una sombra"],
+      answer: "En un dispositivo de almacenamiento",
+    },
+    {
+      question: "¿Qué debemos hacer con información personal en internet?",
+      options: [
+        "Protegerla",
+        "Compartirla con cualquiera",
+        "Publicarla siempre",
+        "Ignorar su seguridad",
+      ],
+      answer: "Protegerla",
+    },
+  ]),
+
+  "tec-2-3": createQuiz([
+    {
+      question: "¿Qué es el pensamiento computacional?",
+      options: [
+        "Una forma de resolver problemas de manera estructurada",
+        "Solo usar una computadora",
+        "Jugar videojuegos",
+        "Escribir textos",
+      ],
+      answer: "Una forma de resolver problemas de manera estructurada",
+    },
+    {
+      question: "¿Qué ayuda a resolver un problema complejo?",
+      options: [
+        "Dividirlo en partes",
+        "Ignorarlo",
+        "Aumentarlo",
+        "No analizarlo",
+      ],
+      answer: "Dividirlo en partes",
+    },
+    {
+      question: "¿Qué es un algoritmo?",
+      options: [
+        "Una secuencia de pasos para resolver un problema",
+        "Un dispositivo",
+        "Un videojuego",
+        "Una imagen",
+      ],
+      answer: "Una secuencia de pasos para resolver un problema",
+    },
+  ]),
+
+  "tec-2-4": createQuiz([
+    {
+      question: "¿Qué debemos hacer antes de diseñar una solución?",
+      options: [
+        "Identificar el problema",
+        "Ignorar la necesidad",
+        "Construir sin planificar",
+        "Eliminar los datos",
+      ],
+      answer: "Identificar el problema",
+    },
+    {
+      question: "¿Qué puede ayudar a diseñar una solución?",
+      options: [
+        "Un plan",
+        "La improvisación total",
+        "Ignorar al usuario",
+        "No probarla",
+      ],
+      answer: "Un plan",
+    },
+    {
+      question: "¿Por qué debemos probar una solución?",
+      options: [
+        "Para comprobar si funciona",
+        "Para evitar mejorarla",
+        "Para eliminarla",
+        "Para no encontrar errores",
+      ],
+      answer: "Para comprobar si funciona",
+    },
+  ]),
+
+  // =====================================================
+  // 3° SECUNDARIA - INGLÉS
+  // =====================================================
+
+  "ing-3-1": createQuiz([
+    {
+      question: "¿Cuál es el pasado de 'go'?",
+      options: ["Went", "Goed", "Goes", "Going"],
+      answer: "Went",
+    },
+    {
+      question: "¿Cuál es el pasado de 'play'?",
+      options: ["Played", "Play", "Playing", "Plays"],
+      answer: "Played",
+    },
+    {
+      question: "¿Qué tiempo se usa para acciones terminadas en el pasado?",
+      options: ["Past simple", "Present simple", "Future", "Present continuous"],
+      answer: "Past simple",
+    },
+  ]),
+
+  "ing-3-2": createQuiz([
+    {
+      question: "¿Qué significa 'I visited my grandmother'?",
+      options: [
+        "Visité a mi abuela",
+        "Visito a mi abuela",
+        "Visitaré a mi abuela",
+        "Vivo con mi abuela",
+      ],
+      answer: "Visité a mi abuela",
+    },
+    {
+      question: "¿Qué palabra indica pasado?",
+      options: ["Yesterday", "Tomorrow", "Today", "Every day"],
+      answer: "Yesterday",
+    },
+    {
+      question: "Completa: We ___ a movie yesterday.",
+      options: ["watched", "watch", "watches", "watching"],
+      answer: "watched",
+    },
+  ]),
+
+  "ing-3-3": createQuiz([
+    {
+      question: "¿Qué debemos buscar primero al leer un texto?",
+      options: ["La idea principal", "Solo una palabra", "El número de líneas", "El color"],
+      answer: "La idea principal",
+    },
+    {
+      question: "¿Qué significa 'school'?",
+      options: ["Escuela", "Casa", "Libro", "Comida"],
+      answer: "Escuela",
+    },
+    {
+      question: "¿Qué ayuda a comprender un texto en inglés?",
+      options: [
+        "El contexto",
+        "Ignorar las palabras",
+        "No leer",
+        "Traducir siempre cada letra",
+      ],
+      answer: "El contexto",
+    },
+  ]),
+
+  "ing-3-4": createQuiz([
+    {
+      question: "¿Cuál oración está en pasado?",
+      options: [
+        "I visited Cusco.",
+        "I visit Cusco.",
+        "I am visiting Cusco.",
+        "I will visit Cusco.",
+      ],
+      answer: "I visited Cusco.",
+    },
+    {
+      question: "¿Qué significa 'last year'?",
+      options: ["El año pasado", "El próximo año", "Hoy", "Cada año"],
+      answer: "El año pasado",
+    },
+    {
+      question: "¿Qué ayuda a escribir una experiencia?",
+      options: [
+        "Ordenar los acontecimientos",
+        "Escribir ideas sin relación",
+        "No usar verbos",
+        "Ignorar el tiempo",
+      ],
+      answer: "Ordenar los acontecimientos",
+    },
+  ]),
+
+  // =====================================================
+  // 3° SECUNDARIA - BIOLOGÍA
+  // =====================================================
+
+  "bio-3-1": createQuiz([
+    {
+      question: "¿Cuál es la unidad básica de la vida?",
+      options: ["La célula", "El tejido", "El órgano", "El ecosistema"],
+      answer: "La célula",
+    },
+    {
+      question: "¿Qué contiene la información genética?",
+      options: ["ADN", "Agua", "Oxígeno", "Glucosa"],
+      answer: "ADN",
+    },
+    {
+      question: "¿Qué estructura controla muchas actividades celulares?",
+      options: ["Núcleo", "Pared celular", "Vacuola", "Membrana"],
+      answer: "Núcleo",
+    },
+  ]),
+
+  "bio-3-2": createQuiz([
+    {
+      question: "¿Qué tienen las células vegetales que las células animales no tienen típicamente?",
+      options: ["Pared celular", "Núcleo", "ADN", "Membrana"],
+      answer: "Pared celular",
+    },
+    {
+      question: "¿Qué estructura permite a las plantas realizar fotosíntesis?",
+      options: ["Cloroplasto", "Núcleo", "Ribosoma", "Vacuola"],
+      answer: "Cloroplasto",
+    },
+    {
+      question: "¿Qué tienen en común las células animales y vegetales?",
+      options: [
+        "Material genético",
+        "Solo cloroplastos",
+        "Solo pared celular",
+        "Ninguna estructura",
+      ],
+      answer: "Material genético",
+    },
+  ]),
+
+  "bio-3-3": createQuiz([
+    {
+      question: "¿Qué es un tejido?",
+      options: [
+        "Conjunto de células con funciones relacionadas",
+        "Un órgano completo",
+        "Un organismo",
+        "Una molécula",
+      ],
+      answer: "Conjunto de células con funciones relacionadas",
+    },
+    {
+      question: "¿Qué nivel de organización está formado por tejidos?",
+      options: ["Órgano", "Átomo", "Molécula", "Célula"],
+      answer: "Órgano",
+    },
+    {
+      question: "¿Qué forman varios órganos que trabajan juntos?",
+      options: ["Sistema", "Célula", "Tejido", "Molécula"],
+      answer: "Sistema",
+    },
+  ]),
+
+  "bio-3-4": createQuiz([
+    {
+      question: "¿Qué necesitan los seres vivos para obtener energía?",
+      options: ["Nutrientes", "Plástico", "Metal", "Vidrio"],
+      answer: "Nutrientes",
+    },
+    {
+      question: "¿Qué función permite obtener y utilizar nutrientes?",
+      options: ["Nutrición", "Relación", "Reproducción", "Movimiento"],
+      answer: "Nutrición",
+    },
+    {
+      question: "¿Cuál es una función vital?",
+      options: ["Nutrición", "Decoración", "Construcción", "Transporte"],
+      answer: "Nutrición",
+    },
+  ]),
+
+  // =====================================================
+  // 4° SECUNDARIA - INGLÉS
+  // =====================================================
+
+  "ing-4-1": createQuiz([
+    {
+      question: "¿Cuál oración usa present perfect?",
+      options: [
+        "I have studied.",
+        "I studied yesterday.",
+        "I study every day.",
+        "I will study.",
+      ],
+      answer: "I have studied.",
+    },
+    {
+      question: "Completa: She ___ visited Lima.",
+      options: ["has", "have", "had", "is"],
+      answer: "has",
+    },
+    {
+      question: "Completa: They ___ finished the work.",
+      options: ["have", "has", "is", "was"],
+      answer: "have",
+    },
+  ]),
+
+  "ing-4-2": createQuiz([
+    {
+      question: "¿Cuál palabra se usa para comparar dos cosas?",
+      options: ["More", "Yesterday", "Always", "Never"],
+      answer: "More",
+    },
+    {
+      question: "¿Cuál es el comparativo de 'small'?",
+      options: ["Smaller", "Smallest", "More small", "Small"],
+      answer: "Smaller",
+    },
+    {
+      question: "¿Qué palabra puede introducir una comparación?",
+      options: ["Than", "Yesterday", "Because", "Never"],
+      answer: "Than",
+    },
+  ]),
+
+  "ing-4-3": createQuiz([
+    {
+      question: "¿Qué ayuda a comprender un texto?",
+      options: [
+        "Identificar ideas principales",
+        "Ignorar el contexto",
+        "Leer sin atención",
+        "Observar solo el título",
+      ],
+      answer: "Identificar ideas principales",
+    },
+    {
+      question: "¿Qué significa 'environment'?",
+      options: ["Ambiente", "Escuela", "Familia", "Trabajo"],
+      answer: "Ambiente",
+    },
+    {
+      question: "¿Qué podemos usar para inferir el significado de una palabra?",
+      options: ["El contexto", "Solo el color", "El tamaño", "El número de letras"],
+      answer: "El contexto",
+    },
+  ]),
+
+  "ing-4-4": createQuiz([
+    {
+      question: "¿Cómo se puede expresar una opinión?",
+      options: [
+        "I think...",
+        "I am yesterday...",
+        "I book...",
+        "I school...",
+      ],
+      answer: "I think...",
+    },
+    {
+      question: "¿Qué significa 'In my opinion'?",
+      options: [
+        "En mi opinión",
+        "En mi escuela",
+        "Ayer",
+        "Por la mañana",
+      ],
+      answer: "En mi opinión",
+    },
+    {
+      question: "¿Qué ayuda a defender una opinión?",
+      options: [
+        "Dar razones",
+        "No explicar",
+        "Cambiar de tema",
+        "Evitar evidencias",
+      ],
+      answer: "Dar razones",
+    },
+  ]),
+
+  // =====================================================
+  // 4° SECUNDARIA - FILOSOFÍA
+  // =====================================================
+
+  "fil-4-1": createQuiz([
+    {
+      question: "¿Qué busca la filosofía?",
+      options: [
+        "Reflexionar sobre preguntas fundamentales",
+        "Solo memorizar fechas",
+        "Resolver operaciones",
+        "Estudiar únicamente animales",
+      ],
+      answer: "Reflexionar sobre preguntas fundamentales",
+    },
+    {
+      question: "¿Qué significa filosofar?",
+      options: [
+        "Reflexionar y cuestionar",
+        "Copiar respuestas",
+        "No hacer preguntas",
+        "Memorizar sin comprender",
+      ],
+      answer: "Reflexionar y cuestionar",
+    },
+    {
+      question: "¿Qué puede ser una pregunta filosófica?",
+      options: [
+        "¿Qué es la justicia?",
+        "¿Cuánto es 2 + 2?",
+        "¿Qué color tiene este lápiz?",
+        "¿Cuántas páginas tiene un libro?",
+      ],
+      answer: "¿Qué es la justicia?",
+    },
+  ]),
+
+  "fil-4-2": createQuiz([
+    {
+      question: "¿Qué es el pensamiento crítico?",
+      options: [
+        "Analizar información antes de aceptar una idea",
+        "Aceptar todo sin cuestionar",
+        "Memorizar opiniones",
+        "Ignorar evidencias",
+      ],
+      answer: "Analizar información antes de aceptar una idea",
+    },
+    {
+      question: "¿Qué ayuda al pensamiento crítico?",
+      options: ["Hacer preguntas", "Aceptar rumores", "Evitar evidencias", "No analizar"],
+      answer: "Hacer preguntas",
+    },
+    {
+      question: "¿Qué debemos evaluar?",
+      options: [
+        "Las razones y evidencias",
+        "Solo el título",
+        "Solo el color",
+        "Solo el tamaño",
+      ],
+      answer: "Las razones y evidencias",
+    },
+  ]),
+
+  "fil-4-3": createQuiz([
+    {
+      question: "¿Qué estudia la ética?",
+      options: [
+        "Las acciones y decisiones humanas desde una perspectiva moral",
+        "Solo los números",
+        "Solo los planetas",
+        "Solo los idiomas",
+      ],
+      answer: "Las acciones y decisiones humanas desde una perspectiva moral",
+    },
+    {
+      question: "¿Qué puede orientar una decisión ética?",
+      options: ["Valores", "Rumores", "Azar únicamente", "Desinformación"],
+      answer: "Valores",
+    },
+    {
+      question: "¿Qué debemos considerar al tomar una decisión?",
+      options: [
+        "Sus consecuencias",
+        "Solo la rapidez",
+        "Nada",
+        "Solo la opinión de una persona",
+      ],
+      answer: "Sus consecuencias",
+    },
+  ]),
+
+  "fil-4-4": createQuiz([
+    {
+      question: "¿Qué es un argumento?",
+      options: [
+        "Un conjunto de razones que apoya una conclusión",
+        "Una pregunta sin respuesta",
+        "Una imagen",
+        "Una emoción",
+      ],
+      answer: "Un conjunto de razones que apoya una conclusión",
+    },
+    {
+      question: "¿Qué debe tener un argumento claro?",
+      options: [
+        "Razones relacionadas con la conclusión",
+        "Ideas sin relación",
+        "Información falsa",
+        "Ninguna evidencia",
+      ],
+      answer: "Razones relacionadas con la conclusión",
+    },
+    {
+      question: "¿Qué ayuda a construir un buen argumento?",
+      options: [
+        "Evidencias y razonamiento",
+        "Rumores",
+        "Contradicciones",
+        "Afirmaciones sin explicación",
+      ],
+      answer: "Evidencias y razonamiento",
+    },
+  ]),
+
+  // =====================================================
+  // 5° SECUNDARIA - INGLÉS
+  // =====================================================
+
+  "ing-5-1": createQuiz([
+    {
+      question: "¿Qué habilidad es importante para una comunicación avanzada?",
+      options: [
+        "Comprender y expresar ideas con claridad",
+        "Memorizar palabras sin contexto",
+        "No escuchar",
+        "Evitar conversaciones",
+      ],
+      answer: "Comprender y expresar ideas con claridad",
+    },
+    {
+      question: "¿Qué ayuda a mejorar la comunicación en inglés?",
+      options: [
+        "Practicar",
+        "No leer",
+        "No escuchar",
+        "Evitar hablar",
+      ],
+      answer: "Practicar",
+    },
+    {
+      question: "¿Qué significa 'communication'?",
+      options: ["Comunicación", "Comunidad", "Computadora", "Composición"],
+      answer: "Comunicación",
+    },
+  ]),
+
+  "ing-5-2": createQuiz([
+    {
+      question: "¿Qué significa argumentar?",
+      options: [
+        "Presentar razones para defender una idea",
+        "Copiar información",
+        "Evitar explicar",
+        "Cambiar de tema",
+      ],
+      answer: "Presentar razones para defender una idea",
+    },
+    {
+      question: "¿Qué puede introducir una razón?",
+      options: ["Because", "Yesterday", "Blue", "School"],
+      answer: "Because",
+    },
+    {
+      question: "¿Qué hace más fuerte una opinión?",
+      options: [
+        "Razones y evidencias",
+        "Rumores",
+        "Información falsa",
+        "Ausencia de explicación",
+      ],
+      answer: "Razones y evidencias",
+    },
+  ]),
+
+  "ing-5-3": createQuiz([
+    {
+      question: "¿Qué debemos hacer al analizar un texto?",
+      options: [
+        "Identificar y relacionar sus ideas",
+        "Leer sin comprender",
+        "Ignorar el contexto",
+        "Observar solo las imágenes",
+      ],
+      answer: "Identificar y relacionar sus ideas",
+    },
+    {
+      question: "¿Qué puede ayudarnos a inferir una idea?",
+      options: ["El contexto", "Solo una palabra", "El color", "El tamaño"],
+      answer: "El contexto",
+    },
+    {
+      question: "¿Qué significa 'main idea'?",
+      options: ["Idea principal", "Idea secundaria", "Título", "Conclusión"],
+      answer: "Idea principal",
+    },
+  ]),
+
+  "ing-5-4": createQuiz([
+    {
+      question: "¿Qué es importante en una presentación?",
+      options: [
+        "Organizar las ideas",
+        "Hablar sin preparación",
+        "Ignorar al público",
+        "No practicar",
+      ],
+      answer: "Organizar las ideas",
+    },
+    {
+      question: "¿Qué puede ayudar durante una presentación?",
+      options: [
+        "Hablar con claridad",
+        "Leer todo sin comprender",
+        "Evitar mirar al público",
+        "No preparar el contenido",
+      ],
+      answer: "Hablar con claridad",
+    },
+    {
+      question: "¿Qué debe incluir un proyecto final?",
+      options: [
+        "Un objetivo y contenido organizado",
+        "Solo imágenes",
+        "Solo una palabra",
+        "Información sin relación",
+      ],
+      answer: "Un objetivo y contenido organizado",
+    },
+  ]),
+
+  // =====================================================
+  // 5° SECUNDARIA - ECONOMÍA
+  // =====================================================
+
+  "eco-5-1": createQuiz([
+    {
+      question: "¿Qué estudia la economía?",
+      options: [
+        "Cómo se utilizan recursos para satisfacer necesidades",
+        "Solo los bancos",
+        "Solo las monedas",
+        "Solo las empresas",
+      ],
+      answer: "Cómo se utilizan recursos para satisfacer necesidades",
+    },
+    {
+      question: "¿Qué es una necesidad?",
+      options: [
+        "Algo que las personas requieren para vivir o desarrollarse",
+        "Un objeto de lujo siempre",
+        "Una empresa",
+        "Una moneda",
+      ],
+      answer: "Algo que las personas requieren para vivir o desarrollarse",
+    },
+    {
+      question: "¿Qué recurso suele ser limitado?",
+      options: ["El dinero", "Las necesidades", "El tiempo siempre infinito", "Nada"],
+      answer: "El dinero",
+    },
+  ]),
+
+  "eco-5-2": createQuiz([
+    {
+      question: "¿Qué es la oferta?",
+      options: [
+        "Cantidad de bienes o servicios que se ofrecen",
+        "Cantidad de consumidores solamente",
+        "El precio siempre",
+        "El ahorro personal",
+      ],
+      answer: "Cantidad de bienes o servicios que se ofrecen",
+    },
+    {
+      question: "¿Qué es la demanda?",
+      options: [
+        "Cantidad que los consumidores desean adquirir",
+        "Cantidad de productos almacenados",
+        "El costo de producción",
+        "El salario",
+      ],
+      answer: "Cantidad que los consumidores desean adquirir",
+    },
+    {
+      question: "¿Dónde interactúan oferta y demanda?",
+      options: ["Mercado", "Escuela", "Hospital", "Biblioteca"],
+      answer: "Mercado",
+    },
+  ]),
+
+  "eco-5-3": createQuiz([
+    {
+      question: "¿Qué es ahorrar?",
+      options: [
+        "Guardar parte de los recursos para utilizarlos después",
+        "Gastar todo inmediatamente",
+        "Pedir dinero siempre",
+        "Comprar sin planificar",
+      ],
+      answer: "Guardar parte de los recursos para utilizarlos después",
+    },
+    {
+      question: "¿Qué ayuda a tomar buenas decisiones financieras?",
+      options: [
+        "Planificar los gastos",
+        "Gastar sin pensar",
+        "Ignorar los ingresos",
+        "No hacer presupuestos",
+      ],
+      answer: "Planificar los gastos",
+    },
+    {
+      question: "¿Qué es un presupuesto?",
+      options: [
+        "Un plan de ingresos y gastos",
+        "Una cuenta bancaria",
+        "Una moneda",
+        "Un producto",
+      ],
+      answer: "Un plan de ingresos y gastos",
+    },
+  ]),
+
+  "eco-5-4": createQuiz([
+    {
+      question: "¿Cómo influye la economía en la sociedad?",
+      options: [
+        "Influye en la producción, distribución y consumo",
+        "No influye",
+        "Solo afecta a los bancos",
+        "Solo afecta a las empresas",
+      ],
+      answer: "Influye en la producción, distribución y consumo",
+    },
+    {
+      question: "¿Qué es producir?",
+      options: [
+        "Crear bienes o servicios",
+        "Solo comprar",
+        "Solo ahorrar",
+        "Solo consumir",
+      ],
+      answer: "Crear bienes o servicios",
+    },
+    {
+      question: "¿Qué es consumir?",
+      options: [
+        "Utilizar bienes o servicios",
+        "Producir siempre",
+        "Ahorrar siempre",
+        "Vender siempre",
+      ],
+      answer: "Utilizar bienes o servicios",
+    },
+  ]),
 };

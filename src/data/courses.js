@@ -1,4 +1,8 @@
 export const courses = {
+  // =====================================================
+  // 1° SECUNDARIA
+  // =====================================================
+
   1: [
     {
       id: "mat-1",
@@ -9,6 +13,7 @@ export const courses = {
       icon: "🔢",
       category: "Matemática",
     },
+
     {
       id: "com-1",
       grade: 1,
@@ -18,6 +23,7 @@ export const courses = {
       icon: "📖",
       category: "Comunicación",
     },
+
     {
       id: "cie-1",
       grade: 1,
@@ -27,6 +33,7 @@ export const courses = {
       icon: "🔬",
       category: "Ciencia",
     },
+
     {
       id: "soc-1",
       grade: 1,
@@ -36,7 +43,31 @@ export const courses = {
       icon: "🌎",
       category: "Sociales",
     },
+
+    {
+      id: "ing-1",
+      grade: 1,
+      name: "Inglés",
+      description:
+        "Aprende vocabulario, expresiones y comunicación básica en inglés.",
+      icon: "🌐",
+      category: "Inglés",
+    },
+
+    {
+      id: "amb-1",
+      grade: 1,
+      name: "Educación Ambiental",
+      description:
+        "Comprende el cuidado del ambiente y el uso responsable de los recursos.",
+      icon: "🌱",
+      category: "Ambiente",
+    },
   ],
+
+  // =====================================================
+  // 2° SECUNDARIA
+  // =====================================================
 
   2: [
     {
@@ -48,6 +79,7 @@ export const courses = {
       icon: "🔢",
       category: "Matemática",
     },
+
     {
       id: "com-2",
       grade: 2,
@@ -57,6 +89,7 @@ export const courses = {
       icon: "📖",
       category: "Comunicación",
     },
+
     {
       id: "cie-2",
       grade: 2,
@@ -66,6 +99,7 @@ export const courses = {
       icon: "🔬",
       category: "Ciencia",
     },
+
     {
       id: "soc-2",
       grade: 2,
@@ -75,7 +109,31 @@ export const courses = {
       icon: "🌎",
       category: "Sociales",
     },
+
+    {
+      id: "ing-2",
+      grade: 2,
+      name: "Inglés",
+      description:
+        "Desarrolla vocabulario, gramática y comprensión en inglés.",
+      icon: "🌐",
+      category: "Inglés",
+    },
+
+    {
+      id: "tec-2",
+      grade: 2,
+      name: "Tecnología",
+      description:
+        "Explora herramientas tecnológicas y desarrolla pensamiento digital.",
+      icon: "💻",
+      category: "Tecnología",
+    },
   ],
+
+  // =====================================================
+  // 3° SECUNDARIA
+  // =====================================================
 
   3: [
     {
@@ -87,6 +145,7 @@ export const courses = {
       icon: "🔢",
       category: "Matemática",
     },
+
     {
       id: "com-3",
       grade: 3,
@@ -96,6 +155,7 @@ export const courses = {
       icon: "📖",
       category: "Comunicación",
     },
+
     {
       id: "fis-3",
       grade: 3,
@@ -105,6 +165,7 @@ export const courses = {
       icon: "⚡",
       category: "Física",
     },
+
     {
       id: "his-3",
       grade: 3,
@@ -114,7 +175,31 @@ export const courses = {
       icon: "🏛️",
       category: "Historia",
     },
+
+    {
+      id: "ing-3",
+      grade: 3,
+      name: "Inglés",
+      description:
+        "Mejora tu comprensión y comunicación en inglés.",
+      icon: "🌐",
+      category: "Inglés",
+    },
+
+    {
+      id: "bio-3",
+      grade: 3,
+      name: "Biología",
+      description:
+        "Estudia los seres vivos, sus estructuras y procesos.",
+      icon: "🧬",
+      category: "Biología",
+    },
   ],
+
+  // =====================================================
+  // 4° SECUNDARIA
+  // =====================================================
 
   4: [
     {
@@ -126,6 +211,7 @@ export const courses = {
       icon: "🔢",
       category: "Matemática",
     },
+
     {
       id: "com-4",
       grade: 4,
@@ -135,6 +221,7 @@ export const courses = {
       icon: "📖",
       category: "Comunicación",
     },
+
     {
       id: "fis-4",
       grade: 4,
@@ -144,6 +231,7 @@ export const courses = {
       icon: "⚡",
       category: "Física",
     },
+
     {
       id: "qui-4",
       grade: 4,
@@ -153,7 +241,31 @@ export const courses = {
       icon: "🧪",
       category: "Química",
     },
+
+    {
+      id: "ing-4",
+      grade: 4,
+      name: "Inglés",
+      description:
+        "Desarrolla comprensión, vocabulario y comunicación en inglés.",
+      icon: "🌐",
+      category: "Inglés",
+    },
+
+    {
+      id: "fil-4",
+      grade: 4,
+      name: "Filosofía",
+      description:
+        "Desarrolla el pensamiento crítico y reflexiona sobre grandes preguntas.",
+      icon: "💭",
+      category: "Filosofía",
+    },
   ],
+
+  // =====================================================
+  // 5° SECUNDARIA
+  // =====================================================
 
   5: [
     {
@@ -165,6 +277,7 @@ export const courses = {
       icon: "🔢",
       category: "Matemática",
     },
+
     {
       id: "com-5",
       grade: 5,
@@ -174,6 +287,7 @@ export const courses = {
       icon: "📖",
       category: "Comunicación",
     },
+
     {
       id: "fis-5",
       grade: 5,
@@ -183,6 +297,7 @@ export const courses = {
       icon: "⚡",
       category: "Física",
     },
+
     {
       id: "qui-5",
       grade: 5,
@@ -191,6 +306,26 @@ export const courses = {
         "Profundiza en química y sus aplicaciones.",
       icon: "🧪",
       category: "Química",
+    },
+
+    {
+      id: "ing-5",
+      grade: 5,
+      name: "Inglés",
+      description:
+        "Fortalece la comunicación y comprensión avanzada en inglés.",
+      icon: "🌐",
+      category: "Inglés",
+    },
+
+    {
+      id: "eco-5",
+      grade: 5,
+      name: "Economía",
+      description:
+        "Comprende cómo funcionan los recursos, mercados y decisiones económicas.",
+      icon: "📊",
+      category: "Economía",
     },
   ],
 };

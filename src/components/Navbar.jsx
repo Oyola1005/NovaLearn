@@ -9,6 +9,8 @@ function Navbar() {
     JSON.parse(localStorage.getItem("novalearn_user"))
   );
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const isLogged =
     localStorage.getItem("novalearn_logged") === "true" &&
     !!user;
@@ -16,89 +18,166 @@ function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("novalearn_logged");
     setUser(null);
+    setMenuOpen(false);
     navigate("/login");
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
     <header className="navbar">
       <div className="navbar-container">
 
-        <Link to={isLogged ? "/dashboard" : "/"} className="navbar-logo">
+        {/* LOGO */}
+
+        <Link
+          to={isLogged ? "/dashboard" : "/"}
+          className="navbar-logo"
+          onClick={closeMenu}
+        >
           <span className="logo-icon">✦</span>
           <span>NovaLearn</span>
         </Link>
 
-        {!isLogged ? (
-          <>
-            <nav className="navbar-links">
-              <a href="/#inicio">Inicio</a>
-              <a href="/#caracteristicas">Características</a>
-              <a href="/#como-funciona">Cómo funciona</a>
-            </nav>
+        {/* BOTÓN MÓVIL */}
 
-            <div className="navbar-actions">
-              <Link
-                to="/login"
-                className="navbar-login"
-              >
-                Iniciar sesión
-              </Link>
+        <button
+          className={`navbar-menu-button ${
+            menuOpen ? "active" : ""
+          }`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Abrir menú"
+          aria-expanded={menuOpen}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-              <Link
-                to="/register"
-                className="navbar-register"
-              >
-                Crear cuenta
-              </Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <nav className="navbar-links navbar-auth-links">
-              <Link to="/dashboard">
-                Inicio
-              </Link>
+        {/* NAVEGACIÓN */}
 
-              <Link to="/courses">
-                Mis cursos
-              </Link>
+        <div
+          className={`navbar-content ${
+            menuOpen ? "menu-open" : ""
+          }`}
+        >
 
-              <Link to="/quizzes">
-                Quizzes
-              </Link>
+          {!isLogged ? (
+            <>
+              <nav className="navbar-links">
+                <a href="/#inicio" onClick={closeMenu}>
+                  Inicio
+                </a>
 
-              <Link to="/videos">
-                Videos
-              </Link>
+                <a
+                  href="/#caracteristicas"
+                  onClick={closeMenu}
+                >
+                  Características
+                </a>
 
-              <Link to="/nova">
-                Nova
-              </Link>
-            </nav>
+                <a
+                  href="/#como-funciona"
+                  onClick={closeMenu}
+                >
+                  Cómo funciona
+                </a>
+              </nav>
 
-            <div className="navbar-actions navbar-user-actions">
-              <Link
-                to="/profile"
-                className="navbar-profile"
-              >
-                <span className="profile-mini">
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                </span>
+              <div className="navbar-actions">
 
-                <span>
-                  {user?.name?.split(" ")[0] || "Perfil"}
-                </span>
-              </Link>
+                <Link
+                  to="/login"
+                  className="navbar-login"
+                  onClick={closeMenu}
+                >
+                  Iniciar sesión
+                </Link>
 
-              <button
-                onClick={handleLogout}
-                className="navbar-logout"
-              >
-                Salir
-              </button>
-            </div>
-          </>
-        )}
+                <Link
+                  to="/register"
+                  className="navbar-register"
+                  onClick={closeMenu}
+                >
+                  Crear cuenta
+                </Link>
+
+              </div>
+            </>
+          ) : (
+            <>
+              <nav className="navbar-links navbar-auth-links">
+
+                <Link
+                  to="/dashboard"
+                  onClick={closeMenu}
+                >
+                  Inicio
+                </Link>
+
+                <Link
+                  to="/courses"
+                  onClick={closeMenu}
+                >
+                  Mis cursos
+                </Link>
+
+                <Link
+                  to="/quizzes"
+                  onClick={closeMenu}
+                >
+                  Quizzes
+                </Link>
+
+                <Link
+                  to="/videos"
+                  onClick={closeMenu}
+                >
+                  Videos
+                </Link>
+
+                <Link
+                  to="/nova"
+                  onClick={closeMenu}
+                >
+                  Nova
+                </Link>
+
+              </nav>
+
+              <div className="navbar-actions navbar-user-actions">
+
+                <Link
+                  to="/profile"
+                  className="navbar-profile"
+                  onClick={closeMenu}
+                >
+                  <span className="profile-mini">
+                    {user?.name
+                      ?.charAt(0)
+                      ?.toUpperCase() || "U"}
+                  </span>
+
+                  <span>
+                    {user?.name?.split(" ")[0] ||
+                      "Perfil"}
+                  </span>
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className="navbar-logout"
+                >
+                  Salir
+                </button>
+
+              </div>
+            </>
+          )}
+
+        </div>
 
       </div>
     </header>

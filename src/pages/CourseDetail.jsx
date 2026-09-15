@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
@@ -12,6 +13,36 @@ function CourseDetail() {
   const user = JSON.parse(
     localStorage.getItem("novalearn_user")
   );
+
+  useEffect(() => {
+    if (!user) return;
+
+    const revealElements = document.querySelectorAll(
+      ".course-detail-scroll-reveal"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [user]);
 
   if (!user) {
     navigate("/login");
@@ -30,7 +61,7 @@ function CourseDetail() {
         <Navbar />
 
         <main className="course-detail-container">
-          <div className="course-not-found">
+          <div className="course-not-found course-detail-scroll-reveal visible">
             <span>📚</span>
 
             <h1>Curso no encontrado</h1>
@@ -58,20 +89,30 @@ function CourseDetail() {
     completedLessons
   );
 
+  const completedCount =
+    courseLessons.filter((lesson) =>
+      completedLessons.includes(lesson.id)
+    ).length;
+
   return (
     <div className="course-detail-page">
+
       <Navbar />
 
       <main className="course-detail-container">
 
+        {/* VOLVER */}
+
         <Link
           to="/courses"
-          className="back-link"
+          className="back-link course-detail-scroll-reveal visible"
         >
           ← Volver a mis cursos
         </Link>
 
-        <section className="course-detail-hero">
+        {/* HERO */}
+
+        <section className="course-detail-hero course-detail-scroll-reveal">
 
           <div className="course-detail-icon">
             {course.icon}
@@ -92,6 +133,7 @@ function CourseDetail() {
             </p>
 
             <div className="course-detail-stats">
+
               <span>
                 📖 {courseLessons.length} lecciones
               </span>
@@ -103,28 +145,40 @@ function CourseDetail() {
               <span>
                 🎯 {progress}% completado
               </span>
+
             </div>
 
           </div>
 
-          <div className="course-detail-progress">
+          <div
+            className="course-detail-progress"
+            style={{
+              "--course-progress": progress,
+            }}
+          >
+            <div className="course-progress-circle">
 
-            <strong>
-              {progress}%
-            </strong>
+              <strong>
+                {progress}%
+              </strong>
 
-            <span>
-              Progreso
-            </span>
+              <span>
+                Progreso
+              </span>
 
+            </div>
           </div>
 
         </section>
 
+        {/* LECCIONES */}
+
         <section className="lessons-section">
 
-          <div className="lessons-heading">
+          <div className="lessons-heading course-detail-scroll-reveal">
+
             <div>
+
               <span>
                 CONTENIDO DEL CURSO
               </span>
@@ -132,14 +186,13 @@ function CourseDetail() {
               <h2>
                 Lecciones
               </h2>
+
             </div>
 
             <strong>
-              {courseLessons.filter((lesson) =>
-                completedLessons.includes(lesson.id)
-              ).length}{" "}
-              de {courseLessons.length}
+              {completedCount} de {courseLessons.length}
             </strong>
+
           </div>
 
           <div className="lessons-list">
@@ -155,11 +208,14 @@ function CourseDetail() {
                 <Link
                   key={lesson.id}
                   to={`/lessons/${lesson.id}`}
-                  className={`lesson-card ${
+                  className={`lesson-card course-detail-scroll-reveal ${
                     completed
                       ? "lesson-completed"
                       : ""
                   }`}
+                  style={{
+                    "--lesson-delay": `${index * 0.07}s`,
+                  }}
                 >
 
                   <div className="lesson-number">
@@ -202,6 +258,7 @@ function CourseDetail() {
         </section>
 
       </main>
+
     </div>
   );
 }

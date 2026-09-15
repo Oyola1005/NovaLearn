@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { courses } from "../data/courses";
@@ -11,6 +12,36 @@ function Courses() {
   const user = JSON.parse(
     localStorage.getItem("novalearn_user")
   );
+
+  useEffect(() => {
+    if (!user) return;
+
+    const revealElements = document.querySelectorAll(
+      ".courses-scroll-reveal"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          } else {
+            entry.target.classList.remove("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [user]);
 
   if (!user) {
     navigate("/login");
@@ -70,7 +101,6 @@ function Courses() {
   const completedTotal =
     userCourses.reduce(
       (total, course) => {
-
         const courseLessons =
           lessons[course.id] || [];
 
@@ -106,7 +136,7 @@ function Courses() {
             HEADER
         ======================================== */}
 
-        <section className="courses-header">
+        <section className="courses-header courses-scroll-reveal visible">
 
           <div className="courses-header-content">
 
@@ -145,7 +175,12 @@ function Courses() {
 
         <section className="courses-info">
 
-          <div className="courses-info-card">
+          <div
+            className="courses-info-card courses-scroll-reveal"
+            style={{
+              "--courses-delay": "0s",
+            }}
+          >
 
             <div className="courses-info-icon">
               📚
@@ -163,7 +198,12 @@ function Courses() {
 
           </div>
 
-          <div className="courses-info-card">
+          <div
+            className="courses-info-card courses-scroll-reveal"
+            style={{
+              "--courses-delay": "0.08s",
+            }}
+          >
 
             <div className="courses-info-icon">
               📖
@@ -181,7 +221,12 @@ function Courses() {
 
           </div>
 
-          <div className="courses-info-card">
+          <div
+            className="courses-info-card courses-scroll-reveal"
+            style={{
+              "--courses-delay": "0.16s",
+            }}
+          >
 
             <div className="courses-info-icon">
               ✅
@@ -207,7 +252,7 @@ function Courses() {
 
         {userCourses.length > 0 && (
 
-          <section className="courses-overview">
+          <section className="courses-overview courses-scroll-reveal">
 
             <div>
 
@@ -263,7 +308,7 @@ function Courses() {
 
               return (
                 <article
-                  className="course-card"
+                  className="course-card courses-scroll-reveal"
                   key={course.id}
                   style={{
                     "--card-delay": `${index * 0.08}s`,
@@ -383,7 +428,7 @@ function Courses() {
 
         {userCourses.length === 0 && (
 
-          <section className="courses-empty">
+          <section className="courses-empty courses-scroll-reveal visible">
 
             <div className="empty-icon">
               📚

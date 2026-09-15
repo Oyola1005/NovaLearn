@@ -15,6 +15,26 @@
 }
 
 /* ========================================
+   SCROLL REVEAL
+======================================== */
+
+.courses-scroll-reveal {
+  opacity: 0;
+
+  transform: translateY(45px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.courses-scroll-reveal.visible {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+/* ========================================
    HEADER
 ======================================== */
 
@@ -24,9 +44,12 @@
   justify-content: space-between;
 
   gap: 30px;
-  margin-bottom: 35px;
 
-  animation: coursesFadeUp 0.7s ease-out both;
+  margin-bottom: 35px;
+}
+
+.courses-header-content {
+  min-width: 0;
 }
 
 .courses-label {
@@ -76,6 +99,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  flex-shrink: 0;
 
   border: 1px solid #e9e6ff;
   border-radius: 18px;
@@ -130,13 +155,6 @@
   gap: 18px;
 
   margin-bottom: 25px;
-
-  animation:
-    coursesFadeUp
-    0.7s
-    ease-out
-    0.15s
-    both;
 }
 
 .courses-info-card {
@@ -159,6 +177,19 @@
     transform 0.3s ease,
     box-shadow 0.3s ease,
     border-color 0.3s ease;
+
+  transition-delay: var(--courses-delay, 0s);
+}
+
+.courses-info-card.visible {
+  animation:
+    coursesInfoAppear
+    0.65s
+    ease-out
+    both;
+
+  animation-delay:
+    var(--courses-delay, 0s);
 }
 
 .courses-info-card:hover {
@@ -191,7 +222,9 @@
 
 .courses-info-card:hover
 .courses-info-icon {
-  transform: scale(1.08) rotate(-3deg);
+  transform:
+    scale(1.08)
+    rotate(-3deg);
 }
 
 .courses-info-card strong,
@@ -238,12 +271,16 @@
       #f8f7ff
     );
 
-  animation:
-    coursesFadeUp
-    0.7s
-    ease-out
-    0.25s
-    both;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.courses-overview:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 28px rgba(30, 35, 60, 0.07);
 }
 
 .courses-overview > div:first-child span {
@@ -298,7 +335,7 @@
   background: #6c5ce7;
 
   animation:
-    progressGrow
+    coursesProgressGrow
     1s
     ease-out
     0.5s
@@ -326,6 +363,7 @@
   overflow: hidden;
 
   border: 1px solid #edf0f4;
+
   border-radius: 20px;
 
   background: #ffffff;
@@ -333,19 +371,24 @@
   box-shadow:
     0 8px 25px rgba(30, 35, 60, 0.07);
 
-  opacity: 0;
-
-  animation:
-    courseCardAppear
-    0.65s
-    ease-out
-    var(--card-delay)
-    forwards;
-
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
     border-color 0.3s ease;
+
+  transition-delay:
+    var(--card-delay, 0s);
+}
+
+.course-card.visible {
+  animation:
+    courseCardAppear
+    0.65s
+    ease-out
+    both;
+
+  animation-delay:
+    var(--card-delay, 0s);
 }
 
 .course-card:hover {
@@ -455,6 +498,8 @@
   font-size: 23px;
 
   letter-spacing: -0.5px;
+
+  line-height: 1.25;
 }
 
 .course-card p {
@@ -475,6 +520,7 @@
 
 .course-meta {
   display: flex;
+  flex-wrap: wrap;
 
   gap: 18px;
 
@@ -532,7 +578,7 @@
   background: #6c5ce7;
 
   animation:
-    progressGrow
+    coursesProgressGrow
     1s
     ease-out
     0.5s
@@ -597,21 +643,22 @@
   padding: 70px 20px;
 
   border: 1px solid #edf0f4;
+
   border-radius: 20px;
 
   background: white;
 
   text-align: center;
-
-  animation:
-    coursesFadeUp
-    0.7s
-    ease-out
-    both;
 }
 
 .empty-icon {
   font-size: 45px;
+
+  animation:
+    coursesEmptyFloat
+    3s
+    ease-in-out
+    infinite;
 }
 
 .courses-empty h2 {
@@ -658,40 +705,57 @@
    ANIMATIONS
 ======================================== */
 
-@keyframes coursesFadeUp {
-
+@keyframes coursesInfoAppear {
   from {
     opacity: 0;
-    transform: translateY(22px);
+
+    transform:
+      translateY(25px)
+      scale(0.97);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
-  }
 
+    transform:
+      translateY(0)
+      scale(1);
+  }
 }
 
 @keyframes courseCardAppear {
-
   from {
     opacity: 0;
-    transform: translateY(25px) scale(0.98);
+
+    transform:
+      translateY(30px)
+      scale(0.97);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 
+    transform:
+      translateY(0)
+      scale(1);
+  }
 }
 
-@keyframes progressGrow {
-
+@keyframes coursesProgressGrow {
   from {
     width: 0;
   }
+}
 
+@keyframes coursesEmptyFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
 }
 
 /* ========================================
@@ -700,13 +764,12 @@
 
 @media (max-width: 900px) {
 
-  .courses-grid {
-    grid-template-columns: 1fr;
+  .courses-container {
+    padding: 45px 22px 70px;
   }
 
-  .courses-info {
-    grid-template-columns:
-      repeat(3, 1fr);
+  .courses-grid {
+    grid-template-columns: 1fr;
   }
 
 }
@@ -725,6 +788,8 @@
     align-items: flex-start;
 
     flex-direction: column;
+
+    gap: 20px;
   }
 
   .courses-header h1 {
@@ -757,10 +822,13 @@
     align-items: flex-start;
 
     flex-direction: column;
+
+    gap: 20px;
   }
 
   .courses-overview-progress {
     width: 100%;
+
     min-width: 0;
   }
 
@@ -791,6 +859,95 @@
 
   .course-meta {
     flex-wrap: wrap;
+
+    gap: 10px 18px;
+  }
+
+}
+
+/* ========================================
+   SMALL MOBILE
+======================================== */
+
+@media (max-width: 430px) {
+
+  .courses-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .courses-header h1 {
+    font-size: 28px;
+  }
+
+  .courses-header p {
+    font-size: 13px;
+  }
+
+  .courses-info-card {
+    padding: 16px;
+  }
+
+  .courses-info-icon {
+    width: 41px;
+    height: 41px;
+
+    font-size: 18px;
+  }
+
+  .courses-info-card strong {
+    font-size: 21px;
+  }
+
+  .courses-overview {
+    padding: 19px;
+  }
+
+  .courses-overview h2 {
+    font-size: 18px;
+  }
+
+  .course-card-top {
+    padding: 17px;
+  }
+
+  .course-big-icon {
+    width: 56px;
+    height: 56px;
+
+    border-radius: 16px;
+
+    font-size: 29px;
+  }
+
+  .course-percent {
+    padding: 6px 9px;
+
+    font-size: 11px;
+  }
+
+  .course-card-body {
+    padding: 18px;
+  }
+
+  .course-card h2 {
+    font-size: 19px;
+  }
+
+  .course-card p {
+    min-height: auto;
+
+    font-size: 12px;
+  }
+
+  .course-meta {
+    font-size: 11px;
+  }
+
+  .course-button {
+    padding: 11px 13px;
+
+    font-size: 12px;
   }
 
 }
@@ -801,12 +958,35 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .courses-scroll-reveal {
+    opacity: 1;
+
+    transform: none;
+
+    transition: none;
+  }
+
+  .courses-info-card.visible,
+  .course-card.visible {
+    animation: none;
+  }
+
+  .overview-track div,
+  .course-progress-fill,
+  .empty-icon {
+    animation: none;
+  }
+
+  .grade-badge,
+  .courses-info-card,
+  .courses-info-icon,
+  .courses-overview,
+  .course-card,
+  .course-big-icon,
+  .course-button,
+  .course-button span:last-child,
+  .courses-empty a {
+    transition: none;
   }
 
 }
